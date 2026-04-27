@@ -1,3 +1,10 @@
+## dashboard-dirty-listing
+- issue: https://github.com/PyAutoLabs/PyAutoPrompt/issues/4
+- session: claude --resume "dashboard-dirty-listing"
+- status: library-dev
+- worktree: ~/Code/PyAutoLabs-wt/dashboard-dirty-listing
+- repos:
+
 ## smoke-test-optimization
 - issue: https://github.com/rhayes777/PyAutoFit/issues/1183
 - session: claude --resume "profile-smoke-test-runtime"
