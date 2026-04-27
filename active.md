@@ -1,3 +1,10 @@
+## workspace-gitignore-noise
+- issue: https://github.com/PyAutoLabs/PyAutoPrompt/issues/6
+- session: claude --resume "workspace-gitignore-noise"
+- status: workspace-dev
+- worktree: ~/Code/PyAutoLabs-wt/workspace-gitignore-noise
+- repos:
+
 ## smoke-test-optimization
 - issue: https://github.com/rhayes777/PyAutoFit/issues/1183
 - session: claude --resume "profile-smoke-test-runtime"
