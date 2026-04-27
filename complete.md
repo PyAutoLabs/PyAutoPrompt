@@ -1,4 +1,29 @@
 
+## history-rewrite-guard
+- issue: https://github.com/PyAutoLabs/PyAutoPrompt/issues/7 (umbrella, closed manually after all 17 PRs merged)
+- completed: 2026-04-27
+- repo-prs (17):
+  - PyAutoConf: https://github.com/PyAutoLabs/PyAutoConf/pull/98
+  - PyAutoFit: https://github.com/PyAutoLabs/PyAutoFit/pull/1235
+  - PyAutoArray: https://github.com/PyAutoLabs/PyAutoArray/pull/292
+  - PyAutoGalaxy: https://github.com/PyAutoLabs/PyAutoGalaxy/pull/373
+  - PyAutoLens: https://github.com/PyAutoLabs/PyAutoLens/pull/478
+  - autofit_workspace: https://github.com/PyAutoLabs/autofit_workspace/pull/43
+  - autogalaxy_workspace: https://github.com/PyAutoLabs/autogalaxy_workspace/pull/45
+  - autolens_workspace: https://github.com/PyAutoLabs/autolens_workspace/pull/96
+  - autofit_workspace_test: https://github.com/PyAutoLabs/autofit_workspace_test/pull/15
+  - autogalaxy_workspace_test: https://github.com/PyAutoLabs/autogalaxy_workspace_test/pull/15
+  - autolens_workspace_test: https://github.com/PyAutoLabs/autolens_workspace_test/pull/61
+  - autolens_workspace_developer: https://github.com/PyAutoLabs/autolens_workspace_developer/pull/38
+  - HowToFit: https://github.com/PyAutoLabs/HowToFit/pull/3
+  - HowToGalaxy: https://github.com/PyAutoLabs/HowToGalaxy/pull/3
+  - HowToLens: https://github.com/PyAutoLabs/HowToLens/pull/3
+  - PyAutoBuild: https://github.com/PyAutoLabs/PyAutoBuild/pull/61
+  - PyAutoPrompt: https://github.com/PyAutoLabs/PyAutoPrompt/pull/8
+- skipped: autofit_workspace_developer, admin_jammy (no CLAUDE.md or AGENTS.md present; creating new files just to host this section was deemed over-engineering)
+- follow-up: 1) Optional `## General Rules` line augmentation (the new top-level section is strong enough; defer to follow-up if ever felt missing). 2) Pre-commit hook to block "Initial commit"-style messages on remote-tracked branches (per prompt 03 itself, can be a follow-up). 3) Project-level `~/Code/PyAutoLabs/CLAUDE.md` (untracked personal file, not in any repo) was edited in parallel with the PRs to host the same section.
+- notes: Implements prompt 03 of the autoprompt/ workflow-infrastructure series — the `## Never rewrite history` guard added to every PyAuto repo's `CLAUDE.md` and/or `AGENTS.md` (whichever exist). 17 PRs on shared `feature/history-rewrite-guard` branch, all squash-merged 2026-04-27 in one parallel batch. 25 files touched in total: 8 repos with both CLAUDE.md + AGENTS.md (16 files), 8 repos with CLAUDE.md only, 1 repo (PyAutoPrompt) with AGENTS.md only. All edits idempotent — script checked for existing section before appending. The PyAuto/rhayes777 → PyAutoLabs migration is fully done (the `/start_dev` skill mapping is stale; all 17 repos resolve to PyAutoLabs/). No tests run (docs-only change).
+
 ## workspace-gitignore-noise
 - issue: https://github.com/PyAutoLabs/PyAutoPrompt/issues/6 (umbrella, closed manually after all 8 PRs merged)
 - completed: 2026-04-27
