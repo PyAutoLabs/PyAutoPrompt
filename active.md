@@ -4,6 +4,7 @@
 - status: library-dev
 - worktree: ~/Code/PyAutoLabs-wt/dashboard-dirty-listing
 - repos:
+  - PyAutoPrompt: feature/dashboard-dirty-listing
 
 ## smoke-test-optimization
 - issue: https://github.com/rhayes777/PyAutoFit/issues/1183
