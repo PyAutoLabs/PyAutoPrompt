@@ -5,20 +5,12 @@
 - worktree: ~/Code/PyAutoLabs-wt/weak-shear-simulator
 - repos:
 
-## workspace-gitignore-noise
-- issue: https://github.com/PyAutoLabs/PyAutoPrompt/issues/6
-- session: claude --resume "workspace-gitignore-noise"
-- status: workspace-dev
-- worktree: ~/Code/PyAutoLabs-wt/workspace-gitignore-noise
+## positions-test-mode-fallback
+- issue: https://github.com/PyAutoLabs/PyAutoLens/issues/477
+- session: claude --resume "positions-test-mode-fallback"
+- status: library-dev
+- worktree: ~/Code/PyAutoLabs-wt/positions-test-mode-fallback
 - repos:
-  - autofit_workspace: feature/workspace-gitignore-noise
-  - autogalaxy_workspace: feature/workspace-gitignore-noise
-  - autolens_workspace: feature/workspace-gitignore-noise
-  - autofit_workspace_test: feature/workspace-gitignore-noise
-  - autogalaxy_workspace_test: feature/workspace-gitignore-noise
-  - autolens_workspace_test: feature/workspace-gitignore-noise
-  - autofit_workspace_developer: feature/workspace-gitignore-noise
-  - autolens_workspace_developer: feature/workspace-gitignore-noise
 
 ## smoke-test-optimization
 - issue: https://github.com/rhayes777/PyAutoFit/issues/1183

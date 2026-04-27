@@ -1,4 +1,20 @@
 
+## workspace-gitignore-noise
+- issue: https://github.com/PyAutoLabs/PyAutoPrompt/issues/6 (umbrella, closed manually after all 8 PRs merged)
+- completed: 2026-04-27
+- workspace-prs:
+  - autofit_workspace: https://github.com/PyAutoLabs/autofit_workspace/pull/42
+  - autogalaxy_workspace: https://github.com/PyAutoLabs/autogalaxy_workspace/pull/44
+  - autolens_workspace: https://github.com/PyAutoLabs/autolens_workspace/pull/94
+  - autofit_workspace_test: https://github.com/PyAutoLabs/autofit_workspace_test/pull/14
+  - autogalaxy_workspace_test: https://github.com/PyAutoLabs/autogalaxy_workspace_test/pull/14
+  - autolens_workspace_test: https://github.com/PyAutoLabs/autolens_workspace_test/pull/60
+  - autofit_workspace_developer: https://github.com/Jammy2211/autofit_workspace_developer/pull/8
+  - autolens_workspace_developer: https://github.com/PyAutoLabs/autolens_workspace_developer/pull/37
+- repos: 8 workspaces (autofit/autogalaxy/autolens × workspace + workspace_test + autofit/autolens × workspace_developer; autogalaxy has no _developer variant)
+- follow-up: 1) source-side script bugs that wrote `image.fits` and `path/to/model/json/model.json` at workspace roots — file separate issues if the patterns recur post-merge. 2) `**/images/` not in prompt 02's pattern set; `autogalaxy_workspace_test` still has untracked `scripts/imaging/images/` post-merge (out of scope; consider extending). 3) `pyauto-status` dashboard surfaced pyc pollution committed in `euclid_strong_lens_modeling_pipeline` — separate workspace not in this prompt's scope.
+- notes: Implements prompt 02 of the autoprompt/ workflow-infrastructure series. One umbrella issue, 8 PRs on shared `feature/workspace-gitignore-noise` branch, all squash-merged 2026-04-27. Per-repo: appended prompt 02's pattern block to `.gitignore` (deduped against existing — most workspaces already had `__pycache__/`, `*.pyc`, `root.log`); ran `git rm --cached` for tracked files matching new patterns. 17 files total removed from tracking: 1 in autofit_workspace, 2 each in autogalaxy_workspace and autolens_workspace, 3 in autofit_workspace_test (incl. one stray `__pycache__/util.cpython-312.pyc`), 9 search.log files in autolens_workspace_developer (deep `output/output/` tree), 0 in the 3 _test/_developer variants that were already clean. autofit_workspace_developer had no `.gitignore` at all — created with the full block. Smoke tests skipped (one-time deviation; `.gitignore`-only changes have no behaviour impact). No new skill formalised — the "skip smoke for chore PRs" pattern can be revisited if it recurs frequently.
+
 ## dashboard-dirty-listing
 - issue: https://github.com/PyAutoLabs/PyAutoPrompt/issues/4
 - completed: 2026-04-27
