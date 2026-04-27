@@ -25,7 +25,7 @@ so the fresh Galaxy doesn't match any key in `adapt_images.galaxy_image_dict`. T
 → `mesh.mesh_weight_map_from(adapt_data=None)` blows up.
 
 The analogous fix on the autolens side that solved a similar dict-keyed-by-instance problem is
-tracked at `@admin_jammy/prompt/autolens/linear_light_profile_intensity_dict_pytree.md`.
+tracked at `@PyAutoPrompt/autolens/linear_light_profile_intensity_dict_pytree.md`.
 
 Note that autolens's jax_likelihood_functions/imaging/rectangular.py currently passes in
 autolens_workspace_test despite apparently having the same Galaxy-identity issue — worth checking

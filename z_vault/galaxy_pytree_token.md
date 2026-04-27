@@ -14,7 +14,7 @@ key in the dict (whose keys are still the *original* galaxies attached to `adapt
 which rides as aux/static through the pytree), so the lookup fails.
 
 This is the same class of bug that
-@admin_jammy/prompt/issued/linear_light_profile_intensity_dict_pytree.md fixed for
+@PyAutoPrompt/autolens/linear_light_profile_intensity_dict_pytree.md fixed for
 `LightProfileLinear` via the `pytree_token` pattern: an itertools.count-backed monotonic id
 attached to each instance at `__init__`, exposed as a regular `__dict__` field so it survives
 unflatten, with `__hash__` / `__eq__` overridden to use the token and

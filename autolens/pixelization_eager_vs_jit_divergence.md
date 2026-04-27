@@ -4,7 +4,7 @@
 
 Surfaced by the eager-numpy regression assertions added in
 `jax_profiling/imaging/pixelization.py` (PR from
-`admin_jammy/prompt/issued/eager_numpy_regression_assertions.md`).
+`PyAutoPrompt/issued/eager_numpy_regression_assertions.md`).
 
 When the rectangular pixelization script runs, it computes the same
 `log_evidence` via three supposedly-equivalent numpy/JAX paths and gets two

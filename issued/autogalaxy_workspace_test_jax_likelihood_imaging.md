@@ -14,7 +14,7 @@ From @autolens_workspace_test/scripts/jax_likelihood_functions/imaging/:
 - `rectangular_mge.py`
 - `delaunay.py`
 - `delaunay_mge.py` — currently disabled in autolens smoke suite (jax 0.7 regression,
-  see admin_jammy/prompt/build/smoke_workspace_fixes.md). Ship it but disable with the same
+  see PyAutoPrompt/autobuild/smoke_workspace_fixes.md). Ship it but disable with the same
   comment in `smoke_tests.txt`.
 
 **Skip**: `rectangular_dspl.py`, `simulator_dspl.py`.
@@ -38,17 +38,17 @@ with ad-hoc `register_pytree_node` calls inside the workspace script.
 Other known spawn-offs if they surface during porting:
 
 - **Linear light profile** models need `linear_light_profile_intensity_dict_pytree` fixed — see
-  @admin_jammy/prompt/autolens/linear_light_profile_intensity_dict_pytree.md for the lens-side
+  @PyAutoPrompt/autolens/linear_light_profile_intensity_dict_pytree.md for the lens-side
   counterpart. Only blocks scripts that use `ag.lp_linear.*` or MGE bases via
   `fit_for_visualization`, not the scalar `fit_from` round-trip.
 - Any autogalaxy profile that isn't pytree-registered (follow the per-profile pattern in
-  @admin_jammy/prompt/issued/fit_imaging_pytree_*.md).
+  @PyAutoPrompt/autolens/fit_imaging_pytree_*.md).
 
 __Three-step JAX pattern__
 
 Each script mirrors the autolens reference: NumPy baseline → `jax.jit`-wrapped `analysis.fit_from`
 → scalar `log_likelihood` match. The reference file `mge_pytree.py` in autolens is the gold
-standard for this pattern (see @admin_jammy/prompt/issued/fit_imaging_pytree_lp.md for background).
+standard for this pattern (see @PyAutoPrompt/autolens/fit_imaging_pytree_lp.md for background).
 
 __Deliverables__
 

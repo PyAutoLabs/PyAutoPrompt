@@ -10,7 +10,7 @@
   - `ellipse/database`
 
   They were parked because the ellipse model needs a refactor and JAX support (tracked separately in
-  `admin_jammy/prompt/autogalaxy/ellipse_fitting_jax.md`). In particular, `ellipse/modeling` and
+  `PyAutoPrompt/autogalaxy/ellipse_fitting_jax.md`). In particular, `ellipse/modeling` and
   `ellipse/multipoles` time out under `PYAUTO_TEST_MODE=1` in the mega-run, and
   `ellipse/modeling` additionally raises a `KeyError` on `ellipses.0.centre_0` kwargs after API drift.
 
