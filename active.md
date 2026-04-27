@@ -18,6 +18,23 @@
 - status: library-dev
 - worktree: ~/Code/PyAutoLabs-wt/history-rewrite-guard
 - repos:
+  - PyAutoConf: feature/history-rewrite-guard
+  - PyAutoFit: feature/history-rewrite-guard
+  - PyAutoArray: feature/history-rewrite-guard
+  - PyAutoGalaxy: feature/history-rewrite-guard
+  - PyAutoLens: feature/history-rewrite-guard
+  - autofit_workspace: feature/history-rewrite-guard
+  - autogalaxy_workspace: feature/history-rewrite-guard
+  - autolens_workspace: feature/history-rewrite-guard
+  - autofit_workspace_test: feature/history-rewrite-guard
+  - autogalaxy_workspace_test: feature/history-rewrite-guard
+  - autolens_workspace_test: feature/history-rewrite-guard
+  - autolens_workspace_developer: feature/history-rewrite-guard
+  - HowToFit: feature/history-rewrite-guard
+  - HowToGalaxy: feature/history-rewrite-guard
+  - HowToLens: feature/history-rewrite-guard
+  - PyAutoBuild: feature/history-rewrite-guard
+  - PyAutoPrompt: feature/history-rewrite-guard
 
 ## smoke-test-optimization
 - issue: https://github.com/rhayes777/PyAutoFit/issues/1183
