@@ -1,3 +1,10 @@
+## weak-shear-simulator
+- issue: https://github.com/PyAutoLabs/PyAutoLens/issues/476
+- session: claude --resume "weak-shear-simulator"
+- status: library-dev
+- worktree: ~/Code/PyAutoLabs-wt/weak-shear-simulator
+- repos:
+
 ## workspace-gitignore-noise
 - issue: https://github.com/PyAutoLabs/PyAutoPrompt/issues/6
 - session: claude --resume "workspace-gitignore-noise"
