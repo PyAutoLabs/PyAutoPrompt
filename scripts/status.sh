@@ -5,14 +5,22 @@
 # active.md / planned.md / complete.md.
 #
 # Usage:
-#   bash PyAutoPrompt/scripts/status.sh [--full]
+#   bash PyAutoPrompt/scripts/status.sh [--full | --repos]
 #
 # Without args: counts + active task list + last 5 completed.
-# With --full: also lists every prompt under every category.
+# With --full:  also lists every prompt under every category.
+# With --repos: delegate to pyauto-status (cross-repo git sync dashboard).
 
 set -uo pipefail
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+
+if [ "${1:-}" = "--repos" ]; then
+  # shellcheck source=./pyauto_status.sh
+  source "$ROOT/scripts/pyauto_status.sh"
+  pyauto-status
+  exit 0
+fi
 
 bold() { printf "\033[1m%s\033[0m\n" "$1"; }
 dim()  { printf "\033[2m%s\033[0m\n" "$1"; }
