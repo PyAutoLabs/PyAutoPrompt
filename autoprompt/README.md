@@ -1,47 +1,70 @@
 # autoprompt/
 
-Prompts about the PyAuto workflow infrastructure itself — i.e. the tooling that
-makes prompts in this repo flow smoothly from idea to merged PR.
+Workflow-infrastructure prompts drafted on 2026-04-27 after a forensic
+sweep found local checkouts up to 101 commits behind origin. The eight
+prompts addressed root causes structurally — visibility, gitignore noise,
+history-rewrite guards, source-of-truth rules, sync tooling, repo
+audits, worktree-only enforcement, and persistent test/build summaries.
 
-> ⚠️ **Caveat — drafted from a stale repo state.** These prompts were drafted on
-> 2026-04-27 during a forensic sweep that found local checkouts up to 101 commits
-> behind origin. The trigger looked like a structural workflow flaw, but later
-> analysis showed the drift was largely driven by **stale local checkouts being
-> edited without `git pull` first**, not by missing tooling. Now that PyAutoPrompt
-> is the canonical source-of-truth and `skills/install.sh` auto-discovers across
-> both repos, several of the recommendations here may be over-engineered for the
-> day-to-day case. Re-evaluate whether each measure is still warranted before
-> implementing — the cheap habits (pull before edit, never rewrite history) buy
-> most of the win. Each prompt has its own caveat at the top.
+This directory now contains only this README. The shipped prompts live
+in [`../issued/`](../issued/) (per-prompt `<NN>_<slug>.md`); the rejected
+ones are gone.
 
-These were drafted after a forensic sweep on 2026-04-27 found that local checkouts
-across 12 repos had drifted up to 101 commits behind origin, with parallel
-"fresh start" history rewrites and 41 redundant local commits. The root causes
-were structural — multiple environments writing in parallel without flow rules,
-no visible drift indicator, generated artifacts polluting `git status` so real
-divergence was invisible, and skills/scripts that didn't enforce a "pull first"
-discipline.
+## Outcomes
 
-The seven prompts below address those root causes in increasing order of
-investment / impact. Numbers indicate suggested implementation order; later
-prompts assume earlier ones have landed.
+| # | Prompt | Outcome | Implementation |
+|---|---|---|---|
+| 01 | `pyauto-status` shell function | Shipped | [issued/01_status_dashboard.md](../issued/01_status_dashboard.md) — `scripts/pyauto_status.sh` |
+| 02 | `.gitignore` workspace artifacts | Shipped | [issued/02_gitignore_noise.md](../issued/02_gitignore_noise.md) — 8 workspace PRs |
+| 03 | "Never rewrite history" rule | Shipped | [issued/03_history_rewrite_guard.md](../issued/03_history_rewrite_guard.md) — 17 repos × CLAUDE.md/AGENTS.md |
+| 04 | "Pull before edit" rule | **Skipped** | Redundant with 01 (BEHIND counts) + 03 (history guard) |
+| 05 | `/sync` slash command | Shipped (re-scoped) | [issued/05_sync_slash_command.md](../issued/05_sync_slash_command.md) — dashboard's "Follow-up commands:" section instead of a heavyweight skill |
+| 06 | Monthly repo-health audit | Shipped (re-scoped) | [issued/06_repo_health_audit.md](../issued/06_repo_health_audit.md) — `scripts/pyauto_audit.sh` (on-demand `pyauto-audit`, no cron) |
+| 07 | Worktree-only edits enforcement | **Skipped** | Doc-rule layer wasn't worth 17 PRs; shell hook + `/sync` reset depended on rejected pieces |
+| 08 | Persistent test/build summary | Shipped | [issued/08_test_summary.md](../issued/08_test_summary.md) — dashboard "Smoke tests:" + "Last autobuild run:" sections |
 
-| # | Prompt | Tier | Effort | Prevents |
-|---|---|---|---|---|
-| [01](01_status_dashboard.md) | `pyauto-status` shell function | 1 | 15 min | Drift being invisible |
-| [02](02_gitignore_noise.md) | `.gitignore` workspace artifacts | 1 | 30 min | Generated files burying real `git status` signal |
-| [03](03_history_rewrite_guard.md) | "Never rewrite history" rule in CLAUDE.md/AGENTS.md | 2 | 30 min | Independent `git init` fresh-starts on multiple machines |
-| [04](04_source_of_truth_rule.md) | "Pull before edit" rule | 2 | 30 min | Duplicate-content commits from stale checkouts |
-| [05](05_sync_slash_command.md) | `/sync` slash command | 3 | 2-3 h | Manual drift recovery being too expensive to do regularly |
-| [06](06_repo_health_audit.md) | Monthly repo-health audit | 3 | 1-2 h | Untethered checkouts, dead branches, stale stashes |
-| [07](07_worktree_only_edits.md) | Enforce worktree-only edits on canonical checkouts | 4 | 4-6 h | The whole class of drift, structurally |
+## What the sweep actually fixed
 
-If you do nothing else, do **01** and **03**. Those two cost ~45 minutes and
-would have prevented the bulk of what was cleaned up on 2026-04-27.
+- **Drift visibility.** `pyauto-status` runs on every venv activation and
+  prints branch / upstream / behind / ahead / dirty counts plus the
+  `b` flag for forgotten feature branches. Drift can no longer hide.
+- **Generated noise.** Workspaces' `.gitignore` files were rationalised
+  (prompt 02), so `git status` shows real divergence instead of pyc
+  pollution and stray artifacts.
+- **History-rewrite guard.** Every PyAuto repo's `CLAUDE.md` /
+  `AGENTS.md` documents the forbidden ops (`rm -rf .git && git init`,
+  `Initial commit` resets, force-push to main, etc.). Catches the
+  specific pattern that caused ~40 redundant local commits.
+- **Actionable dashboard.** Beyond the table, `pyauto-status` prints
+  copy-pasteable follow-up commands grouped by category (Pull /
+  Set missing upstream / Investigate manually) — drift recovery is
+  now one paste away.
+- **Structural audit.** `pyauto-audit` finds non-git directories under
+  `~/Code/PyAutoLabs/`, stashes >14 days old, and abandoned local-only
+  branches (>30 days). Run on demand.
+- **Test + release status.** Dashboard now reads
+  `~/.cache/pyauto/smoke/<workspace>.json` (written by the
+  `/smoke-test` skill) and PyAutoBuild's committed `test_results/` to
+  show colored smoke counts and the latest autobuild aggregate on
+  every venv activation.
 
-The *biggest* single fix is **07** — once canonical checkouts of `PyAuto*` and
-`*_workspace*` repos become read-only mirrors of origin/main with all editing
-happening in task worktrees, the drift mechanism is structurally impossible.
-The infrastructure already exists (`admin_jammy/software/worktree.sh`,
-`/start_library`, `/start_workspace`, `/ship_*`); the missing piece is a rule
-saying "no one ever `cd` into `~/Code/PyAutoLabs/<repo>/` to edit, ever."
+## What the sweep deliberately didn't do
+
+- Doc rules in CLAUDE.md repeating things the dashboard already
+  surfaces (prompt 04).
+- A heavyweight `/sync` slash command with stash-handling and
+  duplicate-commit detection (prompt 05's full spec — replaced by
+  copy-pasteable commands in the dashboard).
+- A monthly cron schedule for the audit (prompt 06's full spec — the
+  audit is on-demand only).
+- Read-only-mirror enforcement of canonical checkouts via shell hooks
+  or `/sync` resets (prompt 07 entirely).
+
+## Reading order
+
+If you want the historical narrative, read the shipped prompts in
+numeric order in [`../issued/`](../issued/) — each preserves its
+2026-04-27 framing, including its own caveat about being drafted from
+a stale repo state. Re-evaluate before reusing as a template; the
+cheap habits (pull before edit, never rewrite history) bought most of
+the win.
