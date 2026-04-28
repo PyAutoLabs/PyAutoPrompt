@@ -55,4 +55,5 @@
 - status: workspace-dev
 - worktree: ~/Code/PyAutoLabs-wt/multiple-sources-modeling
 - repos:
+  - autolens_workspace: feature/multiple-sources-modeling
 
