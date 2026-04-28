@@ -1,4 +1,13 @@
 
+## autogalaxy-wst-jax-lh-interferometer
+- issue: https://github.com/PyAutoLabs/autogalaxy_workspace_test/issues/16
+- completed: 2026-04-28
+- workspace-pr: https://github.com/PyAutoLabs/autogalaxy_workspace_test/pull/17
+- library-pr: https://github.com/PyAutoLabs/PyAutoGalaxy/pull/376 (prerequisite, shipped earlier same day)
+- repos: autogalaxy_workspace_test
+- umbrella: https://github.com/PyAutoLabs/autogalaxy_workspace_test/issues/5 (task 4/9)
+- notes: Ported 8 JAX-likelihood interferometer scripts from autolens_workspace_test (simulator, lp, mge, mge_group, rectangular, rectangular_mge, delaunay, delaunay_mge) into `scripts/jax_likelihood_functions/interferometer/`. Each fit script wraps `jax.jit(analysis.fit_from)` and asserts NumPy/JIT scalar parity, exercising the AnalysisInterferometer pytree registration shipped in PyAutoGalaxy PR #376 the same day. Three notable differences from the autolens reference: (1) self-contained simulator — synthetic 200-baseline uv-coverage generated inline via `np.random.default_rng(seed=1)`, no `sma.fits` dependency (sidesteps the gitignored-fixture issue that has had `interferometer/{mge,rectangular}.py` red on autolens CI for ≥1 week); (2) `delaunay.py` and `delaunay_mge.py` use a Sersic-image adapt-data instead of `dataset.dirty_image` (negative dirty pixels otherwise produce NaN via `sqrt(pixel_signal)` in AdaptSplit regularization) — matches autolens reference's actual intent; (3) `delaunay_mge.py` is enabled in smoke_tests.txt unlike its imaging counterpart — JAX 0.7's removal of `jax.interpreters.xla.pytype_aval_mappings` does not bite on the interferometer side. Worth revisiting whether the imaging delaunay_mge can be unblocked the same way. Tolerances: lp/mge/mge_group at rtol=1e-4 (sub-femtosecond); 4 adapt-regularization variants at rtol=1e-2 per imaging-port convention but actual diffs ≤ 9e-6.
+
 ## analysis-interferometer-pytree
 - issue: https://github.com/PyAutoLabs/PyAutoGalaxy/issues/375
 - completed: 2026-04-28

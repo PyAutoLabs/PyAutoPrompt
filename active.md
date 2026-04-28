@@ -48,11 +48,4 @@
 - worktree: ~/Code/PyAutoLabs-wt/merge-results-start-here
 - repos:
 
-## autogalaxy-wst-jax-lh-interferometer
-- issue: https://github.com/PyAutoLabs/autogalaxy_workspace_test/issues/16
-- session: claude --resume "autogalaxy-wst-jax-lh-interferometer"
-- status: workspace-dev
-- worktree: ~/Code/PyAutoLabs-wt/autogalaxy-wst-jax-lh-interferometer
-- repos:
-  - autogalaxy_workspace_test: feature/autogalaxy-wst-jax-lh-interferometer
 
