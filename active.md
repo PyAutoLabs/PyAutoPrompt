@@ -54,5 +54,6 @@
 - status: workspace-dev
 - worktree: ~/Code/PyAutoLabs-wt/autogalaxy-wst-jax-lh-multi
 - repos:
+  - autogalaxy_workspace_test: feature/autogalaxy-wst-jax-lh-multi
 
 
