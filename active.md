@@ -54,3 +54,4 @@
 - status: library-dev
 - worktree: ~/Code/PyAutoLabs-wt/analysis-interferometer-pytree
 - repos:
+  - PyAutoGalaxy: feature/analysis-interferometer-pytree
