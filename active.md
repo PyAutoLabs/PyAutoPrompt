@@ -47,3 +47,10 @@
 - status: workspace-dev
 - worktree: ~/Code/PyAutoLabs-wt/merge-results-start-here
 - repos:
+
+## dashboard-followup-commands
+- issue: https://github.com/PyAutoLabs/PyAutoPrompt/issues/9
+- session: claude --resume "dashboard-followup-commands"
+- status: library-dev
+- worktree: ~/Code/PyAutoLabs-wt/dashboard-followup-commands
+- repos: PyAutoPrompt
