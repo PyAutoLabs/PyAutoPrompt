@@ -49,5 +49,10 @@
 - worktree: ~/Code/PyAutoLabs-wt/merge-results-start-here
 - repos:
 
-
+## multiple-sources-modeling
+- issue: https://github.com/PyAutoLabs/autolens_workspace/issues/97
+- session: claude --resume "multiple-sources-modeling"
+- status: workspace-dev
+- worktree: ~/Code/PyAutoLabs-wt/multiple-sources-modeling
+- repos:
 
