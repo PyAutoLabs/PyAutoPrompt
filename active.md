@@ -43,11 +43,3 @@
 - Profile interferometer/modeling.py and other scripts
 - Consider caching cosmology distances per redshift pair
 
-## multiple-sources-modeling
-- issue: https://github.com/PyAutoLabs/autolens_workspace/issues/97
-- session: claude --resume "multiple-sources-modeling"
-- status: workspace-dev
-- worktree: ~/Code/PyAutoLabs-wt/multiple-sources-modeling
-- repos:
-  - autolens_workspace: feature/multiple-sources-modeling
-
