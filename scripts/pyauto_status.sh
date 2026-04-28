@@ -19,12 +19,20 @@
 #   !  no upstream / fetch failed
 #   b  current branch ≠ upstream branch (forgotten feature branch)
 #
-# After the main table, two optional sections may follow:
+# After the main table, four optional sections may follow:
 #   - "Dirty files:"        — per-repo `git status --porcelain` for any repo
 #                             with mod or untr > 0.
 #   - "Follow-up commands:" — copy-pasteable git invocations grouped by
 #                             category (pull / set-upstream / investigate).
 #                             Suppressed entirely when nothing is actionable.
+#   - "Smoke tests:"        — per-workspace counts from
+#                             ~/.cache/pyauto/smoke/*.json (written by the
+#                             /smoke-test skill). Green when failed=0, red
+#                             otherwise. Suppressed when no JSONs exist.
+#   - "Last autobuild run:" — aggregate from
+#                             ~/Code/PyAutoLabs/PyAutoBuild/test_results/*.json
+#                             (committed by the autobuild release pipeline).
+#                             Suppressed when no JSONs exist.
 #
 # Note: this shell function shares its name with the /pyauto-status slash
 # command (PyAutoPrompt/skills/pyauto-status/) but lives in a different
@@ -219,6 +227,75 @@ pyauto-status() {
       for line in "${actions_manual[@]}"; do
         echo "    $line"
       done
+    fi
+  fi
+
+  # Smoke tests. Reads per-workspace JSON written by the /smoke-test skill
+  # (admin_jammy/skills/smoke_test/SKILL.md step 7). One python invocation
+  # parses all files; bash formats with ANSI color (green if failed=0).
+  local smoke_dir="$HOME/.cache/pyauto/smoke"
+  if [[ -d "$smoke_dir" ]] && compgen -G "$smoke_dir/*.json" > /dev/null; then
+    echo ""
+    echo "Smoke tests:"
+    local ws ts passed failed skipped total dur color symbol
+    while IFS='|' read -r ws ts passed failed skipped total dur; do
+      [[ -z "$ws" ]] && continue
+      if [[ "$failed" == "0" ]]; then
+        color='\033[32m'; symbol='✓'
+      else
+        color='\033[31m'; symbol='✗'
+      fi
+      printf "  ${color}%-32s %3s passed   %3s failed   %3s skipped   (%s)  %s\033[0m\n" \
+        "$ws" "$passed" "$failed" "$skipped" "${ts:0:10}" "$symbol"
+    done < <(python3 -c '
+import json, os, glob
+for f in sorted(glob.glob(os.path.expanduser("~/.cache/pyauto/smoke/*.json"))):
+    try:
+        d = json.load(open(f))
+        print("|".join(str(d.get(k, "")) for k in
+            ["workspace", "completed_at", "passed", "failed", "skipped", "total", "duration_seconds"]))
+    except Exception:
+        pass
+' 2>/dev/null)
+  fi
+
+  # Last autobuild run. Reads aggregate from PyAutoBuild/test_results/*.json
+  # (committed by the autobuild release pipeline). Counts only — failure
+  # detail lives in the per-job JSON / the GitHub Actions run.
+  local pab_dir="$HOME/Code/PyAutoLabs/PyAutoBuild/test_results"
+  if [[ -d "$pab_dir" ]] && compgen -G "$pab_dir/*.json" > /dev/null; then
+    local pab_summary
+    pab_summary=$(python3 -c '
+import json, os, glob
+total_p = total_f = total_s = num = 0
+projects = set()
+latest = ""
+for f in sorted(glob.glob(os.path.expanduser("~/Code/PyAutoLabs/PyAutoBuild/test_results/*.json"))):
+    try:
+        d = json.load(open(f))
+        s = d.get("summary", {})
+        total_p += s.get("passed", 0)
+        total_f += s.get("failed", 0)
+        total_s += s.get("skipped", 0)
+        num += 1
+        projects.add(d.get("project", "?"))
+        ct = d.get("completed_at", "")
+        if ct > latest:
+            latest = ct
+    except Exception:
+        pass
+print(f"{latest[:10]}|{num}|{len(projects)}|{total_p}|{total_f}|{total_s}")
+' 2>/dev/null)
+    if [[ -n "$pab_summary" ]]; then
+      local pab_date njobs nproj pab_p pab_f pab_s sha
+      IFS='|' read -r pab_date njobs nproj pab_p pab_f pab_s <<< "$pab_summary"
+      sha=$(git -C "$HOME/Code/PyAutoLabs/PyAutoBuild" rev-parse --short HEAD 2>/dev/null)
+      echo ""
+      printf "Last autobuild run: %s (PyAutoBuild commit %s)\n" "$pab_date" "${sha:-?}"
+      local color='\033[32m'
+      [[ "$pab_f" != "0" ]] && color='\033[31m'
+      printf "  ${color}%s jobs across %s workspaces: %s passed, %s failed, %s skipped\033[0m\n" \
+        "$njobs" "$nproj" "$pab_p" "$pab_f" "$pab_s"
     fi
   fi
 }
