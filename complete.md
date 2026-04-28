@@ -1,4 +1,11 @@
 
+## pyauto-audit
+- issue: https://github.com/PyAutoLabs/PyAutoPrompt/issues/11
+- completed: 2026-04-28
+- library-pr: https://github.com/PyAutoLabs/PyAutoPrompt/pull/12
+- repos: PyAutoPrompt
+- notes: Re-scoped autoprompt 06 (the heavyweight monthly cron audit spec). Shipped a 113-line `scripts/pyauto_audit.sh` defining a `pyauto-audit` shell function (sourced from `~/.bashrc` next to `pyauto_status.sh`) with three structural-state sections that the dashboard can't show: (1) top-level dirs under `~/Code/PyAutoLabs/` with no `.git`, skip prefixes `.` and `z_`; (2) stashes older than `PYAUTO_AUDIT_STASH_DAYS` (default 14); (3) local-only branches with no upstream and last commit older than `PYAUTO_AUDIT_BRANCH_DAYS` (default 30). Plain text output, sections suppressed when empty, single `clean` message when all clear. Always exits 0 — informational, user reads + decides. Live-tree dry run during smoke testing immediately found real signal: 4 stray non-git dirs (`bad/`, `path/`, `priors/`, `scripts/` — all bug artifacts the user can decide whether to delete), 3 old stashes (PyAutoFit 2026-04-02, PyAutoGalaxy 2026-04-07, PyAutoLens 2026-04-06 — all ~3 weeks old, real drift-from-stash candidates), 1 abandoned branch (`PyAutoFit/feature/ep` from 2026-02-18). Bug found-and-fixed during smoke testing — first implementation used `IFS=$'\t'` for splitting `for-each-ref --format='%09'` output, but bash treats consecutive whitespace IFS chars as one delimiter and collapsed the empty-upstream column into the timestamp; switched to `|` delimiter (matching Section 2's stash format). Same PR also deleted `autoprompt/04_source_of_truth_rule.md` (rejected during this sweep — covered by `pyauto-status` BEHIND counts + prompt 03's history-rewrite guard). Out of scope: cron schedule, severity ERROR/WARN/INFO tags, snooze file, untracked-file age scan (overlaps with prompt 02), tracked-file gitignore-noise scan (overlaps with prompt 02). Skipped autoprompts 04 (source-of-truth doc rule — redundant with dashboard + prompt 03) and 05 ($/sync$ skill — replaced by dashboard's Follow-up commands section in #10).
+
 ## dashboard-followup-commands
 - issue: https://github.com/PyAutoLabs/PyAutoPrompt/issues/9
 - completed: 2026-04-28
