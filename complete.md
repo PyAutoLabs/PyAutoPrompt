@@ -1,4 +1,13 @@
 
+## dashboard-test-summary
+- issue: https://github.com/PyAutoLabs/PyAutoPrompt/issues/13 (closed automatically via PyAutoPrompt PR's "Closes #13")
+- completed: 2026-04-28
+- repo-prs (2):
+  - admin_jammy: https://github.com/Jammy2211/admin_jammy/pull/8
+  - PyAutoPrompt: https://github.com/PyAutoLabs/PyAutoPrompt/pull/14
+- repos: admin_jammy, PyAutoPrompt
+- notes: Implements autoprompt 08. Two changes on a shared `feature/dashboard-test-summary` branch. (1) admin_jammy/skills/smoke_test/SKILL.md — added step 7 "Persist summary to local cache" instructing the agent to write `~/.cache/pyauto/smoke/<workspace>.json` per workspace tested with workspace, completed_at (ISO 8601 UTC), passed, failed, skipped, total, duration_seconds. Step is idempotent; overwrites previous file for same workspace. (2) PyAutoPrompt/scripts/pyauto_status.sh — appended two new optional sections: "Smoke tests:" reading the cache JSONs (ANSI green if failed=0 else red, ✓/✗ symbol), and "Last autobuild run:" reading the committed PyAutoBuild/test_results/*.json files for an aggregate (jobs across workspaces, passed/failed/skipped totals, most-recent completed_at, PyAutoBuild HEAD short SHA — red if any failure). Both sections suppressed entirely when no JSONs exist, matching the existing Dirty-files / Follow-up-commands pattern. Single python invocation per section parses all JSONs to avoid per-file fork overhead. Total dashboard runtime measured at 2.7s on the live tree (well under 4s target). Smoke tested: empty cache → smoke section suppressed + autobuild section shows; seeded fixtures (autofit_workspace failed=0, autolens_workspace failed=2) → green ✓ and red ✗ rendered correctly. No bashrc changes needed (pyauto_status.sh already sourced + called from PyAuto() aliases). The skill-instruction approach for persisting summaries assumes the agent running /smoke-test follows step 7; if it drifts, the cache stays stale and pyauto-status shows old timestamps — degrades gracefully. Live-tree autobuild section currently shows: 2026-04-26, 7 jobs / 1 workspace / 153 passed / 16 failed / 28 skipped (from PyAutoBuild commit c0d5b87). Out of scope: library version detection (PyAutoLens injects VERSION at build time, no committed source), per-script breakdown, failure tracebacks, GitHub Actions API queries, helper script for JSON writing.
+
 ## pyauto-audit
 - issue: https://github.com/PyAutoLabs/PyAutoPrompt/issues/11
 - completed: 2026-04-28
