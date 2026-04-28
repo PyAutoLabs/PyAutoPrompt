@@ -8,11 +8,12 @@
 ## positions-test-mode-fallback
 - issue: https://github.com/PyAutoLabs/PyAutoLens/issues/477
 - session: claude --resume "positions-test-mode-fallback"
-- status: library-shipped, workspace-pending
+- status: workspace-dev
 - library-pr: https://github.com/PyAutoLabs/PyAutoLens/pull/479
 - worktree: ~/Code/PyAutoLabs-wt/positions-test-mode-fallback
 - repos:
   - PyAutoLens: feature/positions-test-mode-fallback
+  - autolens_workspace: feature/positions-test-mode-fallback
 
 ## smoke-test-optimization
 - issue: https://github.com/rhayes777/PyAutoFit/issues/1183
