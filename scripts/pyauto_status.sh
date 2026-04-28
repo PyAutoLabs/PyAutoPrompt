@@ -12,6 +12,20 @@
 #
 # Override the repo root (e.g. for testing) via PYAUTO_STATUS_ROOT.
 #
+# Flag glyphs (FLAGS column):
+#   ↓  behind upstream
+#   ↑  ahead of upstream
+#   *  dirty (modified or untracked files)
+#   !  no upstream / fetch failed
+#   b  current branch ≠ upstream branch (forgotten feature branch)
+#
+# After the main table, two optional sections may follow:
+#   - "Dirty files:"        — per-repo `git status --porcelain` for any repo
+#                             with mod or untr > 0.
+#   - "Follow-up commands:" — copy-pasteable git invocations grouped by
+#                             category (pull / set-upstream / investigate).
+#                             Suppressed entirely when nothing is actionable.
+#
 # Note: this shell function shares its name with the /pyauto-status slash
 # command (PyAutoPrompt/skills/pyauto-status/) but lives in a different
 # namespace. The slash command shows workflow registry status (planned /
@@ -69,9 +83,12 @@ pyauto-status() {
     "------" "-----" "----" "----" "-----"
 
   # Per-repo row. Porcelain is cached so the dirty-files listing below can
-  # reuse it without a second `git status` per repo.
+  # reuse it without a second `git status` per repo. Action arrays collect
+  # actionable follow-ups for the "Follow-up commands:" section printed at
+  # the end.
   declare -A repo_porcelain
-  local name branch upstream behind ahead mod untr flags counts porcelain
+  local actions_pull=() actions_set_upstream=() actions_manual=()
+  local name branch upstream upstream_branch behind ahead mod untr flags counts porcelain branch_mismatch b_int a_int
   for repo in "${repos[@]}"; do
     name="$(basename "$repo")"
 
@@ -84,10 +101,15 @@ pyauto-status() {
 
     if [[ -z "$upstream" ]]; then
       upstream="NONE"
+      upstream_branch=""
       behind="?"
       ahead="?"
       flags+="!"
     else
+      # Strip the remote prefix (e.g. "origin/main" → "main"). Branch names
+      # may contain slashes (e.g. "feature/foo"), so #*/ is the right
+      # operator — it removes only up to the first slash.
+      upstream_branch="${upstream#*/}"
       counts="$(git -C "$repo" rev-list --left-right --count "$upstream"...HEAD 2>/dev/null || true)"
       if [[ -n "$counts" ]]; then
         behind="${counts%%[[:space:]]*}"
@@ -110,11 +132,46 @@ pyauto-status() {
       mod="$(printf '%s\n' "$porcelain" | grep -cv '^??' || true)"
     fi
 
+    # Branch-mismatch detection. With no upstream, the heuristic is
+    # "expected to be on main"; with an upstream, compare to its branch
+    # component. Detached HEAD never matches.
+    branch_mismatch=false
+    if [[ "$upstream" == "NONE" ]]; then
+      [[ "$branch" != "main" ]] && branch_mismatch=true
+    elif [[ "$branch" != "$upstream_branch" ]]; then
+      branch_mismatch=true
+    fi
+
     [[ "$behind" =~ ^[0-9]+$ ]] && (( behind > 0 )) && flags+="↓"
     [[ "$ahead"  =~ ^[0-9]+$ ]] && (( ahead  > 0 )) && flags+="↑"
     (( mod + untr > 0 )) && flags+="*"
+    [[ "$branch_mismatch" == "true" ]] && flags+="b"
 
     printf "$fmt" "$name" "$branch" "$upstream" "$behind" "$ahead" "$mod" "$untr" "$flags"
+
+    # Categorise actionable follow-ups. Only the boring case (clean, behind,
+    # not ahead) becomes an auto-runnable command; everything else is
+    # surfaced for manual handling.
+    b_int=0; a_int=0
+    [[ "$behind" =~ ^[0-9]+$ ]] && b_int="$behind"
+    [[ "$ahead"  =~ ^[0-9]+$ ]] && a_int="$ahead"
+    if [[ "$upstream" == "NONE" ]]; then
+      if [[ "$branch" == "main" ]]; then
+        actions_set_upstream+=("$repo")
+      else
+        actions_manual+=("$name — branch=$branch, upstream=NONE; switch to main or set upstream")
+      fi
+    elif (( b_int > 0 && a_int == 0 )); then
+      if (( mod + untr == 0 )); then
+        actions_pull+=("$repo")
+      else
+        actions_manual+=("$name — behind=$b_int, dirty (mod=$mod untr=$untr); stash + pull manually")
+      fi
+    elif (( b_int > 0 && a_int > 0 )); then
+      actions_manual+=("$name — diverged: ahead=$a_int, behind=$b_int; investigate")
+    elif [[ "$branch_mismatch" == "true" ]]; then
+      actions_manual+=("$name — on branch $branch (upstream $upstream_branch); switch to $upstream_branch if not a worktree")
+    fi
   done
 
   # Per-repo dirty-file listing. Only repos with non-empty porcelain are
@@ -134,4 +191,34 @@ pyauto-status() {
     echo "  $name:"
     printf '%s\n' "$porcelain" | sed 's/^/    /'
   done
+
+  # Follow-up commands. Suppressed entirely when nothing is actionable so
+  # the clean case stays quiet. The `git -C <abs-path>` form means each
+  # printed line is independently copy-pasteable.
+  local total=$(( ${#actions_pull[@]} + ${#actions_set_upstream[@]} + ${#actions_manual[@]} ))
+  if (( total > 0 )); then
+    echo ""
+    echo "Follow-up commands:"
+    if (( ${#actions_pull[@]} > 0 )); then
+      echo "  # Pull (clean, behind, not ahead):"
+      local r
+      for r in "${actions_pull[@]}"; do
+        echo "    git -C $r pull --ff-only"
+      done
+    fi
+    if (( ${#actions_set_upstream[@]} > 0 )); then
+      echo "  # Set missing upstream (branch=main, upstream=NONE):"
+      local r
+      for r in "${actions_set_upstream[@]}"; do
+        echo "    git -C $r branch --set-upstream-to=origin/main main"
+      done
+    fi
+    if (( ${#actions_manual[@]} > 0 )); then
+      echo "  # Investigate manually:"
+      local line
+      for line in "${actions_manual[@]}"; do
+        echo "    $line"
+      done
+    fi
+  fi
 }
