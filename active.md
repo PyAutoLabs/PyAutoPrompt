@@ -1,3 +1,12 @@
+## verify-install-release-checks
+- issue: https://github.com/Jammy2211/admin_jammy/issues/11
+- session: claude --resume "verify-install-release-checks"
+- status: tooling-dev
+- worktree: n/a — lightweight branch on canonical admin_jammy checkout
+- branch: feature/verify-install-release-checks
+- repos:
+  - admin_jammy
+
 ## weak-shear-simulator
 - issue: https://github.com/PyAutoLabs/PyAutoLens/issues/476
 - session: claude --resume "weak-shear-simulator"
