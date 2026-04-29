@@ -11,6 +11,7 @@
 - status: library-dev
 - worktree: ~/Code/PyAutoLabs-wt/truncated-normal-gradient-hessian
 - repos:
+  - PyAutoFit: feature/truncated-normal-gradient-hessian
 
 ## smoke-test-optimization
 - issue: https://github.com/rhayes777/PyAutoFit/issues/1183
