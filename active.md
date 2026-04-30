@@ -5,6 +5,15 @@
 - worktree: ~/Code/PyAutoLabs-wt/weak-shear-simulator
 - repos:
 
+## howto-release-window
+- issue: https://github.com/PyAutoLabs/PyAutoBuild/issues/64
+- session: claude --resume "howto-release-window"
+- status: library-dev
+- worktree: ~/Code/PyAutoLabs-wt/howto-release-window
+- repos:
+  - PyAutoBuild: feature/howto-release-window
+  - admin_jammy: feature/howto-release-window
+
 ## smoke-test-optimization
 - issue: https://github.com/rhayes777/PyAutoFit/issues/1183
 - session: claude --resume "profile-smoke-test-runtime"
