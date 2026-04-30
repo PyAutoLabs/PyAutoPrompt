@@ -45,3 +45,10 @@
 - Profile interferometer/modeling.py and other scripts
 - Consider caching cosmology distances per redshift pair
 
+## welcome-start-here-fixes
+- issue: https://github.com/PyAutoLabs/autolens_workspace/issues/108
+- session: claude --resume "welcome-start-here-fixes"
+- status: workspace-dev
+- worktree: ~/Code/PyAutoLabs-wt/welcome-start-here-fixes
+- repos:
+

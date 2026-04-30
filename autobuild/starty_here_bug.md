@@ -1,3 +1,5 @@
+Run welcome.py and start_here.py in all workspsaces, look for the bug below and any others.
+
 ##############################
 ## LIGHT AND MASS PROFILES ###
 ##############################
