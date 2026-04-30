@@ -51,6 +51,12 @@
 - status: workspace-dev
 - worktree: ~/Code/PyAutoLabs-wt/welcome-start-here-fixes
 - repos:
+  - autolens_workspace: feature/welcome-start-here-fixes
+  - autogalaxy_workspace: feature/welcome-start-here-fixes
+  - autofit_workspace: feature/welcome-start-here-fixes
+  - HowToLens: feature/welcome-start-here-fixes
+  - HowToGalaxy: feature/welcome-start-here-fixes
+  - HowToFit: feature/welcome-start-here-fixes
 
 ## numba-docs-deprioritize
 - issue: https://github.com/PyAutoLabs/PyAutoLens/issues/482
