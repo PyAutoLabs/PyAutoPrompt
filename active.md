@@ -4,6 +4,11 @@
 - status: library-dev
 - worktree: ~/Code/PyAutoLabs-wt/workspace-version-config-check
 - repos:
+  - PyAutoConf: feature/workspace-version-config-check
+  - PyAutoFit: feature/workspace-version-config-check
+  - PyAutoGalaxy: feature/workspace-version-config-check
+  - PyAutoLens: feature/workspace-version-config-check
+  - PyAutoBuild: feature/workspace-version-config-check
 
 ## weak-shear-simulator
 - issue: https://github.com/PyAutoLabs/PyAutoLens/issues/476
