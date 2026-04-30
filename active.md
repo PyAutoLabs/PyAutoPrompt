@@ -1,8 +1,14 @@
 ## workspace-version-config-check
 - issue: https://github.com/PyAutoLabs/PyAutoConf/issues/100
 - session: claude --resume "workspace-version-config-check"
-- status: library-dev
+- status: library-shipped, workspace-pending
 - worktree: ~/Code/PyAutoLabs-wt/workspace-version-config-check
+- library-pr:
+  - https://github.com/PyAutoLabs/PyAutoConf/pull/101
+  - https://github.com/PyAutoLabs/PyAutoFit/pull/1241
+  - https://github.com/PyAutoLabs/PyAutoGalaxy/pull/380
+  - https://github.com/PyAutoLabs/PyAutoLens/pull/484
+  - https://github.com/PyAutoLabs/PyAutoBuild/pull/70
 - repos:
   - PyAutoConf: feature/workspace-version-config-check
   - PyAutoFit: feature/workspace-version-config-check
