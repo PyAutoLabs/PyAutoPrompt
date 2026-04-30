@@ -58,12 +58,4 @@
   - HowToGalaxy: feature/welcome-start-here-fixes
   - HowToFit: feature/welcome-start-here-fixes
 
-## numba-docs-deprioritize
-- issue: https://github.com/PyAutoLabs/PyAutoLens/issues/482
-- session: claude --resume "numba-docs-deprioritize"
-- status: library-dev
-- worktree: ~/Code/PyAutoLabs-wt/numba-docs-deprioritize
-- repos:
-  - PyAutoLens: feature/numba-docs-deprioritize
-  - PyAutoGalaxy: feature/numba-docs-deprioritize
 

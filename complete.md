@@ -880,3 +880,9 @@
   - autofit_workspace#44, autogalaxy_workspace#48, autolens_workspace#107 (new `config/build/{copy_files,visualise_notebooks}.yaml`)
   - autofit_workspace_test#16, autogalaxy_workspace_test#20, autolens_workspace_test#63 (same; `autogalaxy_workspace_test` also gained a `no_run.yaml` that was missing entirely — falling through to autobuild's empty fallback)
 - notes: PyAutoBuild's `run.py` / `run_python.py` / `generate.py` now prefer each workspace's `config/build/` files over autobuild's keyed-dict copies. Dead `autobuild/config/{notebooks_remove,env_vars}.yaml` deleted. `run_all.py` writes results to `test_results/runs/<UTC-timestamp>/` with a `latest` symlink updated atomically; per-script timeout raised 60s → 300s; `autogalaxy_workspace_test` added to the workspace list; pre-existing bug fixed where `run_all.py` passed bare subdir names instead of `scripts/<dir>`. `aggregate_results.py` adds top-25 slowest scripts and a run header to `report.md`. `result_collector.RunReport` exposes `total_duration_seconds`. 57/57 pytest passing. First full release-prep run produced 460 results / 95 min / 48 failures across `runs/2026-04-29T14-48-47Z/`; `triage.md` in that run dir clusters them into ~10 root causes (group/features/pixelization, jax_likelihood numerical drift, modeling_visualization_jit, aggregator timeouts, missing simulator output) for follow-up.
+
+## numba-docs-deprioritize
+- issue: https://github.com/PyAutoLabs/PyAutoLens/issues/482
+- completed: 2026-04-30
+- library-pr: https://github.com/PyAutoLabs/PyAutoLens/pull/483, https://github.com/PyAutoLabs/PyAutoGalaxy/pull/379
+- repos: PyAutoLens, PyAutoGalaxy
