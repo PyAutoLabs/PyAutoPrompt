@@ -1,4 +1,23 @@
 
+## workspace-version-config-check
+- issue: https://github.com/PyAutoLabs/PyAutoConf/issues/100
+- completed: 2026-04-30
+- library-pr:
+  - PyAutoLabs/PyAutoConf#101
+  - PyAutoLabs/PyAutoFit#1241
+  - PyAutoLabs/PyAutoGalaxy#380
+  - PyAutoLabs/PyAutoLens#484
+  - PyAutoLabs/PyAutoBuild#70
+- workspace-pr:
+  - PyAutoLabs/autolens_workspace#112
+  - PyAutoLabs/autofit_workspace#48
+  - PyAutoLabs/autogalaxy_workspace#51
+  - PyAutoLabs/HowToFit#4
+  - PyAutoLabs/HowToGalaxy#4
+  - PyAutoLabs/HowToLens#5
+  - Jammy2211/euclid_strong_lens_modeling_pipeline#10
+- notes: Workspace/library version mismatches now surface on every script run, not just `welcome.py`. `autoconf.workspace.check_version` reads `config/general.yaml`'s `version.workspace_version` (with `version.txt` fallback) and honours `version.workspace_version_check: False` as a YAML bypass — recommended for `main`-branch clones where mismatches are expected. PyAutoFit/Galaxy/Lens call the check on import. Release pipeline writes the new YAML key alongside `version.txt` via a regex Python shim (PyYAML strips comments, so round-trip wasn't viable). `verify_workspace_versions.sh` reports `ok` for all 7 workspaces — euclid_pipeline previously had no `version.txt` and was always SKIPped, now joins the standard flow. Smoke tests skipped at ship time because the workspace diffs are purely additive YAML + welcome.py line removals; pre-flight library-import silence + `verify_workspace_versions.sh = ok` covered the gate.
+
 ## howto-release-window
 - issue: https://github.com/PyAutoLabs/PyAutoBuild/issues/64
 - completed: 2026-04-30
