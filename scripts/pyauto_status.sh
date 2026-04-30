@@ -72,9 +72,13 @@ pyauto-status() {
   fetch_status_dir="$(mktemp -d)"
   trap 'rm -rf "$fetch_status_dir"' RETURN
 
-  # Run inside a subshell with monitor mode disabled so the interactive
-  # shell's job-control notifications (`[N] PID` / `[N] Done ...`) do not
-  # leak into the dashboard output when this function is sourced.
+  # Run inside a subshell with monitor mode disabled AND its stderr closed
+  # so the interactive shell's job-control notifications (`[N] PID` /
+  # `[N] Done ...`) cannot leak into the dashboard output. `set +m` alone
+  # is not reliable across all bash configurations, so the `2>/dev/null`
+  # on the closing `)` is the belt-and-suspenders guarantee — bash writes
+  # job-control lines to fd 2. Per-repo fetch failures are still surfaced
+  # via the sentinel files in $fetch_status_dir.
   local repo
   (
     set +m
@@ -86,7 +90,7 @@ pyauto-status() {
       ) &
     done
     wait
-  )
+  ) 2>/dev/null
 
   # Header.
   local fmt='%-32s %-30s %-36s %6s %5s %4s %4s  %s\n'
