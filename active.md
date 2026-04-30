@@ -1,3 +1,10 @@
+## smoke-notebooks
+- issue: https://github.com/PyAutoLabs/autolens_workspace/issues/110
+- session: claude --resume "smoke-notebooks"
+- status: workspace-dev
+- worktree: ~/Code/PyAutoLabs-wt/smoke-notebooks
+- repos:
+
 ## weak-shear-simulator
 - issue: https://github.com/PyAutoLabs/PyAutoLens/issues/476
 - session: claude --resume "weak-shear-simulator"
