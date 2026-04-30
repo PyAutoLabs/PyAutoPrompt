@@ -1,3 +1,10 @@
+## workspace-version-config-check
+- issue: https://github.com/PyAutoLabs/PyAutoConf/issues/100
+- session: claude --resume "workspace-version-config-check"
+- status: library-dev
+- worktree: ~/Code/PyAutoLabs-wt/workspace-version-config-check
+- repos:
+
 ## weak-shear-simulator
 - issue: https://github.com/PyAutoLabs/PyAutoLens/issues/476
 - session: claude --resume "weak-shear-simulator"
