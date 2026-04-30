@@ -72,15 +72,21 @@ pyauto-status() {
   fetch_status_dir="$(mktemp -d)"
   trap 'rm -rf "$fetch_status_dir"' RETURN
 
+  # Run inside a subshell with monitor mode disabled so the interactive
+  # shell's job-control notifications (`[N] PID` / `[N] Done ...`) do not
+  # leak into the dashboard output when this function is sourced.
   local repo
-  for repo in "${repos[@]}"; do
-    (
-      if ! git -C "$repo" fetch --quiet origin 2>/dev/null; then
-        touch "$fetch_status_dir/$(basename "$repo")"
-      fi
-    ) &
-  done
-  wait
+  (
+    set +m
+    for repo in "${repos[@]}"; do
+      (
+        if ! git -C "$repo" fetch --quiet origin 2>/dev/null; then
+          touch "$fetch_status_dir/$(basename "$repo")"
+        fi
+      ) &
+    done
+    wait
+  )
 
   # Header.
   local fmt='%-32s %-30s %-36s %6s %5s %4s %4s  %s\n'
