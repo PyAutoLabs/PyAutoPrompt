@@ -4,6 +4,9 @@
 - status: workspace-dev
 - worktree: ~/Code/PyAutoLabs-wt/smoke-notebooks
 - repos:
+  - autofit_workspace: feature/smoke-notebooks
+  - autogalaxy_workspace: feature/smoke-notebooks
+  - autolens_workspace: feature/smoke-notebooks
 
 ## weak-shear-simulator
 - issue: https://github.com/PyAutoLabs/PyAutoLens/issues/476
