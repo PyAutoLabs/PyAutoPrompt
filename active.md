@@ -40,4 +40,6 @@
 - status: library-dev
 - worktree: ~/Code/PyAutoLabs-wt/autobuild-bash-cli
 - repos:
+  - PyAutoBuild: feature/autobuild-bash-cli
+  - admin_jammy: feature/autobuild-bash-cli
 
