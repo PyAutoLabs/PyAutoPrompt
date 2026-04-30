@@ -1,7 +1,7 @@
 ## workspace-version-config-check
 - issue: https://github.com/PyAutoLabs/PyAutoConf/issues/100
 - session: claude --resume "workspace-version-config-check"
-- status: library-shipped, workspace-pending
+- status: workspace-dev
 - worktree: ~/Code/PyAutoLabs-wt/workspace-version-config-check
 - library-pr:
   - https://github.com/PyAutoLabs/PyAutoConf/pull/101
@@ -15,6 +15,13 @@
   - PyAutoGalaxy: feature/workspace-version-config-check
   - PyAutoLens: feature/workspace-version-config-check
   - PyAutoBuild: feature/workspace-version-config-check
+  - autofit_workspace: feature/workspace-version-config-check
+  - autogalaxy_workspace: feature/workspace-version-config-check
+  - autolens_workspace: feature/workspace-version-config-check
+  - HowToFit: feature/workspace-version-config-check
+  - HowToGalaxy: feature/workspace-version-config-check
+  - HowToLens: feature/workspace-version-config-check
+  - euclid_strong_lens_modeling_pipeline: feature/workspace-version-config-check
 
 ## weak-shear-simulator
 - issue: https://github.com/PyAutoLabs/PyAutoLens/issues/476
