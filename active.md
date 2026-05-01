@@ -1,3 +1,18 @@
+## group-pixelization-delaunay-fixes
+- session: claude --resume "group-pixelization-delaunay-fixes"
+- status: library-and-workspace-shipped, workspace-merge-gated-on-library
+- worktree: ~/Code/PyAutoLabs-wt/group-pixelization-delaunay-fixes
+- library-pr: https://github.com/PyAutoLabs/PyAutoLens/pull/490
+- workspace-pr: https://github.com/PyAutoLabs/autolens_workspace/pull/116
+- repos:
+  - PyAutoLens: feature/group-pixelization-delaunay-fixes
+  - autolens_workspace: feature/group-pixelization-delaunay-fixes
+- summary: |
+    Fix the 5 group/features/pixelization smoke failures. Library: positions_likelihood_from
+    returns synthetic PositionsLH under skip_checks+test_mode (was None). Workspace: 4 scripts
+    updated to use Overlay image-mesh + AdaptImages; modeling sections switched to ConstantSplit.
+    Workspace PR must NOT be merged until library PR #490 merges first.
+
 ## weak-shear-simulator
 - issue: https://github.com/PyAutoLabs/PyAutoLens/issues/476
 - session: claude --resume "weak-shear-simulator"
