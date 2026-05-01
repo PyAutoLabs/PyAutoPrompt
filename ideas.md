@@ -11,3 +11,7 @@ claude --resume "ship-workspace-skills"
 
 - Clean up clunky use_jax API in point (find existing prompts).
 - Make numpy rectangular match jax rectangular
+
+
+
+- Need to build on Leon interaction of how over adaption kills runs to come up with a elegent solution.
