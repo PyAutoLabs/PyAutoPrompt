@@ -27,13 +27,3 @@
 - Profile interferometer/modeling.py and other scripts
 - Consider caching cosmology distances per redshift pair
 
-## rst-to-myst-md
-- issue: https://github.com/PyAutoLabs/PyAutoFit/issues/1245
-- session: claude --resume "rst-to-myst-md"
-- status: library-dev
-- worktree: ~/Code/PyAutoLabs-wt/rst-to-myst-md
-- repos:
-  - PyAutoFit: feature/rst-to-myst-md
-  - PyAutoGalaxy: feature/rst-to-myst-md
-  - PyAutoLens: feature/rst-to-myst-md
-  - PyAutoArray: feature/rst-to-myst-md
