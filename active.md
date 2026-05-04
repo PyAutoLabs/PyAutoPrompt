@@ -1,3 +1,10 @@
+## alma-datacube
+- issue: https://github.com/PyAutoLabs/autolens_workspace/issues/120
+- session: claude --resume "alma-datacube"
+- status: workspace-dev
+- worktree: ~/Code/PyAutoLabs-wt/alma-datacube
+- repos:
+
 ## smoke-test-optimization
 - issue: https://github.com/rhayes777/PyAutoFit/issues/1183
 - session: claude --resume "profile-smoke-test-runtime"
