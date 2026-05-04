@@ -1,4 +1,23 @@
 
+## rst-to-myst-md-pass3
+- issue: none — direct followup to PyAutoFit#1245 and pass2
+- completed: 2026-05-04
+- workspace-prs:
+  - https://github.com/Jammy2211/autofit_workspace_developer/pull/11
+  - https://github.com/PyAutoLabs/autofit_workspace_test/pull/22
+  - https://github.com/PyAutoLabs/autolens_workspace_test/pull/71
+  - https://github.com/PyAutoLabs/autogalaxy_workspace_test/pull/25
+  - https://github.com/PyAutoLabs/autolens_base_project/pull/2
+  - https://github.com/PyAutoLabs/euclid_strong_lens_modeling_pipeline/pull/11
+  - https://github.com/PyAutoLabs/autofit_workspace/pull/51
+  - https://github.com/PyAutoLabs/autogalaxy_workspace/pull/57
+  - https://github.com/PyAutoLabs/autolens_workspace/pull/121
+- library-prs:
+  - https://github.com/PyAutoLabs/PyAutoFit/pull/1251
+  - https://github.com/PyAutoLabs/PyAutoGalaxy/pull/387
+  - https://github.com/PyAutoLabs/PyAutoLens/pull/493
+- notes: Final sweep of `.rst` files across the workspace ecosystem (285 files, 9 workspace repos). Same playbook as passes 1 and 2: `rst2myst convert -R`, plain CommonMark hand-rewrite for the marketing READMEs (autofit/galaxy/lens workspaces) so badges/images render on GitHub, perl one-liner to fix rst-to-myst's escaped-dash continuation pattern in chapter READMEs, drop the leading `(references)=` MyST anchor from `CITATIONS.md`. Three repos had **non-rename code/script changes**: `autolens_base_project/hpc/sync` and `euclid_strong_lens_modeling_pipeline/hpc/sync` had `ROOT_FILES=(...README.rst...)` arrays that needed flipping to `README.md` or the sync script would skip the renamed file when copying to HPC; `autogalaxy_workspace/welcome.py` + `autolens_workspace/welcome.py` had prose docstring refs to `<repo>/README.rst` that needed flipping; and `autogalaxy_workspace/scripts/guides/hpc/example_cpu_and_gpu.{py,ipynb}` + `autolens_workspace/scripts/cluster/modeling.{py,ipynb}` had inline prose refs that needed updating in both the `.py` source-of-truth and the matching `.ipynb`. Tail: 3 follow-up PRs in PyAutoFit/Galaxy/Lens flipping the `docs/general/{configs,workspace}.md` prose refs from "README.rst" to "README.md" — these were deliberately deferred in pass 2 because they pointed at workspaces that hadn't been converted yet. **Two test workspaces (autolens_workspace_test, autogalaxy_workspace_test) had pre-existing 3.13 `jax_likelihood_functions/*` smoke failures** unrelated to this change — main was already red on the same scripts for days; merged with `--admin`. The autolens_base_project canonical checkout had pre-existing staged changes (CLAUDE.md, hpc scripts, scripts/template.py, skills/init-slam) that blocked the post-merge `git pull --ff-only`, left for user. The autofit_workspace_developer canonical checkout was on `feature/searches-minimal-converged` (unregistered work) so post-merge pull was skipped. Squash-merged in size order; library prose-ref tail merged last.
+
 ## rst-to-myst-md-pass2
 - issue: none — direct followup to PyAutoFit#1245
 - completed: 2026-05-04
