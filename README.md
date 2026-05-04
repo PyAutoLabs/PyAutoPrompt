@@ -18,7 +18,7 @@ your own GitHub issue: free-form prose, with `@RepoName/path/to/file.py`
 references so the tooling knows which repo and files to target. No boilerplate.
 
 ````markdown
-A point spreadh function is used to blur images via 2d convolution.
+A point spread function is used to blur images via 2d convolution.
 
 This blurring occurs predominantly in the package @PyAutoArray/autoarray/operators/convolver.py.
 
