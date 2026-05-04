@@ -4,6 +4,8 @@
 - status: workspace-dev
 - worktree: ~/Code/PyAutoLabs-wt/alma-datacube
 - repos:
+  - autolens_workspace: feature/alma-datacube
+  - autolens_workspace_developer: feature/alma-datacube
 
 ## smoke-test-optimization
 - issue: https://github.com/rhayes777/PyAutoFit/issues/1183
