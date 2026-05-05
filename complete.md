@@ -1,4 +1,17 @@
 
+## alma-datacube
+- issue: https://github.com/PyAutoLabs/autolens_workspace/issues/120
+- completed: 2026-05-05
+- library-prs:
+  - https://github.com/PyAutoLabs/PyAutoFit/pull/1253 (AnalysisFactor.visualize_combined dispatch fix)
+  - https://github.com/PyAutoLabs/PyAutoLens/pull/494 (VisualizerInterferometer combined plotter)
+- workspace-prs:
+  - https://github.com/PyAutoLabs/autolens_workspace_developer/pull/46 (datacube/ Phase 1: simulator + JAX likelihood walkthrough)
+  - https://github.com/PyAutoLabs/autolens_workspace/pull/122 (interferometer/features/datacube/ tutorial scripts)
+  - https://github.com/PyAutoLabs/autolens_workspace_test/pull/72 (multi/visualization dispatch tests)
+- repos: PyAutoFit, PyAutoLens, autolens_workspace, autolens_workspace_developer, autolens_workspace_test
+- notes: ALMA datacube modeling — list-of-Interferometer FactorGraph prototype with shared lens and per-channel pixelized source. Phase 1 deliberately runs each channel's NUFFT and inversion independently. Two follow-up issues to file: (1) Aris's shared `Lᵀ W̃ L` optimisation that exploits channel-invariant uv_wavelengths/noise_map; (2) `Interferometer.list_from_fits_3d` helper in PyAutoArray. While verifying visualization, found and fixed a silent dispatch bug in `af.FactorGraphModel.visualize_combined` — `AnalysisFactor` had no `visualize_combined` method, so the auto-forwarder skipped the call for multi-dataset fits (imaging and interferometer both). Added forwarders in PyAutoFit + the missing `VisualizerInterferometer.visualize_combined` + `subplot_fit_interferometer_combined` plot in PyAutoLens.
+
 ## rst-to-myst-md-pass3
 - issue: none — direct followup to PyAutoFit#1245 and pass2
 - completed: 2026-05-04
