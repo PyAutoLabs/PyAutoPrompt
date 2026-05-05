@@ -12,6 +12,8 @@
 - status: workspace-dev
 - worktree: ~/Code/PyAutoLabs-wt/output-folder-layout-tutorials
 - repos:
+  - autolens_workspace: feature/output-folder-layout-tutorials
+  - autogalaxy_workspace: feature/output-folder-layout-tutorials
 
 ## smoke-test-optimization
 - issue: https://github.com/rhayes777/PyAutoFit/issues/1183
