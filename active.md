@@ -1,3 +1,10 @@
+## autogalaxy-wst-model-composition
+- issue: https://github.com/PyAutoLabs/autogalaxy_workspace_test/issues/26
+- session: claude --resume "autogalaxy-wst-model-composition"
+- status: workspace-dev
+- worktree: ~/Code/PyAutoLabs-wt/autogalaxy-wst-model-composition
+- repos:
+
 ## alma-datacube
 - issue: https://github.com/PyAutoLabs/autolens_workspace/issues/120
 - session: claude --resume "alma-datacube"
