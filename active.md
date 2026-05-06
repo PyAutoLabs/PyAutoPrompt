@@ -67,3 +67,10 @@
 - worktree: ~/Code/PyAutoLabs-wt/cluster-viz-prototype
 - repos:
   - autolens_workspace_test: feature/cluster-viz-prototype
+
+## use-pathlib
+- issue: https://github.com/PyAutoLabs/PyAutoFit/issues/1257
+- session: claude --resume "use-pathlib"
+- status: library-dev
+- worktree: ~/Code/PyAutoLabs-wt/use-pathlib
+- repos:
