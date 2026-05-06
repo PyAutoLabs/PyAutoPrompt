@@ -6,24 +6,6 @@
 - repos:
   - PyAutoFit: feature/blackjax-nuts-search
 
-## autogalaxy-wst-jax-grad-interferometer
-- issue: https://github.com/PyAutoLabs/autogalaxy_workspace_test/issues/30
-- session: claude --resume "autogalaxy-wst-jax-grad-interferometer"
-- status: workspace-dev
-- worktree: ~/Code/PyAutoLabs-wt/autogalaxy-wst-jax-grad-interferometer
-- repos:
-  - autogalaxy_workspace_test: feature/autogalaxy-wst-jax-grad-interferometer
-
-## point-simulator-realistic-errors
-- issue: https://github.com/PyAutoLabs/autolens_workspace/issues/125
-- session: claude --resume "point-simulator-realistic-errors"
-- status: workspace-dev
-- worktree: ~/Code/PyAutoLabs-wt/point-simulator-realistic-errors
-- repos:
-  - autolens_workspace: feature/point-simulator-realistic-errors
-  - autolens_workspace_test: feature/point-simulator-realistic-errors
-  - autolens_workspace_developer: feature/point-simulator-realistic-errors
-
 ## smoke-test-optimization
 - issue: https://github.com/rhayes777/PyAutoFit/issues/1183
 - session: claude --resume "profile-smoke-test-runtime"

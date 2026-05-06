@@ -1,4 +1,11 @@
 
+## point-simulator-realistic-errors
+- issue: https://github.com/PyAutoLabs/autolens_workspace/issues/125
+- completed: 2026-05-06
+- workspace-prs: https://github.com/PyAutoLabs/autolens_workspace/pull/127, https://github.com/PyAutoLabs/autolens_workspace_test/pull/73, https://github.com/PyAutoLabs/autolens_workspace_developer/pull/49
+- repos: autolens_workspace, autolens_workspace_test, autolens_workspace_developer
+- notes: Replaced unrealistic noise scales across 11 point-source scripts plus the local-only `z_projects/concr/simulators/cosmology.py`. Constants applied consistently — `position_noise = 0.005"` (5 mas, HST PSF-centroiding precision, replacing the imaging pixel scale ~0.05"), `time_delay_rel_noise = 0.05` (5%, replacing 25%), `flux_rel_noise = 0.05` (5%, replacing pure-Poisson `√flux` which gave ~100% relative error on unit flux). Scope expanded mid-implementation when `start_here.py` was found to have four separate sections with the bad patterns plus a latent bug — `positions_noise_map` was defined but the dataset constructor passed `grid.pixel_scale` instead. `cluster/simulator.py` had a docstring claiming the pixel scale *is* the positional uncertainty (the exact misconception this task fixed), rewritten in place. Cancer simulator confirmed orthogonal (Hill-curve dose-response, no positions/delays/fluxes). Two side findings worth follow-up prompts: (1) autolens_workspace_test 3.13 CI has been failing on main since at least 2026-05-01 with 7 `jax_likelihood_functions/*` failures (PR #73 inherited the identical list — not a regression); (2) the `worktree_check_conflict` helper silently exits 0 when `$PYAUTO_MAIN` isn't exported, which is how the original `/start_dev` missed a real conflict with #124. Notebook regeneration deferred to `/generate_and_merge`.
+
 ## blackjax-nuts-example
 - issue: https://github.com/Jammy2211/autofit_workspace_developer/issues/13
 - completed: 2026-05-06
@@ -14,6 +21,13 @@
   - https://github.com/PyAutoLabs/autolens_workspace_developer/pull/48 (mesh swap in likelihood_function.py)
 - repos: autolens_workspace, autolens_workspace_developer
 - notes: Three datacube follow-ups on top of PR #122. (1) Mesh swap RectangularUniform → RectangularAdaptDensity (modeling, start_here, dev likelihood walkthrough). (2) New delaunay.py sibling using `Overlay` image-mesh, `append_with_circle_edge_points` edge zeroing, `ConstantSplit` regularization, with `AdaptImages` paired with the source galaxy. (3) `PointSolver` positions block in simulator.py writes `positions.json`; all four modeling scripts load it and pass `PositionsLH(threshold=0.3)` to every per-channel `AnalysisInterferometer`. PositionsLH is essentially required for pixelized fits — without it the search routinely converges on demagnified-source local maxima.
+
+## autogalaxy-wst-jax-grad-interferometer
+- issue: https://github.com/PyAutoLabs/autogalaxy_workspace_test/issues/30
+- completed: 2026-05-06
+- workspace-pr: https://github.com/PyAutoLabs/autogalaxy_workspace_test/pull/31
+- repos: autogalaxy_workspace_test
+- notes: Task 7/9 of the autogalaxy_workspace_test parity epic (#5). Created `scripts/jax_grad/interferometer/{lp.py, mge.py}` from scratch — autolens has no interferometer `jax_grad` reference. Both pass on CI 3.12 (`lp.py` 6.6s shape (7,), `mge.py` 11.7s shape (4,)). Used plain `ag.lp.Sersic` (not `lp_linear`) to match the validated `jax_likelihood_functions/interferometer/lp.py` setup. The `jax_grad/` env_vars override added in PR #29 already covered this PR — no env_vars.yaml change. Layout-divergence-from-autolens question now compounded by this PR (autolens has flat `jax_grad/imaging_*.py` and no interferometer scripts at all); suggested filing the autolens-retrofit follow-up after task 8 ships.
 
 ## autogalaxy-wst-jax-grad-imaging
 - issue: https://github.com/PyAutoLabs/autogalaxy_workspace_test/issues/28
