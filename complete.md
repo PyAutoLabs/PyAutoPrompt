@@ -1,4 +1,68 @@
 
+## group-list-based-api
+- completed: 2026-05-06
+- repos: autolens_workspace
+- notes: |
+    Retroactively logged via 2026-05-06 hygiene scan. Original prompt
+    `workspaces/group.md` asked for `autolens_workspace/scripts/group/start_here.py`
+    to use the list-based `lens_dict` model composition (multiple main lens
+    galaxies treated symmetrically, instead of one main + extras). Verified done:
+    `start_here.py:198-200` builds `lens_dict` and iterates `main_lens_centres`
+    to populate `lens_0`, `lens_1`, … Three sibling tasks (`group-features`,
+    `group-two-main-galaxies`, `group-pixelization-delaunay-fixes`) plus three
+    `issued/group*.md` files cover the related rollout. Original issue/PR not
+    tracked in this registry.
+
+## smoke-workspace-actions
+- completed: 2026-05-06
+- repos: autofit_workspace, autogalaxy_workspace, autolens_workspace
+- notes: |
+    Retroactively logged via 2026-05-06 hygiene scan. Original prompt
+    `autobuild/smoke_workspace_action.md` asked for GitHub Actions workflows
+    that run smoke tests on the three workspaces (mirroring the source-repo
+    actions). Verified done: `.github/workflows/smoke_tests.yml` exists in each
+    of `autofit_workspace`, `autogalaxy_workspace`, `autolens_workspace`. The
+    follow-up `autobuild/smoke_workspace_fixes.md` (re-enable the entries that
+    were commented out for the green baseline) is still partial — kept in
+    pending. Original issue/PR not tracked in this registry.
+
+## delaunay-jax-profiling
+- completed: 2026-05-06
+- repos: autolens_workspace_developer
+- notes: |
+    Retroactively logged via 2026-05-06 hygiene scan. Original prompt
+    `autolens_workspace_developer/imaging_delaunay_jax_profiling.md` asked for
+    `jax_profiling/imaging/delaunay.py` to be aligned with the current pytree /
+    register_model approach used by `mge.py` and `pixelization.py`. Verified
+    done: `jax_profiling/jit/imaging/delaunay.py` now mirrors the sibling
+    Timer + register_model + xp pattern. Original issue/PR not tracked.
+
+## cluster-visualization-profiling
+- completed: 2026-05-06
+- repos: autolens_workspace_developer
+- notes: |
+    Retroactively logged via 2026-05-06 hygiene scan. Original prompt
+    `autolens_workspace_developer/visualization_profiling_cluster.md` asked for
+    a profiling script targeting `autolens_workspace/scripts/cluster/simulator.py`
+    visualization (the ~92s `SimulatorImaging.via_tracer_from` phase identified
+    in the prompt). Verified done: `autolens_workspace_developer/visualization_profiling/imaging/cluster.py`
+    exists with Timer instrumentation matching the sibling profiling scripts.
+    Original issue/PR not tracked.
+
+## cluster-csv-redshifts
+- completed: 2026-05-06
+- repos: autolens_workspace
+- notes: |
+    Retroactively logged via 2026-05-06 hygiene scan. Original prompt
+    `cluster/2_modeling.md` asked for `autolens_workspace/scripts/cluster/modeling.py`
+    to load redshifts from `point_datasets.csv` via `al.list_from_csv` and link
+    them to `Galaxy.redshift` (replacing the hardcoded `redshift=1.0`), plus
+    move toward CSV-driven main/source galaxy loading. Verified done:
+    `modeling.py:143` calls `al.list_from_csv(file_path=dataset_path / "point_datasets.csv")`
+    and the redshift linkage is in place. The wider CSV API for main/source
+    galaxies remains an iterative target — flag a follow-up if needed.
+    Original issue/PR not tracked.
+
 ## autogalaxy-wst-jax-grad-multi
 - issue: https://github.com/PyAutoLabs/autogalaxy_workspace_test/issues/32
 - completed: 2026-05-06

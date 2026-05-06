@@ -74,3 +74,8 @@
 - status: library-dev
 - worktree: ~/Code/PyAutoLabs-wt/use-pathlib
 - repos:
+  - PyAutoConf: feature/use-pathlib
+  - PyAutoFit: feature/use-pathlib
+  - PyAutoArray: feature/use-pathlib
+  - PyAutoGalaxy: feature/use-pathlib
+  - PyAutoLens: feature/use-pathlib
