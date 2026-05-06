@@ -33,3 +33,5 @@
 - status: library-dev
 - worktree: ~/Code/PyAutoLabs-wt/psf-oversampling
 - repos:
+  - PyAutoArray: feature/psf-oversampling
+  - PyAutoGalaxy: feature/psf-oversampling
