@@ -29,7 +29,7 @@ specify the over sample size of the PSF for the lensing and pixelization operati
 class Imaging(AbstractDataset):
     def __init__(
         self,
-        data: Array2D,
+        data: Array2D,  
         noise_map: Optional[Array2D] = None,
         psf: Optional[Convolver] = None,
         psf_setup_state: bool = False,
