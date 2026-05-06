@@ -34,22 +34,23 @@
 - parked: 2026-05-06
 - classification: library (then workspace follow-up)
 - suggested-branch: feature/psf-oversampling
-- affected-repos:
-  - PyAutoArray
-  - PyAutoGalaxy
-  - autolens_workspace_test (workspace follow-up)
-  - autolens_workspace (workspace follow-up)
 - summary: |
-    Plan approved (issue #299) and task worktree was created, but no code edits
-    were made before parking. Worktree removed and local feature branches
-    deleted so PyAutoArray / PyAutoGalaxy are unclaimed and free for other tasks.
+    Parked — no resources claimed. Task worktree was created during /start_library
+    but removed without edits; local feature/psf-oversampling branches deleted
+    from PyAutoArray and PyAutoGalaxy. Both repos are free for other tasks.
+
+    Affected repos (when resumed):
+      - PyAutoArray (library, primary)
+      - PyAutoGalaxy (library)
+      - autolens_workspace_test (workspace follow-up)
+      - autolens_workspace (workspace follow-up)
 
     To resume: run /start_library — it will recreate the worktree and the
     feature/psf-oversampling branches off origin/main. Then start with
-    Phase 5 (over_sample_util helpers) per the agreed phasing.
+    Phase 1 (over_sample_util helpers) per the agreed phasing below.
 
     Phasing (smaller tasks, agreed mid-session):
-      1. over_sample_util: Mask2D upscale-by-N + fine→native sum-reduce helpers + tests
+      1. over_sample_util: Mask2D upscale-by-N + fine->native sum-reduce helpers + tests
       2. Convolver: add convolve_over_sample_size kwarg (default 1, no behaviour change) + test
       3. Convolver: bin-down branch in all four conv paths, gated > 1 + brute-force test
       4. Imaging dataset: kwargs + 2 construction-time guards (adaptive over-sample, sparse)
