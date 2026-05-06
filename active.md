@@ -4,6 +4,7 @@
 - status: workspace-dev
 - worktree: ~/Code/PyAutoLabs-wt/blackjax-nuts-example
 - repos:
+  - autofit_workspace_developer: feature/blackjax-nuts-example
 
 ## autogalaxy-wst-jax-grad-interferometer
 - issue: https://github.com/PyAutoLabs/autogalaxy_workspace_test/issues/30
