@@ -63,11 +63,18 @@
 ## use-pathlib
 - issue: https://github.com/PyAutoLabs/PyAutoFit/issues/1257
 - session: claude --resume "use-pathlib"
-- status: library-dev
+- status: library-shipped, workspace-pending
 - worktree: ~/Code/PyAutoLabs-wt/use-pathlib
-- repos:
-  - PyAutoConf: feature/use-pathlib
-  - PyAutoFit: feature/use-pathlib
-  - PyAutoArray: feature/use-pathlib
-  - PyAutoGalaxy: feature/use-pathlib
-  - PyAutoLens: feature/use-pathlib
+- library-prs:
+    - https://github.com/PyAutoLabs/PyAutoConf/pull/104 (merged)
+    - https://github.com/PyAutoLabs/PyAutoFit/pull/1258 (merged)
+    - https://github.com/PyAutoLabs/PyAutoArray/pull/300 (merged)
+    - https://github.com/PyAutoLabs/PyAutoGalaxy/pull/388 (merged)
+    - https://github.com/PyAutoLabs/PyAutoLens/pull/497 (merged)
+- summary: |
+    Library refactor shipped. ~99 os.path.* + ~600 bare path.* references
+    converted to pathlib.Path across 5 libraries. 3,188 unit tests pass.
+    Smoke tests pass against worktree libraries (36/36 in 4 main workspaces;
+    euclid passes with PYAUTO_SKIP_WORKSPACE_VERSION_CHECK=1 — pre-existing).
+    Workspace pathlib refactor (~149 references across 5 workspaces) follows
+    via /start_workspace.
