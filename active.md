@@ -59,28 +59,3 @@
       7. Inversion mapping audit + assertion (mapping.py / abstract.py)
       8. End-to-end library integration test
       (workspace) extend convolution.py + new convolution_oversampled.py + simulator.py
-
-## use-pathlib
-- issue: https://github.com/PyAutoLabs/PyAutoFit/issues/1257
-- session: claude --resume "use-pathlib"
-- status: workspace-dev
-- worktree: ~/Code/PyAutoLabs-wt/use-pathlib
-- library-prs:
-    - https://github.com/PyAutoLabs/PyAutoConf/pull/104 (merged)
-    - https://github.com/PyAutoLabs/PyAutoFit/pull/1258 (merged)
-    - https://github.com/PyAutoLabs/PyAutoArray/pull/300 (merged)
-    - https://github.com/PyAutoLabs/PyAutoGalaxy/pull/388 (merged)
-    - https://github.com/PyAutoLabs/PyAutoLens/pull/497 (merged)
-- repos:
-    - autogalaxy_workspace: feature/use-pathlib
-    - autolens_workspace: feature/use-pathlib
-    - autolens_workspace_developer: feature/use-pathlib
-    - autofit_workspace_developer: feature/use-pathlib
-    - euclid_strong_lens_modeling_pipeline: feature/use-pathlib
-- summary: |
-    Library refactor shipped. ~99 os.path.* + ~600 bare path.* references
-    converted to pathlib.Path across 5 libraries. 3,188 unit tests pass.
-    Smoke tests pass against worktree libraries (36/36 in 4 main workspaces;
-    euclid passes with PYAUTO_SKIP_WORKSPACE_VERSION_CHECK=1 — pre-existing).
-    Workspace pathlib refactor (~149 references across 5 workspaces) follows
-    via /start_workspace.
