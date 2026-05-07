@@ -60,14 +60,6 @@
       8. End-to-end library integration test
       (workspace) extend convolution.py + new convolution_oversampled.py + simulator.py
 
-## cluster-viz-prototype
-- issue: https://github.com/PyAutoLabs/autolens_workspace_test/issues/74
-- session: claude --resume "cluster-viz-prototype"
-- status: workspace-dev
-- worktree: ~/Code/PyAutoLabs-wt/cluster-viz-prototype
-- repos:
-  - autolens_workspace_test: feature/cluster-viz-prototype
-
 ## use-pathlib
 - issue: https://github.com/PyAutoLabs/PyAutoFit/issues/1257
 - session: claude --resume "use-pathlib"

@@ -1189,3 +1189,9 @@
 - workspace-prs: https://github.com/PyAutoLabs/autolens_workspace/pull/126, https://github.com/PyAutoLabs/autogalaxy_workspace/pull/58
 - repos: autolens_workspace, autogalaxy_workspace
 - notes: Replaced flat-bullet `__Output Folder__` block with a comprehensive directory-tree `__Output Folder Layout__` block in every modeling.py tutorial across both workspaces (imaging, interferometer, point_source, cluster, group; autogalaxy: imaging, interferometer, ellipse), adapted per package and data type. Restructured `guides/results/start_here.py` so the model-fit runs once at the top of the file and simple-loading uses `result_path = search.paths.output_path` instead of a hardcoded `<unique_hash>` placeholder. The aggregator section's existing narrative is preserved in full; its intro was rewritten to frame it as a peer first-class tool (generator-based, used by `csv_maker`/`png_maker`/`fits_maker` workflow tools) rather than a "many fits" fallback. Fixed pre-existing latent `af.SamplesNest.from_csv` API bug uncovered once the simple-loading path resolved to a real folder — switched to the correct `af.SamplesNest.from_table(filename=...)`.
+
+## cluster-viz-prototype
+- issue: https://github.com/PyAutoLabs/autolens_workspace_test/issues/74
+- completed: 2026-05-07
+- workspace-pr: https://github.com/PyAutoLabs/autolens_workspace_test/pull/75
+- repos: autolens_workspace_test
