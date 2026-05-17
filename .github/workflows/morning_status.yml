@@ -2,11 +2,14 @@ name: pyauto-update-digest
 
 on:
   schedule:
-    # GitHub Actions cron is UTC-only. UK clocks shift twice a year, so we
-    # schedule at both 05:00 UTC (06:00 BST in summer) and 06:00 UTC (06:00
-    # GMT in winter) and gate execution on the actual UK 06:00 hour.
+    # GitHub Actions cron is UTC-only and jitters by 0–3h under load (every
+    # historical scheduled run of the previous version landed at UTC 07:19–
+    # 08:41, never anywhere near the nominal 05:00/06:00 slot). 05:00 UTC
+    # nominally fires at UK 06:00 (BST) / 05:00 (GMT); with realistic jitter
+    # actual delivery is roughly UK 06:00–09:00 in summer, 05:00–08:00 in
+    # winter. That's "morning" — close enough for a digest, and one cron
+    # means no per-day dedupe state.
     - cron: "0 5 * * *"
-    - cron: "0 6 * * *"
   workflow_dispatch: {}
 
 permissions:
@@ -31,17 +34,7 @@ jobs:
         PyAutoLabs/autogalaxy_workspace
         PyAutoLabs/autolens_workspace
     steps:
-      - name: Skip if not 06:00 UK time
-        id: tz
-        run: |
-          uk_hour=$(TZ=Europe/London date +%H)
-          if [ "$uk_hour" != "06" ] && [ "${{ github.event_name }}" != "workflow_dispatch" ]; then
-            echo "Skipping: UK hour is $uk_hour, not 06" >&2
-            echo "skip=true" >> "$GITHUB_OUTPUT"
-          fi
-
       - name: Fetch commits to main from the last 24h
-        if: steps.tz.outputs.skip != 'true'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
@@ -87,17 +80,7 @@ jobs:
           echo "--- pushes_to_main.json ---"
           jq '{since, until, uk_date, count: (.commits | length)}' pushes_to_main.json
 
-      - name: Probe secrets (TEMP - remove before merge)
-        if: steps.tz.outputs.skip != 'true'
-        env:
-          OAUTH: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
-          WHOOK: ${{ secrets.PYAUTO_UPDATE_WEBHOOK_URL }}
-        run: |
-          echo "CLAUDE_CODE_OAUTH_TOKEN:   ${OAUTH:+set} (len=${#OAUTH})"
-          echo "PYAUTO_UPDATE_WEBHOOK_URL: ${WHOOK:+set} (len=${#WHOOK})"
-
       - name: Summarise pushes with Claude
-        if: steps.tz.outputs.skip != 'true'
         uses: anthropics/claude-code-action@v1
         with:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
@@ -205,7 +188,6 @@ jobs:
             any other file.
 
       - name: POST to Slack
-        if: steps.tz.outputs.skip != 'true'
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.PYAUTO_UPDATE_WEBHOOK_URL }}
         run: |
