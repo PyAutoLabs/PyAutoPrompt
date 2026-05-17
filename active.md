@@ -92,8 +92,9 @@
 ## rectangular-adapt-cdf
 - issue: https://github.com/PyAutoLabs/PyAutoArray/issues/322
 - session: claude --resume "rectangular-adapt-cdf"
-- status: library-dev
+- status: library-shipped, workspace-pending
 - worktree: ~/Code/PyAutoLabs-wt/rectangular-adapt-cdf
+- library-pr: https://github.com/PyAutoLabs/PyAutoArray/pull/323
 - repos:
   - PyAutoArray: feature/rectangular-adapt-cdf
   - autolens_workspace_developer: feature/rectangular-adapt-cdf
