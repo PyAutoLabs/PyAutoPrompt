@@ -1,19 +1,27 @@
-name: morning-status
+name: pyauto-update-digest
 
 on:
   schedule:
-    # GitHub Actions cron is UTC-only. UK clocks shift twice a year, so we
-    # schedule at both 05:00 UTC (06:00 BST in summer) and 06:00 UTC (06:00
-    # GMT in winter) and gate execution on the actual UK 06:00 hour.
+    # GitHub Actions cron is UTC-only and jitters by 0–3h under load (every
+    # historical scheduled run of the previous version landed at UTC 07:19–
+    # 08:41, never anywhere near the nominal 05:00/06:00 slot). 05:00 UTC
+    # nominally fires at UK 06:00 (BST) / 05:00 (GMT); with realistic jitter
+    # actual delivery is roughly UK 06:00–09:00 in summer, 05:00–08:00 in
+    # winter. That's "morning" — close enough for a digest, and one cron
+    # means no per-day dedupe state.
     - cron: "0 5 * * *"
-    - cron: "0 6 * * *"
   workflow_dispatch: {}
 
 permissions:
   contents: read
+  # claude-code-action@v1 requires OIDC to fetch a short-lived GitHub
+  # token for repo metadata calls (see `src/github/token.ts:138` —
+  # `setupGitHubToken` → `getOidcToken`). Without this the action exits
+  # with `Could not fetch an OIDC token` before reaching the prompt.
+  id-token: write
 
 jobs:
-  morning-status:
+  pyauto-update-digest:
     runs-on: ubuntu-latest
     env:
       REPOS: >-
@@ -26,17 +34,7 @@ jobs:
         PyAutoLabs/autogalaxy_workspace
         PyAutoLabs/autolens_workspace
     steps:
-      - name: Skip if not 06:00 UK time
-        id: tz
-        run: |
-          uk_hour=$(TZ=Europe/London date +%H)
-          if [ "$uk_hour" != "06" ] && [ "${{ github.event_name }}" != "workflow_dispatch" ]; then
-            echo "Skipping: UK hour is $uk_hour, not 06" >&2
-            echo "skip=true" >> "$GITHUB_OUTPUT"
-          fi
-
-      - name: Fetch merged PRs from the last 24h
-        if: steps.tz.outputs.skip != 'true'
+      - name: Fetch commits to main from the last 24h
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
@@ -45,90 +43,136 @@ jobs:
           until=$(date -u --iso-8601=seconds)
           uk_date=$(TZ=Europe/London date '+%Y-%m-%d (%a)')
 
-          # Build pr_activity.json by collecting per-repo arrays into a
-          # single combined array, then assembling the final envelope.
           tmp=$(mktemp -d)
           : > "$tmp/all.jsonl"
 
           for repo in $REPOS; do
-            gh pr list --repo "$repo" --state merged \
-                --search "merged:>=$since" \
-                --json number,title,url,author,mergedAt,body \
-                --limit 50 \
-              | jq --arg repo "$repo" -c '.[] | . + {repo: $repo}' \
+            # gh api fetches the raw commits list (default branch resolves to
+            # main for every PyAuto repo). per_page=100 is the API max; 24h of
+            # activity on any one PyAuto repo has never come close.
+            gh api "repos/$repo/commits?since=$since&per_page=100" \
+              | jq --arg repo "$repo" -c '
+                  .[]
+                  | {
+                      repo:         $repo,
+                      sha:          (.sha[0:7]),
+                      subject:      (.commit.message | split("\n")[0]),
+                      body:         (.commit.message | split("\n")[1:] | join("\n")),
+                      author:       (.commit.author.name // .author.login // "unknown"),
+                      committed_at: .commit.author.date,
+                      url:          .html_url,
+                      # Best-effort PR-number parse from the subject line.
+                      # Matches both `... (#123)` and `Merge pull request #123 from ...`
+                      pr_number:    (
+                        (.commit.message | split("\n")[0])
+                        | capture("(?:^Merge pull request #|\\(#)(?<n>[0-9]+)") ?
+                        | .n | tonumber
+                      )
+                    }
+                ' \
               >> "$tmp/all.jsonl"
           done
 
           jq -s --arg since "$since" --arg until "$until" --arg uk_date "$uk_date" \
-            '{since: $since, until: $until, uk_date: $uk_date, prs: .}' \
-            "$tmp/all.jsonl" > pr_activity.json
+            '{since: $since, until: $until, uk_date: $uk_date, commits: .}' \
+            "$tmp/all.jsonl" > pushes_to_main.json
 
-          echo "--- pr_activity.json ---"
-          jq '{since, until, uk_date, count: (.prs | length)}' pr_activity.json
+          echo "--- pushes_to_main.json ---"
+          jq '{since, until, uk_date, count: (.commits | length)}' pushes_to_main.json
 
-      - name: Summarise activity with Claude
-        if: steps.tz.outputs.skip != 'true'
+      - name: Summarise pushes with Claude
         uses: anthropics/claude-code-action@v1
         with:
-          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
           prompt: |
-            Read `pr_activity.json` in this directory. It has shape:
+            Read `pushes_to_main.json` in this directory. It has shape:
 
               { "since": "<ISO-UTC>",
                 "until": "<ISO-UTC>",
                 "uk_date": "YYYY-MM-DD (Mon)",
-                "prs": [ { "repo": "PyAutoLabs/<name>",
-                           "number": <int>, "title": "...",
-                           "url": "...", "author": {...},
-                           "mergedAt": "<ISO-UTC>", "body": "..." }, ... ] }
+                "commits": [ { "repo": "PyAutoLabs/<name>",
+                               "sha": "abc1234",
+                               "subject": "<first line of commit message>",
+                               "body": "<rest of commit message>",
+                               "author": "<name>",
+                               "committed_at": "<ISO-UTC>",
+                               "url": "https://github.com/.../commit/<sha>",
+                               "pr_number": <int | null> }, ... ] }
+
+            Each commit is something that landed on `main` in the last 24h
+            across the PyAuto library + workspace repos.
 
             Audience: end users of PyAutoLens, PyAutoGalaxy, PyAutoFit
             (working astronomers, not the dev team). Tone: friendly,
             plain language, science-user-facing — explain *what changed
             for them*, not the implementation details.
 
-            Skip these PR types entirely (do not mention them at all):
-              - "bump version", "release X.Y.Z", "post-release"
+            Classify each commit into one of three buckets:
+
+              1) RELEASE BUMP — subject matches one of:
+                 - `^Release \d+\.\d+`
+                 - `^Updated version in __init__ to`
+                 - `^bump (?i:version)`
+                 - `^Release \d+\.\d+\.\d+: bump Colab URL`
+                 - `post-release`
+                 Surface these AS A SUMMARY at the top of the repo's
+                 section, like `*Released X.Y.Z*` with a link to the
+                 latest such commit. If there are multiple release bumps
+                 for one repo in one day, collapse to the highest version.
+
+              2) MERGED PR — `pr_number` is present (non-null). Render as
+                 a user-facing one-liner derived from the subject + first
+                 paragraph of `body`, with link `(<<url>|#<pr_number>>)`.
+
+              3) DIRECT PUSH TO MAIN — `pr_number` is null AND not a
+                 release bump. Render as `<one-liner from subject> — direct
+                 push by <author> (<<url>|<sha>>)`.
+
+            Skip these entirely (do not mention them at all):
               - pure formatting / black / pre-commit chores
               - typo fixes (unless in user-visible docs)
-              - dependabot / dependency-bump-only PRs
-              - CI / workflow tweaks
+              - dependabot / dependency-bump-only commits
+              - CI / workflow tweaks (`.github/`, `pre-commit`, etc.)
               - README badge updates
+              - Merge commits that just merge a feature branch already
+                covered by the PR's own commits (the merge commit itself
+                is noise; the PR is the signal)
 
-            For each remaining PR, derive a one-line user-facing
-            description from `title` + first paragraph of `body`. Group
-            by repo. Drop the `PyAutoLabs/` prefix in the displayed name.
+            Group surviving items by repo. Drop the `PyAutoLabs/` prefix
+            in the displayed repo name. Within a repo's section, list the
+            release bump (if any) first, then merged PRs, then direct
+            pushes.
 
             Then write `slack_payload.json` in the repo root, with this
             exact shape:
 
               {
-                "text": "Daily PyAuto update — <uk_date>",
+                "text": "PyAuto update — <uk_date>",
                 "blocks": [
                   { "type": "header",
                     "text": { "type": "plain_text",
-                              "text": "Daily PyAuto update — <uk_date>" } },
+                              "text": "PyAuto update — <uk_date>" } },
                   { "type": "section",
                     "text": { "type": "mrkdwn",
                               "text": "<intro line>" } },
                   { "type": "section",
                     "text": { "type": "mrkdwn",
-                              "text": "*<repo>*\n• <user-facing line> (<<url>|#<num>>)\n…" } }
+                              "text": "*<repo>*\n• <user-facing line>\n…" } }
                 ]
               }
 
-            (Add one section block per repo that has merges. Omit any
-            repo with zero remaining merges after the skip-list.)
+            (Add one section block per repo that has surviving items.
+            Omit any repo with zero after the skip-list.)
 
-            If `prs` is empty (or every PR was filtered out by the
-            skip-list above), produce ONLY:
+            If `commits` is empty (or every commit was filtered out by
+            the skip-list above), produce ONLY:
 
               {
-                "text": "Daily PyAuto update — <uk_date>",
+                "text": "PyAuto update — <uk_date>",
                 "blocks": [
                   { "type": "header",
                     "text": { "type": "plain_text",
-                              "text": "Daily PyAuto update — <uk_date>" } },
+                              "text": "PyAuto update — <uk_date>" } },
                   { "type": "section",
                     "text": { "type": "mrkdwn",
                               "text": "Quiet day — no user-facing changes shipped in the last 24 hours." } }
@@ -138,15 +182,14 @@ jobs:
             Intro line on a non-quiet day should be a single sentence
             naming the count and which packages had updates, e.g.
             "<n> change(s) shipped today across PyAutoLens and
-            autolens_workspace."
+            autolens_workspace, including a new PyAutoLens release."
 
             Do not POST anything yourself, do not commit, do not modify
             any other file.
 
       - name: POST to Slack
-        if: steps.tz.outputs.skip != 'true'
         env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_WEBHOOK_URL: ${{ secrets.PYAUTO_UPDATE_WEBHOOK_URL }}
         run: |
           if [ ! -s slack_payload.json ]; then
             echo "::error::slack_payload.json missing or empty"
