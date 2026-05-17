@@ -90,17 +90,17 @@ jobs:
       - name: Probe secrets (TEMP - remove before merge)
         if: steps.tz.outputs.skip != 'true'
         env:
-          AKEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          OAUTH: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
           WHOOK: ${{ secrets.PYAUTO_UPDATE_WEBHOOK_URL }}
         run: |
-          echo "ANTHROPIC_API_KEY:         ${AKEY:+set} (len=${#AKEY})"
+          echo "CLAUDE_CODE_OAUTH_TOKEN:   ${OAUTH:+set} (len=${#OAUTH})"
           echo "PYAUTO_UPDATE_WEBHOOK_URL: ${WHOOK:+set} (len=${#WHOOK})"
 
       - name: Summarise pushes with Claude
         if: steps.tz.outputs.skip != 'true'
         uses: anthropics/claude-code-action@v1
         with:
-          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
           prompt: |
             Read `pushes_to_main.json` in this directory. It has shape:
 
