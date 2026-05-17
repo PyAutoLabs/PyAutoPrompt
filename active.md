@@ -1,3 +1,10 @@
+## interferometer-extra-galaxies
+- issue: https://github.com/PyAutoLabs/autogalaxy_workspace/issues/81
+- session: claude --resume "interferometer-extra-galaxies"
+- status: workspace-dev
+- worktree: ~/Code/PyAutoLabs-wt/interferometer-extra-galaxies
+- repos:
+
 ## smoke-test-optimization
 - issue: https://github.com/rhayes777/PyAutoFit/issues/1183
 - session: claude --resume "profile-smoke-test-runtime"
