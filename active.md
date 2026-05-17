@@ -4,6 +4,8 @@
 - status: workspace-dev
 - worktree: ~/Code/PyAutoLabs-wt/interferometer-shapelets
 - repos:
+  - autolens_workspace: feature/interferometer-shapelets
+  - autogalaxy_workspace: feature/interferometer-shapelets
 
 ## viz-subprocess-feasibility
 - issue: https://github.com/PyAutoLabs/PyAutoFit/issues/1279
