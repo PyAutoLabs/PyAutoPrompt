@@ -4,6 +4,7 @@
 - status: workspace-dev
 - worktree: ~/Code/PyAutoLabs-wt/group-scaling-relation
 - repos:
+  - autolens_workspace: feature/group-scaling-relation
 - note: |
     Conflict override on 2026-05-17 — interferometer-multi-gaussian-expansion
     is also active on autolens_workspace but touches different feature dirs
