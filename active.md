@@ -1,12 +1,3 @@
-## interferometer-multi-gaussian-expansion
-- issue: https://github.com/PyAutoLabs/autolens_workspace/issues/166
-- session: claude --resume "interferometer-multi-gaussian-expansion"
-- status: workspace-dev
-- worktree: ~/Code/PyAutoLabs-wt/interferometer-multi-gaussian-expansion
-- repos:
-  - autolens_workspace: feature/interferometer-multi-gaussian-expansion
-  - autogalaxy_workspace: feature/interferometer-multi-gaussian-expansion
-
 ## viz-subprocess-feasibility
 - issue: https://github.com/PyAutoLabs/PyAutoFit/issues/1279
 - session: claude --resume "viz-subprocess-feasibility"
