@@ -1,3 +1,10 @@
+## interferometer-shapelets
+- issue: https://github.com/PyAutoLabs/autolens_workspace/issues/170
+- session: claude --resume "interferometer-shapelets"
+- status: workspace-dev
+- worktree: ~/Code/PyAutoLabs-wt/interferometer-shapelets
+- repos:
+
 ## viz-subprocess-feasibility
 - issue: https://github.com/PyAutoLabs/PyAutoFit/issues/1279
 - session: claude --resume "viz-subprocess-feasibility"
