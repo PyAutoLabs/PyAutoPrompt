@@ -84,6 +84,11 @@ jobs:
         uses: anthropics/claude-code-action@v1
         with:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          # Headless prompt mode runs Claude with a restricted default tool
+          # set; the first run had `permission_denials_count: 2` and never
+          # wrote slack_payload.json. Allow Read (to load pushes_to_main.json)
+          # and Write (to emit slack_payload.json). No Bash, no network tools.
+          claude_args: "--allowedTools Read,Write"
           prompt: |
             Read `pushes_to_main.json` in this directory. It has shape:
 
@@ -200,3 +205,4 @@ jobs:
                --data @slack_payload.json \
                --fail-with-body \
                "$SLACK_WEBHOOK_URL"
+
