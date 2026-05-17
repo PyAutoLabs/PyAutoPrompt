@@ -18,15 +18,6 @@
          using the three-tier API (main lens, individually-modelled extras,
          scaling-tier extras).
 
-## interferometer-shapelets
-- issue: https://github.com/PyAutoLabs/autolens_workspace/issues/170
-- session: claude --resume "interferometer-shapelets"
-- status: workspace-dev
-- worktree: ~/Code/PyAutoLabs-wt/interferometer-shapelets
-- repos:
-  - autolens_workspace: feature/interferometer-shapelets
-  - autogalaxy_workspace: feature/interferometer-shapelets
-
 ## smoke-test-optimization
 - issue: https://github.com/rhayes777/PyAutoFit/issues/1183
 - session: claude --resume "profile-smoke-test-runtime"
