@@ -87,6 +87,15 @@ jobs:
           echo "--- pushes_to_main.json ---"
           jq '{since, until, uk_date, count: (.commits | length)}' pushes_to_main.json
 
+      - name: Probe secrets (TEMP - remove before merge)
+        if: steps.tz.outputs.skip != 'true'
+        env:
+          AKEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          WHOOK: ${{ secrets.PYAUTO_UPDATE_WEBHOOK_URL }}
+        run: |
+          echo "ANTHROPIC_API_KEY:         ${AKEY:+set} (len=${#AKEY})"
+          echo "PYAUTO_UPDATE_WEBHOOK_URL: ${WHOOK:+set} (len=${#WHOOK})"
+
       - name: Summarise pushes with Claude
         if: steps.tz.outputs.skip != 'true'
         uses: anthropics/claude-code-action@v1
