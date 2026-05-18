@@ -3610,3 +3610,10 @@
 - workspace-pr: https://github.com/PyAutoLabs/autolens_workspace/pull/181
 - repos: autolens_workspace
 - notes: Third guide in scripts/guides/profiles/ trilogy (light.py → mass.py → light_and_mass_profiles.py). Covers stellar mass (al.mp.Sersic family with mass_to_light_ratio), the full dark-matter NFW menagerie (NFW, gNFW, cNFW, NFWTruncated, plus MCR / Virial / Scatter variants in a single dedicated "NFW Variants" section explaining each axis), combined light+mass (al.lmp.* — headline section shows one Sersic emits both image_2d_from and convergence_2d_from via shared mass_to_light_ratio), and linear combined (al.lmp_linear.* — same constructor as al.lmp, intensity-via-inversion at fit time). Composing a Decomposed Bulge+Halo Model section shows the canonical recipe of attaching a stellar Sersic + NFW halo to one lens galaxy so their convergences sum. 751 lines. Out-of-scope follow-ups noted in the issue comment: docs/api/mass.rst still missing al.lmp.* / al.lmp_linear.* documentation (plus the gaps already flagged in mass-profiles-guide notes — ExternalPotential, SMBH*, dPIE*, several NFW variants); GaussianGradient parameter naming inconsistency (mass_to_light_ratio_base vs mass_to_light_ratio in SersicGradient).
+
+## docs-mass-rst-sync
+- issue: https://github.com/PyAutoLabs/PyAutoLens/issues/519
+- completed: 2026-05-18
+- library-pr: https://github.com/PyAutoLabs/PyAutoLens/pull/520
+- repos: PyAutoLens
+- notes: Pure rST docs sync — brought PyAutoLens/docs/api/mass.rst into line with the al.mp.* / al.lmp.* / al.lmp_linear.* namespaces it documents. Added missing entries to Total (dPIE family), Mass Sheets (ExternalPotential), Stellar (GaussianGradient, SersicCore*), Dark (cNFW family, virial-mass variants). Moved PointMass out of Total into a new Point Mass section that also lists SMBH / SMBHBinary. Added two new sections at the bottom: Stellar Light+Mass [ag.lmp] and Linear Light+Mass [ag.lmp_linear]. No Python code touched. Surfaced as follow-up while writing the autolens_workspace mass / light+mass guides (#178 / #180).
