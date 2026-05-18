@@ -63,3 +63,12 @@
 
 
 
+
+## profile-guide-followup-cleanup
+- issue: https://github.com/PyAutoLabs/autolens_workspace/issues/182
+- session: claude --resume "profile-guide-followup-cleanup"
+- status: workspace-dev
+- worktree: ~/Code/PyAutoLabs-wt/profile-guide-followup-cleanup
+- repos:
+  - autogalaxy_workspace: feature/profile-guide-followup-cleanup
+  - autolens_workspace: feature/profile-guide-followup-cleanup
