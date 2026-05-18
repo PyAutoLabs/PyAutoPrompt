@@ -1,3 +1,19 @@
+## external-potential
+- issue: https://github.com/PyAutoLabs/PyAutoGalaxy/issues/419
+- user-facing: true
+- session: claude --resume "external-potential"
+- status: library-dev
+- worktree: ~/Code/PyAutoLabs-wt/external-potential
+- repos:
+- summary: |
+    Add `ag.mp.ExternalPotential` mass profile (Powell 2022 Eq 4) as a
+    sibling of `ExternalShear` in autogalaxy/profiles/mass/sheets/.
+    Six free params: centre, gamma_1/2, tau_1/2, delta_1/2. Centre is
+    free (unlike ExternalShear's fixed (0,0)) because tau/delta have
+    radial deflections. Reporter @Sketos provided a working prototype;
+    plan is to one-PR all three terms with parity tests vs ExternalShear
+    for the gamma-only case. No workspace demo this PR.
+
 ## smoke-test-optimization
 - issue: https://github.com/rhayes777/PyAutoFit/issues/1183
 - session: claude --resume "profile-smoke-test-runtime"
