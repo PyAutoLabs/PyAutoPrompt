@@ -67,3 +67,10 @@
 - worktree: ~/Code/PyAutoLabs-wt/multipole-light-profiles
 - repos:
   - PyAutoGalaxy: feature/multipole-light-profiles
+
+## cluster-modeling-v2
+- issue: https://github.com/PyAutoLabs/autolens_workspace/issues/174
+- session: claude --resume "cluster-modeling-v2"
+- status: workspace-dev
+- worktree: ~/Code/PyAutoLabs-wt/cluster-modeling-v2
+- repos:
