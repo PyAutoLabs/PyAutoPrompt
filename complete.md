@@ -1,4 +1,11 @@
 
+## external-potential
+- issue: https://github.com/PyAutoLabs/PyAutoGalaxy/issues/419
+- user-facing: true (reporter @Sketos)
+- completed: 2026-05-18
+- library-pr: https://github.com/PyAutoLabs/PyAutoGalaxy/pull/422
+- notes: User-reported feature request from @Sketos with full prototype code in the issue body. Added `ag.mp.ExternalPotential` as a sibling of `ExternalShear` in `autogalaxy/profiles/mass/sheets/external_potential.py` — six free params (gamma_1/2, tau_1/2, delta_1/2) plus a free centre (ExternalShear's centre is fixed (0,0) because pure shear deflections are constant; tau/delta have radial deflections so centre matters). Implements Powell 2022 Eq 4 in polar form, using `@aa.decorators.transform` for the centre shift (no rotation since ell_comps=(0,0)) — kept the body in the global frame so no `rotate_back` needed. Magnitude/angle accessors per-term (gamma spin-2 → [0,180), tau spin-1 → [0,360), delta spin-3 → [0,120)) plus a `from_magnitudes_and_angles` classmethod matching the paper-style parameterisation. One math correction vs prototype: `convergence_2d_from` returns `κ = τ₁·x + τ₂·y` (Laplacian of ψ), not zero — γ and δ stay harmonic with κ=0. 14 new unit tests cover γ-parity vs ExternalShear, τ-only convergence/potential/deflection, δ-only, non-zero-centre shift, and `from_magnitudes_and_angles` round-trip for all three terms. Full PyAutoGalaxy suite green (909 tests). 42/42 smoke tests across all six workspaces green. Conversational comment cadence: receipt + plan + smoke + shipped. No workspace demo this PR (offered to follow up if Sketos asks). Decorator import note: ExternalShear uses `@aa.decorators.*` not the `@aa.grid_dec.*` form in PyAutoGalaxy CLAUDE.md (stale per the recent multipole-linear memory) — matched the actual code path.
+
 ## workspace-version-mismatch-advice
 - issue: (none — direct request)
 - completed: 2026-05-18
