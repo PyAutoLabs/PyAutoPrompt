@@ -78,4 +78,5 @@
 - status: library-dev
 - worktree: ~/Code/PyAutoLabs-wt/weak-fit
 - repos:
+  - PyAutoLens: feature/weak-fit
 
