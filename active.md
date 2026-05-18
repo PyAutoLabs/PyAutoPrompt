@@ -72,10 +72,3 @@
 - repos:
   - autolens_workspace_developer: feature/source-science-parametric
 
-## cluster-scaling-members
-- issue: https://github.com/PyAutoLabs/autolens_workspace/issues/184
-- session: claude --resume "cluster-scaling-members"
-- status: workspace-dev
-- worktree: ~/Code/PyAutoLabs-wt/cluster-scaling-members
-- repos:
-  - autolens_workspace: feature/cluster-scaling-members

@@ -1,4 +1,11 @@
 
+## cluster-scaling-members
+- issue: https://github.com/PyAutoLabs/autolens_workspace/issues/184
+- completed: 2026-05-18
+- workspace-pr: https://github.com/PyAutoLabs/autolens_workspace/pull/185
+- repos: autolens_workspace
+- notes: Made the scaling-relation tier the cluster default. `scripts/cluster/simulator.py` now produces 10 lower-mass members on the truth relation `b0 = 0.3 * L^1.0` (luminosities log-spaced 0.05–0.40, `ra=0.1"`/`rs=10.0"` fixed across the tier), writing `scaling_galaxies.csv` via `al.galaxy_table_to_csv`. `modeling.py` consumes that CSV via `al.galaxy_table_from_csv`, composes a scaling tier whose per-member `b0` is a derived prior of shared `scaling_factor` (`UniformPrior(0, 1)`) and `scaling_exponent` (`UniformPrior(0, 2)`), and grows free-parameter count from 11 → 13 regardless of the population size. Pivotal scope decision: `start_here.py` was bundled into this PR via a full rewrite. The prior file was a stale group-scale extended-imaging copy referencing `extra_galaxies_centres.json` (file the simulator never writes) and `pixel_scales=0.05` (mismatch) — parked in `no_run.yaml`. Rewrote to mirror `modeling.py` (point-source, 13-param model) and unparked it; this subsumes the previously-Deferred "cluster/start_here.py rewrite" item in z_features. Mass-profile choice: `dPIEMassSph` for scaling members (matches main-tier cluster context) rather than the group example's `IsothermalSph`. JAX registration unchanged — scaling members reuse the `Galaxy / SersicSph / dPIEMassSph` classes already registered via `_lens_models`, so no new entries in `_registration_model`. Auto-sim guard tightened in both modeling.py and start_here.py to also check for `scaling_galaxies.csv`, so stale pre-change datasets get regenerated. Local simulator run on CPU confirmed both sources still produce 3 multiple images each at sensible positions. Smoke 6/7 — the 1 failure (`interferometer/modeling.py: nufftax not installed`) reproduces on canonical main and is unrelated. PR merged cleanly. Future work queued in `z_features/cluster_lensing.md`: cluster/3_test_workspace, /4_likelihood_function, /5_profiling — to be issued one at a time per [[feedback_no_bulk_issue_queues]].
+
 ## weak-visualization
 - issue: https://github.com/PyAutoLabs/PyAutoLens/issues/496
 - completed: 2026-05-18
