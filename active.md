@@ -1,12 +1,3 @@
-## likelihood-function-assertions
-- issue: https://github.com/PyAutoLabs/autolens_workspace_test/issues/102
-- session: claude --resume "likelihood-function-assertions"
-- status: workspace-dev
-- worktree: ~/Code/PyAutoLabs-wt/likelihood-function-assertions
-- repos:
-  - autolens_workspace_test: feature/likelihood-function-assertions
-  - autogalaxy_workspace_test: feature/likelihood-function-assertions
-
 ## smoke-test-optimization
 - issue: https://github.com/rhayes777/PyAutoFit/issues/1183
 - session: claude --resume "profile-smoke-test-runtime"

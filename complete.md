@@ -1,4 +1,10 @@
 
+## likelihood-function-assertions
+- issue: https://github.com/PyAutoLabs/autolens_workspace_test/issues/102
+- completed: 2026-05-18
+- workspace-pr: https://github.com/PyAutoLabs/autolens_workspace_test/pull/103, https://github.com/PyAutoLabs/autogalaxy_workspace_test/pull/50
+- notes: Added `__Likelihood Sanity__` regression-guard blocks before every Nautilus search in `_test`-workspace scripts that fit a pixelization source. Each block builds the prior-median instance, calls `analysis.log_likelihood_function`, reconstructs the fit via `analysis.fit_from`, and asserts `LLF == figure_of_merit != log_likelihood` plus `Fitness.call_wrap == figure_of_merit`. JIT scripts cover both CPU + JAX backends. Final scope (5 scripts) is narrower than the original prompt — MGE-source `modeling_visualization_jit.py` (singular) and all `autogalaxy_workspace_test/scripts/interferometer/*` are out of scope because they don't fit a pixelization and the `!=` guard would fail tautologically. Reconstruction uses `analysis.fit_from(instance)` directly rather than rebuilding `FitImaging` manually (the prompt's example was incomplete — missed `dataset_model` and `settings`). The sanity analysis is built without `positions_likelihood_list` so there's no `log_likelihood_penalty` to subtract. Local JAX validation hit a PyAutoGPU venv quirk (`Unknown backend cuda`); CPU branch validated end-to-end on both repos, autogalaxy `visualization.py` also validated under its smoke env-var overrides — both rectangular + Delaunay pixelization iterations PASS.
+
 ## subplot-fit-mid-zoom
 - issue: https://github.com/PyAutoLabs/PyAutoLens/issues/517
 - completed: 2026-05-18
