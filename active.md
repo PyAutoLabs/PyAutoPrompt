@@ -80,8 +80,10 @@
 ## light-profiles-guide
 - issue: https://github.com/PyAutoLabs/autogalaxy_workspace/issues/85
 - session: claude --resume "light-profiles-guide"
-- status: library-shipped, workspace-pending
-- library-pr: https://github.com/PyAutoLabs/PyAutoLens/pull/516
+- status: workspace-dev
+- library-pr: https://github.com/PyAutoLabs/PyAutoLens/pull/516 (merged)
 - worktree: ~/Code/PyAutoLabs-wt/light-profiles-guide
 - repos:
   - PyAutoLens: feature/light-profiles-guide
+  - autogalaxy_workspace: feature/light-profiles-guide
+  - autolens_workspace: feature/light-profiles-guide
