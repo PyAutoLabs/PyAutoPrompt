@@ -73,6 +73,11 @@
 - issue: https://github.com/Jammy2211/ic50_workspace/issues/1
 - session: claude --resume "ic50-graphical-fit"
 - status: workspace-dev
-- worktree: ~/Code/PyAutoLabs-wt/ic50-graphical-fit
 - repos:
+  - ic50_workspace: feature/ic50-graphical-fit
+- note: |
+    Works in the canonical checkout at z_projects/ic50_workspace — no worktree
+    because admin_jammy/software/worktree.sh expects top-level $PYAUTO_MAIN/<repo>
+    and cannot handle the z_projects/ nesting. Post-merge cleanup will be a plain
+    branch delete (no worktree_remove call).
 
