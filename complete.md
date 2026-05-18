@@ -1,4 +1,10 @@
 
+## subplot-fit-mid-zoom
+- issue: https://github.com/PyAutoLabs/PyAutoLens/issues/517
+- completed: 2026-05-18
+- library-pr: https://github.com/PyAutoLabs/PyAutoArray/pull/324, https://github.com/PyAutoLabs/PyAutoLens/pull/518
+- notes: Reshuffled the 12-panel `subplot_fit` / `subplot_fit_log10` layout: dropped "Data (Source Scale)", moved "Model Image" beside "Data", promoted "Source Plane (Zoomed)" → "Source Plane (Max Zoom)" to top right, added new "Source Plane (Mid Zoom)" panel. Mid Zoom uses 2× Max Zoom extent, kept square, uniformly shrunk so the half-width is `min(target, distance-to-nearest-No-Zoom-edge, 0.7 × No-Zoom-half)` — the 0.7 cap was added in iteration 3 because uniform shrinkage produced Mid Zoom ≡ No Zoom when the bright pixel was centred (parametric case). Threaded `zoom_extent_scale` kwarg through `Mapper.extent_from`, `plot_inversion_reconstruction`, `plot_mapper`, `_plot_source_plane`, `plane_image_from`. Pre-existing quirk: `Zoom2D.extent_from` returns pixel-shifted coords (centred at pixel ~39.5 not arcsec 0); workaround is to round-trip through `Grid2D.from_extent(...).geometry.extent` which extracts only the span. All defaults preserve behaviour (no API break). Smoke: 44/44 across autofit/autogalaxy/autolens/autolens_test/HowToLens.
+
 ## ic50-hpc-setup
 - issue: https://github.com/Jammy2211/ic50_workspace/issues/4
 - completed: 2026-05-18
