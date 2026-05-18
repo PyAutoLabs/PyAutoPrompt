@@ -79,3 +79,4 @@
 - status: workspace-dev
 - worktree: ~/Code/PyAutoLabs-wt/source-science-parametric
 - repos:
+  - autolens_workspace_developer: feature/source-science-parametric
