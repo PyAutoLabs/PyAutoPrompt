@@ -1,4 +1,11 @@
 
+## multipole-light-profiles
+- issue: https://github.com/PyAutoLabs/PyAutoGalaxy/issues/418
+- completed: 2026-05-18
+- library-pr: https://github.com/PyAutoLabs/PyAutoGalaxy/pull/420
+- docs-pr: https://github.com/PyAutoLabs/PyAutoLens/pull/515
+- notes: Library-only ship. Added `ag.lp.SersicMultipole` and `ag.lp.GaussianMultipole` (subclassing `Sersic` / `Gaussian` so `isinstance` checks still pass), both gated by `multipole_3_comps` / `multipole_4_comps` tuples that default to `(0.0, 0.0)` — verified by machine-precision parity tests against the base profiles. API matches `EllipseMultipole` / `PowerLawMultipole` convention. Shared `perturbed_radii_from` helper lives on `_LightProfileMultipoleMixin` (leading-underscore signals throwaway — to be replaced when the z_features generalisation lands). `image_2d_via_radii_from` overridden in both subclasses to accept a raw backend array since the perturbation step strips the autoarray wrapper; matched Aris's prototype pattern. `xp=np` threaded end-to-end. Decorator stack uses `@aa.decorators.to_array` / `@aa.decorators.transform` (the actual code path; `@aa.grid_dec.*` references in PyAutoGalaxy CLAUDE.md appear stale). 12 new unit tests cover zero-perturbation parity, m=3/m=4 rotational symmetry on a circular base, centre translation, nonzero-multipole diff, and finiteness+non-negativity under large perturbation. Companion docs-only PR on PyAutoLens (#515) mirrored the autosummary entries since PyAutoLens re-exports `autogalaxy.profiles.light.standard as lp`. Workspace priors + modeling example explicitly deferred to a follow-up prompt — `autogalaxy_workspace` was free but the user chose to bundle workspace work under a separate issue, and `autolens_workspace` was held by `cluster-modeling-v2` anyway. Conflict-guard worked as designed (caught autolens_workspace early).
+
 ## interferometer-extra-galaxies
 - issue: https://github.com/PyAutoLabs/autogalaxy_workspace/issues/81
 - completed: 2026-05-17
