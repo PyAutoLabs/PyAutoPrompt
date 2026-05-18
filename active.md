@@ -78,3 +78,14 @@
   - PyAutoLens: feature/subplot-fit-mid-zoom
   - PyAutoArray: feature/subplot-fit-mid-zoom
 
+## ic50-hpc-setup
+- issue: https://github.com/Jammy2211/ic50_workspace/issues/4
+- session: claude --resume "ic50-hpc-setup"
+- status: workspace-dev
+- repos:
+  - ic50_workspace: feature/ic50-hpc-setup
+- note: |
+    Works in the canonical checkout at z_projects/ic50_workspace — no worktree
+    (admin_jammy/software/worktree.sh can't manage z_projects/ nesting). See
+    [[reference_ic50_workspace_nonstandard]] for the full set of caveats.
+
