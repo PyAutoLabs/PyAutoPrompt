@@ -86,3 +86,4 @@
 - status: workspace-dev
 - worktree: ~/Code/PyAutoLabs-wt/cluster-scaling-members
 - repos:
+  - autolens_workspace: feature/cluster-scaling-members
