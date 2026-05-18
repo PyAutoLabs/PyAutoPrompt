@@ -60,3 +60,10 @@
       8. End-to-end library integration test
       (workspace) extend convolution.py + new convolution_oversampled.py + simulator.py
 
+
+## light-mass-profiles-guide
+- issue: https://github.com/PyAutoLabs/autolens_workspace/issues/180
+- session: claude --resume "light-mass-profiles-guide"
+- status: workspace-dev
+- worktree: ~/Code/PyAutoLabs-wt/light-mass-profiles-guide
+- repos:
