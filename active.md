@@ -66,3 +66,4 @@
 - status: library-dev
 - worktree: ~/Code/PyAutoLabs-wt/multipole-light-profiles
 - repos:
+  - PyAutoGalaxy: feature/multipole-light-profiles
