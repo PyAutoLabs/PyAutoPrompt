@@ -1,4 +1,10 @@
 
+## ic50-hpc-setup
+- issue: https://github.com/Jammy2211/ic50_workspace/issues/4
+- completed: 2026-05-18
+- workspace-pr: https://github.com/Jammy2211/ic50_workspace/pull/5
+- notes: Ported the HPC interface from `autolens_base_project/hpc/` to `z_projects/ic50_workspace`. New `hpc/` folder with 8 SLURM submit scripts (4 CPU + 4 GPU, one per entry point: `ep_sim`, `ep_real`, `graphical_sim`, `graphical_real`); real-data variants array-dispatch over `drugs=(1003 1073)` for failure isolation. CPU partition forces `JAX_PLATFORM_NAME=cpu` + OMP/MKL/OpenBLAS thread pinning to `$SLURM_CPUS_PER_TASK`; GPU partition lets JAX auto-pick the allocated device and runs `nvidia-smi`. Added `activate.sh` at workspace root with minimal PYTHONPATH (PyAutoConf + PyAutoFit only — IC50 doesn't import autoarray/galaxy/lens). Copied `sync` (560 LOC) verbatim from autolens_base_project; adapted `sync.conf.example` with `PROJECT_NAME=ic50_workspace`. CLAUDE.md gained an `## HPC runs` section. **`hpc/batch_*/output/.gitignore` placeholders had to be force-added** because the top-level `.gitignore`'s `output/` rule swallowed them — same convention autolens_base_project uses. **No notebook regeneration** (no scripts/*.py changed). No real HPC submission run this session — needs `cp hpc/sync.conf.example hpc/sync.conf` + edit + `hpc/sync push` to actually use. Out of scope: `sync_jump` (no build-server topology yet), `--use_cpu` / `--number_of_cores` argparse flags (env vars suffice; revisit if multi-core Dynesty matters later). Same z_projects/ caveats as the previous two ic50 PRs apply.
+
 ## ic50-graphical-fit
 - issue: https://github.com/Jammy2211/ic50_workspace/issues/1
 - completed: 2026-05-18
