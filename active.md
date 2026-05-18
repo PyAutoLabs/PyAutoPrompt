@@ -63,11 +63,19 @@
 ## multipole-light-profiles
 - issue: https://github.com/PyAutoLabs/PyAutoGalaxy/issues/418
 - session: claude --resume "multipole-light-profiles"
-- status: library-shipped, workspace-pending
+- status: library-shipped, workspace-deferred
 - worktree: ~/Code/PyAutoLabs-wt/multipole-light-profiles
 - library-pr: https://github.com/PyAutoLabs/PyAutoGalaxy/pull/420
+- docs-pr: https://github.com/PyAutoLabs/PyAutoLens/pull/515
 - repos:
   - PyAutoGalaxy: feature/multipole-light-profiles
+  - PyAutoLens: feature/multipole-light-profiles
+- summary: |
+    Library PR #420 (PyAutoGalaxy) adds SersicMultipole + GaussianMultipole +
+    docs/api autosummary entries. Companion docs-only PR #515 (PyAutoLens)
+    mirrors the autosummary entries. Workspace priors + modeling example
+    explicitly deferred to a separate follow-up prompt (per user direction).
+    Ready to merge once CI is green.
 
 ## cluster-modeling-v2
 - issue: https://github.com/PyAutoLabs/autolens_workspace/issues/174
