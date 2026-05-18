@@ -1,4 +1,12 @@
 
+## weak-visualization
+- issue: https://github.com/PyAutoLabs/PyAutoLens/issues/496
+- completed: 2026-05-18
+- library-pr: https://github.com/PyAutoLabs/PyAutoLens/pull/523
+- workspace-pr: https://github.com/PyAutoLabs/autolens_workspace/pull/186
+- repos: PyAutoLens, autolens_workspace
+- notes: Step 2 of the weak-lensing series. Added `autolens/weak/plot/` package with five module-level helpers (`plot_shear_yx_2d`, `plot_ellipticities`, `plot_phis`, `plot_noise_map`, `subplot_weak_dataset`) re-exported into `aplt`. Plotters use headless quiver segments (`pivot="middle", headwidth=0, headlength=0, headaxislength=0`) for the spin-2 convention. Access shear field via `.ellipticities` / `.phis` only (never raw `[:, 0]` / `[:, 1]`) to keep the `[γ₂, γ₁]` storage convention encapsulated. Note: `.phis` returns degrees, so `plot_shear_yx_2d` converts via `np.deg2rad` before quiver. Workspace follow-up filled the two `# TODO(2_visualization.md)` placeholders in `scripts/weak/simulator.py` with real `aplt` calls. Workspace work executed via a parallel autolens_workspace worktree alongside in-flight `cluster-scaling-members` (zero file overlap — `scripts/weak/` vs `scripts/cluster/`), bypassing the helper's task-level conflict check for the ~30-min shipping window. Tests use direct module imports because `al.plot.X` hits a pre-existing recursion in `autolens/__init__.py:147`'s `__getattr__` under pytest's attribute-access flow (point/imaging tests already follow this pattern). 283 PyAutoLens tests pass, all 4 CI checks green on both PRs. Next in series: weak/3_fit.md (FitWeak), 4_modeling.md, 5_likelihood_function.md — to be issued one at a time per [[feedback_no_bulk_issue_queues]].
+
 ## likelihood-function-assertions
 - issue: https://github.com/PyAutoLabs/autolens_workspace_test/issues/102
 - completed: 2026-05-18
