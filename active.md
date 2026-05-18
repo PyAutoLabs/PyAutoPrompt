@@ -66,3 +66,4 @@
 - status: library-dev
 - worktree: ~/Code/PyAutoLabs-wt/light-profiles-guide
 - repos:
+  - PyAutoLens: feature/light-profiles-guide
