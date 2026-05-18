@@ -72,15 +72,6 @@
 - repos:
   - autolens_workspace_developer: feature/source-science-parametric
 
-## weak-visualization
-- issue: https://github.com/PyAutoLabs/PyAutoLens/issues/496
-- session: claude --resume "weak-visualization"
-- status: library-shipped, workspace-pending
-- library-pr: https://github.com/PyAutoLabs/PyAutoLens/pull/523
-- worktree: ~/Code/PyAutoLabs-wt/weak-visualization
-- repos:
-  - PyAutoLens: feature/weak-visualization
-
 ## cluster-scaling-members
 - issue: https://github.com/PyAutoLabs/autolens_workspace/issues/184
 - session: claude --resume "cluster-scaling-members"
@@ -88,12 +79,3 @@
 - worktree: ~/Code/PyAutoLabs-wt/cluster-scaling-members
 - repos:
   - autolens_workspace: feature/cluster-scaling-members
-
-## ep-profiling-breakdown
-- issue: https://github.com/Jammy2211/ic50_workspace/issues/6
-- session: claude --resume "ep-profiling-breakdown"
-- status: workspace-dev
-- repos:
-  - ic50_workspace: feature/ep-profiling-breakdown
-- note: |
-    z_projects/ic50_workspace — no worktree (see [[reference_ic50_workspace_nonstandard]]).
