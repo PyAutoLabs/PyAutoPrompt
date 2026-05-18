@@ -75,7 +75,8 @@
 ## weak-visualization
 - issue: https://github.com/PyAutoLabs/PyAutoLens/issues/496
 - session: claude --resume "weak-visualization"
-- status: library-dev
+- status: library-shipped, workspace-pending
+- library-pr: https://github.com/PyAutoLabs/PyAutoLens/pull/523
 - worktree: ~/Code/PyAutoLabs-wt/weak-visualization
 - repos:
   - PyAutoLens: feature/weak-visualization
