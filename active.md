@@ -1,18 +1,3 @@
-## multipole-light-profiles-linear
-- issue: https://github.com/PyAutoLabs/PyAutoGalaxy/issues/418 (follow-up — no separate issue)
-- session: claude --resume "multipole-light-profiles-linear"
-- status: library-dev
-- worktree: ~/Code/PyAutoLabs-wt/multipole-light-profiles-linear
-- repos:
-  - PyAutoGalaxy: feature/multipole-light-profiles-linear
-  - PyAutoLens: feature/multipole-light-profiles-linear
-- summary: |
-    Follow-up to #418: (1) refactor standard/multipole.py into separate
-    sersic_multipole.py + gaussian_multipole.py modules with a shared
-    _multipole_mixin.py, (2) add linear variants under
-    autogalaxy/profiles/light/linear/ exposed via ag.lp_linear.*,
-    (3) update docs/api/light.rst Linear section in PyAutoGalaxy + PyAutoLens.
-
 ## smoke-test-optimization
 - issue: https://github.com/rhayes777/PyAutoFit/issues/1183
 - session: claude --resume "profile-smoke-test-runtime"
