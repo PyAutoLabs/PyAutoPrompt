@@ -4,6 +4,8 @@
 - status: workspace-dev
 - worktree: ~/Code/PyAutoLabs-wt/likelihood-function-assertions
 - repos:
+  - autolens_workspace_test: feature/likelihood-function-assertions
+  - autogalaxy_workspace_test: feature/likelihood-function-assertions
 
 ## smoke-test-optimization
 - issue: https://github.com/rhayes777/PyAutoFit/issues/1183
