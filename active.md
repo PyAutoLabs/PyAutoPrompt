@@ -60,3 +60,9 @@
       8. End-to-end library integration test
       (workspace) extend convolution.py + new convolution_oversampled.py + simulator.py
 
+## light-profiles-guide
+- issue: https://github.com/PyAutoLabs/autogalaxy_workspace/issues/85
+- session: claude --resume "light-profiles-guide"
+- status: library-dev
+- worktree: ~/Code/PyAutoLabs-wt/light-profiles-guide
+- repos:
