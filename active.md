@@ -85,3 +85,4 @@
 - status: workspace-dev
 - worktree: ~/Code/PyAutoLabs-wt/mass-profiles-guide
 - repos:
+  - autolens_workspace: feature/mass-profiles-guide
