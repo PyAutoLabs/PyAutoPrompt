@@ -69,3 +69,10 @@
   - PyAutoLens: feature/subplot-fit-mid-zoom
   - PyAutoArray: feature/subplot-fit-mid-zoom
 
+## ic50-graphical-fit
+- issue: https://github.com/Jammy2211/ic50_workspace/issues/1
+- session: claude --resume "ic50-graphical-fit"
+- status: workspace-dev
+- worktree: ~/Code/PyAutoLabs-wt/ic50-graphical-fit
+- repos:
+
