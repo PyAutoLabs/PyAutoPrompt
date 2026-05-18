@@ -72,3 +72,10 @@
 - repos:
   - autolens_workspace_developer: feature/source-science-parametric
 
+## weak-fit
+- issue: https://github.com/PyAutoLabs/PyAutoLens/issues/524
+- session: claude --resume "weak-fit"
+- status: library-dev
+- worktree: ~/Code/PyAutoLabs-wt/weak-fit
+- repos:
+
