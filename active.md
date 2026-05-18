@@ -63,8 +63,9 @@
 ## multipole-light-profiles
 - issue: https://github.com/PyAutoLabs/PyAutoGalaxy/issues/418
 - session: claude --resume "multipole-light-profiles"
-- status: library-dev
+- status: library-shipped, workspace-pending
 - worktree: ~/Code/PyAutoLabs-wt/multipole-light-profiles
+- library-pr: https://github.com/PyAutoLabs/PyAutoGalaxy/pull/420
 - repos:
   - PyAutoGalaxy: feature/multipole-light-profiles
 
