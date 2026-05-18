@@ -3523,3 +3523,10 @@
     with a documented chi^2 caveat (rotated mesh delivers ~2x effective
     resolution per real peak, so under-smooths at fixed regularization;
     real lens-modelling search would tune coefficient per mesh).
+
+## cluster-modeling-v2
+- issue: https://github.com/PyAutoLabs/autolens_workspace/issues/174
+- completed: 2026-05-18
+- workspace-pr: https://github.com/PyAutoLabs/autolens_workspace/pull/175
+- repos: autolens_workspace
+- notes: Re-do of the failed cluster-csv-redshifts retroactive log from 2026-05-06 (the verifier had seen `al.list_from_csv` at modeling.py:143 but missed it was inside a docstring example). Full rewrite of scripts/cluster/modeling.py to pair to the multi-plane simulator: load via `al.list_from_csv` so per-source `dataset.redshift` is the real code path; load `main_lens_centres.json` + `host_halo_centre.json` (drops defunct `extra_galaxies_*` JSONs); compose 2 `dPIEMassSph` mains (centres fixed, ra/rs/b0 free), 1 `NFWMCRLudlowSph` host halo galaxy (free mass_at_200, redshift_source anchored to max source z), 2 `Point` source galaxies whose redshifts come from `dataset.redshift`; switch `search.fit` to the factor-graph pattern (returns `result_list`, fixes the latent `result_list[0]` reference). Auto-sim guard tightened from `dataset_path.exists()` to `(dataset_path / "data.fits").exists()` — the dataset dir already held viz-prototype PNGs from autolens_workspace_test#75, which made the old guard silently skip simulator regeneration. Latent `aplt.subplot_tracer(grid=result.grids.lp)` bug fixed (AnalysisPoint's PointDataset has no `.grids`). Removed `cluster/modeling` from `config/build/no_run.yaml` (kept `cluster/start_here` parked — separate follow-up). Smoke 7/7 green. Out of scope (each its own future prompt): broader lens/source CSV API mirroring `al.galaxy_table_from_csv`; `start_here.py` rewrite; scaling-relation cluster members + simulator extension; library-side `aplt` plotter promotion from the viz prototype.

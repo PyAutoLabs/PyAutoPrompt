@@ -77,10 +77,3 @@
     explicitly deferred to a separate follow-up prompt (per user direction).
     Ready to merge once CI is green.
 
-## cluster-modeling-v2
-- issue: https://github.com/PyAutoLabs/autolens_workspace/issues/174
-- session: claude --resume "cluster-modeling-v2"
-- status: workspace-dev
-- worktree: ~/Code/PyAutoLabs-wt/cluster-modeling-v2
-- repos:
-  - autolens_workspace: feature/cluster-modeling-v2
