@@ -66,4 +66,5 @@
 - status: workspace-dev
 - worktree: ~/Code/PyAutoLabs-wt/cluster-likelihood-function
 - repos:
+  - autolens_workspace: feature/cluster-likelihood-function
 
