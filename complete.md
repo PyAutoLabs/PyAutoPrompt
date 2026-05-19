@@ -1,4 +1,11 @@
 
+## cluster-likelihood-function
+- issue: https://github.com/PyAutoLabs/autolens_workspace/issues/190
+- completed: 2026-05-19
+- workspace-pr: https://github.com/PyAutoLabs/autolens_workspace/pull/191
+- repos: autolens_workspace
+- notes: Added `scripts/cluster/likelihood_function.py` (~780 lines) — step-by-step walkthrough of the cluster point-source log-likelihood for the standard cluster model (lenses at z=0.5, sources at z=1.0 and z=2.0). Source-plane chi² (`FitPositionsSource`) section explains multi-plane recursive lens equation + cosmological scaling factors + magnification weighting; image-plane chi² (`FitPositionsImagePair`) section explains the PointSolver forward-solve + Hungarian-algorithm pairing + the three pairing schemes (Pair / PairAll / PairRepeat) + the too-many / too-few image pathology. Both flavours validated to match the library log likelihoods exactly. Granularity locked via AskUserQuestion upfront per the prompt's "I will refine with you" instruction — black-box API calls but with full physical/mathematical explanation; TODO comment placed for a future dedicated triangle-solver guide. API surprises encountered: (a) `tracer.deflections_between_planes_from(plane_j=intermediate)` gives wrong source-plane positions for non-final source planes; library uses `traced_grid_2d_list_from(grid)[plane_index]` instead, switched to that. (b) Magnification per source uses `ag.LensCalc.from_tracer(tracer, use_multi_plane=True, plane_j=...)`, not a method directly on `Tracer`. (c) `solver.solve(...)` needs explicit `plane_redshift=dataset.redshift` for multi-plane sources or it assumes the last plane. (d) Library pairing is Hungarian (linear sum assignment via scipy), not greedy. The truth-model chi² is ~8e7 not zero — confirmed the precision-floor finding documented in cluster-test-workspace #105's likelihood_sanity.py.
+
 ## cluster-test-workspace
 - issue: https://github.com/PyAutoLabs/autolens_workspace_test/issues/104
 - completed: 2026-05-19

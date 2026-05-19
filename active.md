@@ -60,11 +60,4 @@
       8. End-to-end library integration test
       (workspace) extend convolution.py + new convolution_oversampled.py + simulator.py
 
-## cluster-likelihood-function
-- issue: https://github.com/PyAutoLabs/autolens_workspace/issues/190
-- session: claude --resume "cluster-likelihood-function"
-- status: workspace-dev
-- worktree: ~/Code/PyAutoLabs-wt/cluster-likelihood-function
-- repos:
-  - autolens_workspace: feature/cluster-likelihood-function
 
