@@ -1,4 +1,11 @@
 
+## mge-source-truth-tests
+- issue: https://github.com/PyAutoLabs/autolens_workspace_developer/issues/72 (follow-up; #72 closed by PR #73)
+- completed: 2026-05-19
+- workspace-pr: https://github.com/PyAutoLabs/autolens_workspace_developer/pull/75
+- repos: autolens_workspace_developer
+- notes: Tests 3+4 in the source-science series. Flipped which source class is "matched to truth" relative to PR #74: use an MGE source truth extracted from the test-2 mge_source MLE (via new `source_science/extract_mge_truth.py`) instead of the SersicCore truth used in tests 1+2. Key findings: (a) test 3 (MGE truth + lens light) shows the MGE+MGE catastrophe is WORSE on MGE truth than on Sersic truth — source flux 7× truth vs 2× in test 1, magnitude bias -2.12 mag vs -0.77 — falsifying any "MGE is fine if you match its truth" intuition; (b) the Sersic-source robustness from test 1 evaporates when truth is MGE + lens light is present, hitting -13% to -26% magnification bias; (c) test 4 (MGE truth, no lens light) recovers magnification at ~5% for both Sersic AND MGE source fits, confirming the "no lens light is easy" regime; (d) but MGE+MGE no-lens-light has +15% source-flux and +10% image-plane-flux bias — a basis-internal MGE degeneracy distinct from lens-light absorption. The cleaner thesis emerging from tests 1-4 together: "Without lens light, magnification is robust to source-class mismatch (~4-5% across all combinations). With lens light, source-model mismatch creates significant bias; MGE source + MGE lens light is the catastrophic combination." Built two new cross-experiment plots: `test3_vs_test4_mge_source.png` (mirrors PR #74's headline for MGE truth) and `matched_vs_mismatched_2x2.png` (2x2 grid summarising every truth_class × lens_light combination). Latter required re-running tests 1+2 fits in this worktree since v3 cache was lost after PR #74 cleanup. Gotchas: `samples.draw_randomly_via_pdf` floating-point bug already documented in PR #74's notes (bypass via `_draw_indices_from_pdf` in visualize.py). For the next study (lens-config-robustness), the user wants to test 2 more lens setups + MGE-lens-light truth tests at the existing config — moved to GPU to keep compute tractable.
+
 ## cluster-likelihood-function
 - issue: https://github.com/PyAutoLabs/autolens_workspace/issues/190
 - completed: 2026-05-19
