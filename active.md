@@ -1,3 +1,10 @@
+## multipole-scaled-jax
+- issue: https://github.com/PyAutoLabs/PyAutoGalaxy/issues/426
+- session: claude --resume "multipole-scaled-jax"
+- status: library-dev
+- worktree: ~/Code/PyAutoLabs-wt/multipole-scaled-jax
+- repos:
+
 ## smoke-test-optimization
 - issue: https://github.com/rhayes777/PyAutoFit/issues/1183
 - session: claude --resume "profile-smoke-test-runtime"
