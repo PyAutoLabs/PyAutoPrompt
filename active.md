@@ -66,6 +66,7 @@
 - status: workspace-dev
 - worktree: ~/Code/PyAutoLabs-wt/cluster-test-workspace
 - repos:
+  - autolens_workspace_test: feature/cluster-test-workspace
 
 
 
