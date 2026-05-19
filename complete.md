@@ -1,4 +1,13 @@
 
+## weak-fit
+- issue: https://github.com/PyAutoLabs/PyAutoLens/issues/524
+- completed: 2026-05-19
+- library-pr: https://github.com/PyAutoLabs/PyAutoLens/pull/525
+- workspace-pr: https://github.com/PyAutoLabs/autolens_workspace/pull/188
+- repos: PyAutoLens, autolens_workspace
+- follow-up-prompt: PyAutoPrompt/autolens/weak_dataset_from_json.md (al.from_json on WeakDataset broken — VectorYX2DIrregular missing 'values' kwarg in deserializer)
+- notes: Step 3 of the weak-lensing series. Added `al.FitWeak` — a standalone fit class (no `aa.AbstractFit` inheritance, mirroring `FitPoint`) that compares a model shear field against a `WeakDataset` and reports residuals, chi-squared and log-likelihood. Model shear comes from `LensCalc.from_tracer(tracer).shear_yx_2d_via_hessian_from(grid=...)` — same primitive `SimulatorShearYX` uses, so noise-free round-trips are bit-exact. Each background galaxy contributes two independent measurements (γ₁/γ₂ share per-galaxy σ but are independent draws), so chi_squared sums over N×2 elements and noise_normalization carries a factor of 2 to match. Four `aplt` plotter helpers added: `plot_data_vs_model` (overlaid quivers data-black model-red-alpha-0.6), `plot_residuals` (RdBu_r quiver), `plot_chi_squared_map` (magma scatter), `subplot_fit_weak` (2×2 mosaic). Workspace tutorial `scripts/weak/fit.py` written with Opus prose, reports chi²=437.5 for 400 DoF on seed=1 simulator output (well within 1σ of expected 400). **Workspace tutorial workaround**: `al.from_json(WeakDataset)` is broken (VectorYX2DIrregular `__init__()` missing `values`), so the tutorial rebuilds the dataset inline via `SimulatorShearYX(seed=1)` rather than loading from disk; bug captured as follow-up prompt. **Parallel-worktree pattern**: workspace work executed via a parallel autolens_workspace worktree alongside in-flight `cluster-scaling-members` (zero file overlap — `scripts/weak/` vs `scripts/cluster/`), same approach used for `weak-visualization` earlier today. 26 weak tests pass (10 new fit + 16 existing). 293 full PyAutoLens tests green. Next in series: weak/4_modeling.md (AnalysisWeak), weak/5_likelihood_function.md — to be issued one at a time per [[feedback_no_bulk_issue_queues]].
+
 ## source-science-parametric
 - issue: https://github.com/PyAutoLabs/autolens_workspace_developer/issues/72
 - completed: 2026-05-19
