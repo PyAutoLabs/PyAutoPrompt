@@ -1,4 +1,12 @@
 
+## cluster-csv-api
+- issue: https://github.com/PyAutoLabs/autolens_workspace/issues/187
+- completed: 2026-05-19
+- library-pr: https://github.com/PyAutoLabs/PyAutoGalaxy/pull/428, https://github.com/PyAutoLabs/PyAutoLens/pull/526
+- workspace-pr: https://github.com/PyAutoLabs/autolens_workspace/pull/189
+- repos: PyAutoGalaxy, PyAutoLens, autolens_workspace
+- notes: Made CSV the first-class API for cluster lens modelling. Added `autogalaxy/galaxy/galaxy_model_csv.py` with `GalaxyModelRow` / `GalaxyModelTable` dataclasses and four public functions — `galaxy_models_to_csv`, `galaxy_models_from_csv`, `galaxies_from_csv_tables`, `galaxy_af_models_from_csv_tables` — re-exported under `ag.*` and `al.*`. Schema: one CSV per profile family (`mass.csv` / `light.csv` / `point.csv`), each row carries `galaxy` + `attr_name` + `profile_class` + sparse parameter columns + optional `redshift`. Profile-class dispatch via `getattr` against `autogalaxy.profiles.{mass,light.standard,point_sources}`. Tuple params: `centre` splits into `y, x` (precedent from `galaxy_table.py`); other tuples (e.g. `ell_comps`) into `<name>_0` / `<name>_1`. Workspace consumption: new pedagogical `scripts/cluster/csv_api.py` walks through every cluster CSV end to end; `simulator.py` writes the truth model as the three family CSVs (drops the per-tier JSON centre files entirely); `modeling.py` and `start_here.py` compose `af.Model[Galaxy]` directly from `al.galaxy_af_models_from_csv_tables` and mutate selected params into priors. Scaling-tier `scaling_galaxies.csv` deliberately kept on its legacy 3-column schema. Source centre priors deliberately initialised from observed-position mean (not CSV truth). Writer-side family-validation guard added after a bug surfaced while writing `csv_api.py` (passing a light profile under `family="mass"` silently wrote malformed rows). Discovered while in flight: PyAutoLens CI clones sibling repos from main, so the PR pair needs a re-trigger after PyAutoGalaxy merges before PyAutoLens checks turn green. Smoke 7/7 on autolens_workspace, 9 PyAutoGalaxy library tests cover single-family + sparse-column + cross-family-join + af.Model + redshift-consistency + class-not-found + wrong-family-rejection. Future work queued in `z_features/cluster_lensing.md`: cluster/3_test_workspace, /4_likelihood_function, /5_profiling.
+
 ## multipole-scaled-jax
 - issue: https://github.com/PyAutoLabs/PyAutoGalaxy/issues/426
 - completed: 2026-05-14
