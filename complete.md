@@ -1,4 +1,11 @@
 
+## cluster-point-tuple-prior
+- issue: (CI-triage cluster, no GitHub issue)
+- completed: 2026-05-20
+- library-pr: https://github.com/PyAutoLabs/PyAutoGalaxy/pull/429
+- repos: PyAutoGalaxy
+- notes: Triaged from a CI bug cluster — `cluster/start_here.py` and `cluster/modeling.py` crashed with `TypeError: Point.__init__() got an unexpected keyword argument 'centre_0'`. Root cause was upstream of `Point`: `galaxy_af_models_from_csv_tables` built each `af.Model` via `af.Model(cls, **params)`, and PyAutoFit's `PriorModel.__init__` (`prior_model.py:144-156`) only takes the TuplePrior auto-create branch for tuple values that arrive via *defaults*, not *kwargs* — so a tuple-valued `centre` in `kwargs` was stored as a raw tuple attribute on the model. Subsequent `model.centre_0 = af.GaussianPrior(...)` then hit `PriorModel.__setattr__`'s "look up a TuplePrior named `centre` and delegate" branch (lines 386-395), failed the lookup, and fell through to `super().__setattr__`, creating ghost direct `centre_0`/`centre_1` attributes alongside the raw `centre` tuple. At sample time `_instance_for_arguments` packed all three into one `cls(**kwargs)` call → TypeError. Fix: construct `af.Model(cls)` first so the TuplePrior auto-create branch fires, then `setattr(model, f"{name}_{i}", component)` for each tuple param. Scalar params unchanged. Hidden risk worth flagging: both crashing scripts are in `PyAutoBuild/.../no_run.yaml:32-33`, so the release-build sweep skips them — that's almost certainly why this regression survived the cluster-CSV API rollout. Same foot-gun would have hit any other CSV-built profile with tuple params (e.g. `mass.centre_0 = prior`); the producer-side fix closes the whole class. Regression test in `test_galaxy_model_csv.py` exercises the failing pattern end-to-end (CSV → af.Model → centre_0/1 GaussianPrior → instance_from_unit_vector). Full PyAutoGalaxy suite green (922/922). Manually re-ran both cluster scripts under PYAUTO_TEST_MODE=2 from the worktree — both complete cleanly.
+
 ## drawer-jax-fom-coerce
 - issue: (chat-reported, no GitHub issue)
 - completed: 2026-05-20
