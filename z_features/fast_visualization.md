@@ -106,7 +106,28 @@ through because the existing `modeling_visualization_jit*.py` scripts in
 assert that the **rendered images are non-trivial**. Adding three asserts
 per script would have caught the regression locally before HPC.
 
-**Prompt file:** `autolens_workspace_test/end_to_end_jax_viz_assertions.md` (to author)
+**Block style — mirror `__Likelihood Sanity__`.** The project adopted the
+inline `__Likelihood Sanity__` regression-net pattern on 2026-05-18
+(`autolens_workspace_test#102/103`, `autogalaxy_workspace_test#50`). Each
+guard block sits inline in the script before the Nautilus search, builds the
+prior-median instance, calls the relevant analysis/fit methods, asserts the
+expected invariant, and runs on **both** numpy and JAX backends. Phase D
+adds parallel `__Visualization Sanity__` blocks following the same shape —
+same file, same style, sibling header. The two block families catch
+complementary bug classes: `__Likelihood Sanity__` catches
+`figure_of_merit` vs `log_likelihood` regressions (PR #504 family);
+`__Visualization Sanity__` catches all-zero-source / collapsed-source /
+unconstrained-latent regressions (2026-05-16 Euclid family).
+
+**Sequencing note.** Phase D's pilot (one `__Visualization Sanity__` block
+on the imaging case, paired with the Phase A config flip) should ship
+**before** the Phase D rollout sweep across all scripts. That way the
+regression net is live in at least one place when the config flips, and a
+single failure surfaces immediately.
+
+**Prompt files:**
+- `autolens_workspace_test/end_to_end_jax_viz_pilot.md` (paired with Phase A library PR — to author)
+- `autolens_workspace_test/end_to_end_jax_viz_rollout.md` (the sweep — to author after pilot ships)
 
 For every `modeling_visualization_jit*.py` and `visualization_jax*.py` across
 both workspace_test repos, append assertions of the form:
@@ -244,21 +265,51 @@ etc. — will be verified against the current `FitEllipse` API when the prompt
 is authored; the principle is "the per-perimeter array that drives the chi²
 is non-zero and finite.")
 
-### Coverage audit (as of 2026-05-17)
+#### Weak lensing (`AnalysisWeak` → `FitWeak`)
+
+**New dataset type added 2026-05-18** (PyAutoLens #523 / #525). The model is
+a per-galaxy shear catalogue; the fit predicts (γ₁, γ₂) at each source-galaxy
+position from the lens mass model. Failure modes: shear field collapses to
+zero (mass model deflections evaluated as zero — analogue of the imaging
+all-zero-source bug), or model shear is NaN (JAX trace through hessian-
+derived shear losing tracer values).
+
+```python
+fit = result.max_log_likelihood_fit
+gamma_pred = np.asarray(fit.model_shear)  # (N, 2) — (γ₁, γ₂) per source position
+gamma_obs  = np.asarray(fit.dataset.shear)
+assert gamma_pred.shape == gamma_obs.shape, "model shear shape mismatch"
+assert np.isfinite(gamma_pred).all(), "model shear has nan/inf"
+assert float(np.abs(gamma_pred).sum()) > 0.0, "model shear all-zero — deflections collapsed"
+
+# Lensing-side latents still apply — same Tracer machinery.
+tracer = result.max_log_likelihood_tracer
+er = tracer.einstein_radius_via_zero_contour_from()
+assert np.isfinite(er) and er > 0, "einstein_radius latent unconstrained"
+```
+
+(Exact attribute names — `fit.model_shear` vs `fit.shear_yx_2d` — will be
+verified against the current `FitWeak` API at prompt-authoring time. The
+principle: the predicted-shear array driving the chi² is non-zero, finite,
+and shape-matches the observed catalogue.)
+
+### Coverage audit (as of 2026-05-20)
 
 | Dataset | autolens_workspace_test | autogalaxy_workspace_test | Gap |
 |---|---|---|---|
-| Imaging | ✓ `modeling_visualization_jit.py` + `_delaunay` + `_rectangular` + `visualization_jax.py` | ✓ `modeling_visualization_jit.py` + `visualization_jax.py` | needs assertions |
-| Interferometer | ✓ `modeling_visualization_jit.py` + `visualization_jax.py` | ✓ `modeling_visualization_jit.py` + `visualization_jax.py` | needs assertions |
-| Point source | ✓ `modeling_visualization_jit.py` + `visualization_jax.py` | n/a | needs assertions |
-| Quantity | n/a | ✓ `visualization_jax.py` only | **needs `modeling_visualization_jit.py`** + assertions |
-| Ellipse | n/a | **missing both** | **needs both scripts** + assertions |
+| Imaging | ✓ `modeling_visualization_jit.py` + `_delaunay` + `_rectangular` + `visualization_jax.py` | ✓ `modeling_visualization_jit.py` + `visualization_jax.py` | needs `__Visualization Sanity__` |
+| Interferometer | ✓ `modeling_visualization_jit.py` + `visualization_jax.py` | ✓ `modeling_visualization_jit.py` + `visualization_jax.py` | needs `__Visualization Sanity__` |
+| Point source | ✓ `modeling_visualization_jit.py` + `visualization_jax.py` | n/a | needs `__Visualization Sanity__` |
+| Quantity | n/a | ✓ `visualization_jax.py` only | **needs `modeling_visualization_jit.py`** + `__Visualization Sanity__` |
+| Ellipse | n/a | **missing both** | **needs both scripts** + `__Visualization Sanity__` |
+| **Weak lensing** | **missing both** *(new dataset type — PyAutoLens #523/#525, 2026-05-18)* | n/a (lens-only) | **needs both scripts** + `__Visualization Sanity__` |
 
-Two real coverage gaps:
-1. `autogalaxy_workspace_test/scripts/ellipse/modeling_visualization_jit.py` + `visualization_jax.py` — to author.
-2. `autogalaxy_workspace_test/scripts/quantity/modeling_visualization_jit.py` — to author.
+Coverage gaps to author from scratch:
+1. `autogalaxy_workspace_test/scripts/ellipse/modeling_visualization_jit.py` + `visualization_jax.py`
+2. `autogalaxy_workspace_test/scripts/quantity/modeling_visualization_jit.py`
+3. `autolens_workspace_test/scripts/weak/modeling_visualization_jit.py` + `visualization_jax.py`
 
-Both should land alongside the assertions sweep on existing scripts.
+All land in Phase D rollout alongside the assertions sweep on existing scripts.
 
 ## Phase E (longer-term, optional) — Pytree-register `ModelInstance` cascade
 
