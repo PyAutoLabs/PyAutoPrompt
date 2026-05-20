@@ -1,4 +1,12 @@
 
+## many-vis-prep-dft
+- issue: (CI-triage cluster G, no GitHub issue)
+- completed: 2026-05-20
+- workspace-pr: https://github.com/PyAutoLabs/autogalaxy_workspace/pull/90
+- library-followup-issue: https://github.com/PyAutoLabs/PyAutoArray/issues/326
+- repos: autogalaxy_workspace
+- notes: Cluster G triage flagged three interferometer failures under the new nufftax-backed `TransformerNUFFT`. Investigation showed only one was a workspace-side issue: `autogalaxy_workspace/scripts/interferometer/features/pixelization/many_visibilities_preparation.py` was the lone outlier in its folder still passing `transformer_class=ag.TransformerNUFFT` and then calling `apply_sparse_operator`, which raises `NotImplementedError` under the new transformer (deliberate guard at `PyAutoArray/autoarray/dataset/interferometer/dataset.py:261-282`; nufftax's strict adjoint has a different absolute scale from the dirty image the sparse-operator solver was built against). Every sibling script in the folder (`modeling.py:194`, `fit.py:172/472`, `source_science.py:69`) and the parallel `autolens_workspace` script (`many_visibilities_preparation.py:101`) already used `TransformerDFT` — confirming DFT+sparse is the canonical pairing, NUFFT was never intended for the sparse path. One-line fix: `ag.TransformerNUFFT` → `ag.TransformerDFT` at line 87. Smoke: 6/6 passed; script writes `nufft_precision_operator_3.0.npy` end-to-end in test mode. The other two Cluster G failures (`autolens_workspace_test/scripts/interferometer/nufft.py` 5-px round-trip offset; `dataset_model_parity_delaunay.py` Delaunay parity, script self-comment "THIS IS THE BUG THE FIX TARGETS") are library-side gaps in the new adjoint's scale/grid-origin convention — filed as PyAutoArray#326 ("Complete the TransformerNUFFT migration"). Gotcha worth flagging: this task pre-dated the `/start_dev` flow so it never got an `active.md` entry; logged here post-hoc.
+
 ## fast-plots-env-coverage
 - issue: (CI-triage cluster A, no GitHub issue)
 - completed: 2026-05-20
