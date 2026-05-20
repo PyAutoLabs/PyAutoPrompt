@@ -60,3 +60,41 @@
       8. End-to-end library integration test
       (workspace) extend convolution.py + new convolution_oversampled.py + simulator.py
 
+## grid-respect-small-datasets
+- session: claude (cluster-h triage verification)
+- status: library-shipped, workspace-pending
+- location: cli-in-progress
+- worktree: ~/Code/PyAutoLabs-wt/grid-respect-small-datasets
+- branch: feature/grid-respect-small-datasets
+- library-pr:
+    PyAutoArray: https://github.com/PyAutoLabs/PyAutoArray/pull/327
+    PyAutoGalaxy: https://github.com/PyAutoLabs/PyAutoGalaxy/pull/431
+- repos:
+    PyAutoArray: feature/grid-respect-small-datasets
+    PyAutoGalaxy: feature/grid-respect-small-datasets
+    autolens_workspace_test: feature/grid-respect-small-datasets
+- summary: |
+    Cluster H triage said cluster/visualization.py was failing due to a simulator
+    regression or LensCalc multi-plane plumbing bug. Verification on clean main
+    showed both diagnoses were wrong: simulator.py passes, mass.csv exists, host
+    halo is the expected 10^15.3 M_sun NFW, and LensCalc returns the right curve
+    when given a grid of adequate extent.
+
+    Real root cause: PYAUTO_SMALL_DATASETS=1 shrinks any Grid2D.uniform >15x15
+    to (15, 15) @ 0.6" (≈8" extent). The visualization.py viz_grid AND the
+    internal evaluation grid built by PyAutoGalaxy's @evaluation_grid decorator
+    both got shrunk well inside the cluster's tangential critical curve, so
+    LensCalc.tangential_critical_curve_list_from silently returned [].
+
+    Fix:
+      - PyAutoArray: new `respect_small_datasets: bool = True` kwarg on
+        Grid2D.uniform (default preserves existing behaviour).
+      - PyAutoGalaxy: evaluation_grid decorator passes
+        respect_small_datasets=False on its internal Grid2D.uniform call.
+      - autolens_workspace_test: viz_grid in cluster/visualization.py passes
+        respect_small_datasets=False (one-line comment explains why).
+
+    Merge order: PyAutoArray PR must merge before PyAutoGalaxy PR (PyAutoGalaxy
+    test + code call the new kwarg). Workspace ships via /ship_workspace after
+    both library PRs merge.
+
