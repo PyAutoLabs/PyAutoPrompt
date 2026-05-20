@@ -1,3 +1,22 @@
+## move-basis-regularization-to-developer
+- status: workspace-in-progress
+- location: cli-in-progress
+- worktree: ~/Code/PyAutoLabs-wt/move-basis-regularization-to-developer
+- branch: feature/move-basis-regularization-to-developer
+- repos:
+  - autolens_workspace
+  - autogalaxy_workspace
+  - autolens_workspace_developer
+- summary: |
+    Move the regularized-Basis section out of the user-facing MGE +
+    shapelets modeling.py scripts in autolens_workspace and
+    autogalaxy_workspace into a new autolens_workspace_developer/
+    basis_regularization/ folder. Removes a smoke-run crash
+    (autofit FitException → PyAutoArray empty mapper_indices) without
+    touching library code; the feature was already documented in those
+    scripts as "Advanced / Unused" and not used by any production
+    scientific analysis.
+
 ## smoke-test-optimization
 - issue: https://github.com/rhayes777/PyAutoFit/issues/1183
 - session: claude --resume "profile-smoke-test-runtime"

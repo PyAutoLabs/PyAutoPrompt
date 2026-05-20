@@ -1,4 +1,12 @@
 
+## fast-plots-env-coverage
+- issue: (CI-triage cluster A, no GitHub issue)
+- completed: 2026-05-20
+- library-pr: https://github.com/PyAutoLabs/PyAutoBuild/pull/91
+- workspace-pr: https://github.com/PyAutoLabs/autogalaxy_workspace_test/pull/52, https://github.com/PyAutoLabs/autolens_workspace_test/pull/107
+- repos: PyAutoBuild, autogalaxy_workspace_test, autolens_workspace_test
+- notes: Triaged from CI bug cluster A — 7 `*_workspace_test/scripts/.../visualization*.py` scripts (+ 1 parked 40d-old NEEDS_FIX) failing with `dataset.png missing` / `fit.png was not produced`. Triage doc hypothesised a visualization-layer rename / output-dir change; reproducing on clean main showed the plotters work correctly — the failures were entirely an env-var resolution bug in PyAutoBuild. `env_config._pattern_matches` (and the matching `build_util.should_skip` / `_find_skip_reason`) substring-matched the YAML pattern against `file.with_suffix("")` — i.e. the path with `.py` stripped. Three env_vars.yaml entries ending in `.py` (e.g. `imaging/visualization.py`) therefore never matched, leaving `PYAUTO_FAST_PLOTS=1` set on the visualization scripts; `PYAUTO_FAST_PLOTS=1` short-circuits both `subplot_save` and `save_figure` in PyAutoArray (utils.py:365, 541), so no PNG was ever written and the file-existence assertions failed. Fix: substring-match against `str(file)` (with extension) so `.py`-anchored patterns work — that change also caught the just-merged `repro_command.canonical_env_for_script` whose call site needed updating (the worktree had to be rebased onto post-#90 main). On the workspace side, four override entries were missing `PYAUTO_FAST_PLOTS` from their `unset:` lists, three `visualization.py` scripts had no override at all, and `interferometer/visualization.py` (autolens) also needed `PYAUTO_SMALL_DATASETS` unset to handle its full-res FITS load. Verified: PyAutoBuild full test suite 72/72 (8 new regression tests in `test_pattern_matches.py` locking in the convention); all 9 affected scripts pass end-to-end under the autobuild-resolved env. Hidden risk worth flagging: the same dead-pattern bug existed in `build_util.should_skip` for `no_run.yaml` patterns — no current `no_run.yaml` uses `.py` suffix so nothing was broken, but it's now fixed defensively.
+
 ## cluster-point-tuple-prior
 - issue: (CI-triage cluster, no GitHub issue)
 - completed: 2026-05-20
