@@ -60,4 +60,21 @@
       8. End-to-end library integration test
       (workspace) extend convolution.py + new convolution_oversampled.py + simulator.py
 
+## graphical-ep-scale-up
+- issue: https://github.com/Jammy2211/autofit_workspace_developer/issues/16
+- session: claude --resume "graphical-ep-scale-up"
+- status: workspace-dev
+- worktree: ~/Code/PyAutoLabs-wt/graphical-ep-scale-up
+- repos:
+- summary: |
+    Scaffold top-level `graphical/` and `ep/` example packages in
+    autofit_workspace_developer adapted from z_projects/concr/scripts/toy/.
+    Simulator writes ground_truth.json per dataset; fit scripts perform
+    end-of-run sanity checks. Profile at N=3/10/30 and write two scoping
+    prompts (PyAutoPrompt/graphical_ep/{graphical,ep}_scoping.md) that
+    break further scale-up work into ranked sub-task prompts.
+
+    Pre-flight: autofit_workspace_developer has 13 dirty files in
+    searches/, searches_minimal/ — stash before /start_workspace cuts
+    the feature/graphical-ep-scale-up worktree.
 
