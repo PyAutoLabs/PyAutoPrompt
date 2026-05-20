@@ -60,27 +60,4 @@
       8. End-to-end library integration test
       (workspace) extend convolution.py + new convolution_oversampled.py + simulator.py
 
-## truncated-gaussian-fast-path
-- issue: https://github.com/PyAutoLabs/PyAutoFit/issues/1284
-- session: claude --resume "truncated-gaussian-fast-path"
-- status: library-dev
-- worktree: ~/Code/PyAutoLabs-wt/truncated-gaussian-fast-path
-- repos:
-  - PyAutoFit: feature/truncated-gaussian-fast-path
-- summary: |
-    Replace scipy.stats.norm.cdf/ppf inside
-    TruncatedGaussianPrior.value_for with direct erf/erfinv calls from
-    scipy.special / jax.scipy.special. cProfile (PR #17 baseline)
-    showed this scipy.stats wrapper accounts for 33% of graphical
-    wall time and 16% of EP at N=10. Target reductions: ~30%
-    graphical, ~17% EP. Numerics must match pre-fix baseline to
-    1e-6 relative tolerance — that's the merge gate, ahead of the
-    speed gate.
-
-    Follow-up after the library PR merges: refresh
-    autofit_workspace_developer/{graphical,ep}/profiles/baseline.json
-    in a separate workspace PR.
-
-    First sub-task spawned by graphical-ep-scale-up scoping
-    (PyAutoPrompt/graphical_ep/{graphical,ep}_scoping.md).
 
