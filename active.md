@@ -4,6 +4,7 @@
 - status: workspace-dev
 - worktree: ~/Code/PyAutoLabs-wt/pixelization-clumpy-galaxy
 - repos:
+  - autogalaxy_workspace: feature/pixelization-clumpy-galaxy
 
 ## smoke-test-optimization
 - issue: https://github.com/rhayes777/PyAutoFit/issues/1183
