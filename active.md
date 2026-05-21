@@ -1,3 +1,10 @@
+## euclid-einstein-radius-zero-contour
+- issue: https://github.com/PyAutoLabs/euclid_strong_lens_modeling_pipeline/issues/14
+- session: claude --resume "euclid-einstein-radius-zero-contour"
+- status: workspace-dev
+- worktree: ~/Code/PyAutoLabs-wt/euclid-einstein-radius-zero-contour
+- repos:
+
 ## smoke-test-optimization
 - issue: https://github.com/rhayes777/PyAutoFit/issues/1183
 - session: claude --resume "profile-smoke-test-runtime"
