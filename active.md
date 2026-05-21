@@ -1,3 +1,10 @@
+## fast-viz-zero-contour-perf
+- issue: https://github.com/PyAutoLabs/PyAutoGalaxy/issues/433
+- session: claude --resume "fast-viz-zero-contour-perf"
+- status: library-dev
+- worktree: ~/Code/PyAutoLabs-wt/fast-viz-zero-contour-perf
+- repos:
+
 ## smoke-test-optimization
 - issue: https://github.com/rhayes777/PyAutoFit/issues/1183
 - session: claude --resume "profile-smoke-test-runtime"
