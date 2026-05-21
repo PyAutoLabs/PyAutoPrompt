@@ -1,7 +1,8 @@
 ## quick-update-display-id
 - issue: https://github.com/PyAutoLabs/PyAutoFit/issues/1289
 - session: claude --resume "quick-update-display-id"
-- status: library-dev
+- status: library-shipped, workspace-pending
+- library-pr: https://github.com/PyAutoLabs/PyAutoFit/pull/1290
 - worktree: ~/Code/PyAutoLabs-wt/quick-update-display-id
 - repos:
   - PyAutoFit: feature/quick-update-display-id
