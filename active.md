@@ -4,6 +4,9 @@
 - status: library-dev
 - worktree: ~/Code/PyAutoLabs-wt/fast-viz-zero-contour-perf
 - repos:
+  - PyAutoGalaxy: feature/fast-viz-zero-contour-perf
+  - PyAutoLens: feature/fast-viz-zero-contour-perf
+  - autolens_workspace_test: feature/fast-viz-zero-contour-perf
 
 ## smoke-test-optimization
 - issue: https://github.com/rhayes777/PyAutoFit/issues/1183
