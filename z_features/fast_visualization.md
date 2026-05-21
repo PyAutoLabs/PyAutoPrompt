@@ -129,69 +129,68 @@ Verification step: `/smoke_test` against
 `euclid_strong_lens_modeling_pipeline` after the library changes land,
 to confirm the pipeline scripts still run cleanly.
 
-## Phase A — Make the plotter dispatch context-aware (revised scope)
+## Phase A — Superseded by Phase B's findings
 
-> *Original scope (flip the YAML default to `zero_contour`) is superseded
-> by the 2026-05-21 benchmark finding above. With the cache fix from
-> Phase A′, `zero_contour` is fast under JIT but still pays a one-time
-> ~10 s compile on first non-JIT call. Keeping `marching_squares` as the
-> plotter default avoids that compile hit for one-shot plotting.*
+> *Originally scoped (2026-05-20) as "flip YAML default to zero_contour",
+> then revised on 2026-05-21 to "context-aware dispatch". Both versions
+> are now superseded.*
 
-**Revised scope:** instead of flipping the YAML, make the plotter
-dispatch in `autogalaxy/plot/plot_utils.py::_critical_curves_from`
-context-aware. Inside a JAX trace (detect via `jax.core.is_traced(...)`
-or equivalent), route to `_via_zero_contour_from()` unconditionally —
-`marching_squares` isn't JAX-traceable anyway, so the config switch in
-this path is meaningless. Outside a trace, honour the YAML default
-(`marching_squares`). The end-user experience is: one-shot plots remain
-snappy, JIT'd likelihood / latent paths transparently get the
-JAX-traceable path.
+**Status (2026-05-21):** Not actionable as previously scoped. The 2026-05-21
+Phase B work (PyAutoGalaxy #435, PyAutoFit #1288) established that:
 
-**Prompt file:** `autogalaxy/critical_curves_method_context_aware.md` (to author after Phase A′ ships)
+- The plotter dispatch at `autogalaxy/plot/plot_utils.py::_critical_curves_from`
+  is **always called from plain Python**, never from inside a `jax.jit`
+  trace. (`fit_for_visualization` is jit'd, but the plotter consumes its
+  output in Python afterwards.) So "context-aware dispatch" has no actual
+  caller to detect — the JIT case the dispatch was meant to handle doesn't
+  exist.
+- The PR #434 `(f, ZeroSolver)` cache is **per-LensCalc-instance**.
+  Notebook workflows that build many tracers (one per model exploration)
+  would pay a fresh ~10 s ZeroSolver compile on the first plot of each
+  tracer. Flipping the YAML default to `zero_contour` would be a
+  noticeable regression for interactive exploration. `marching_squares`
+  stays a strict win as the plotter default for galaxy-scale lenses.
+- The legitimate use case where `zero_contour` is a clear win (cluster-
+  scale fits where marching-squares on a 1000×1000 grid is slow) can be
+  served by users overriding `critical_curves_method: zero_contour` in
+  their workspace's `config/visualize/general.yaml` — i.e. it's already
+  a per-workspace knob.
 
-Touches:
-- `PyAutoGalaxy/autogalaxy/plot/plot_utils.py::_critical_curves_from` —
-  add tracer-detection branch.
-- `PyAutoGalaxy/autogalaxy/config/visualize/general.yaml` — leave at
-  `marching_squares`; update inline comment to document the auto-routing
-  behaviour for JIT'd callers.
-- Unit test: under `jax.jit`, the plotter routes to zero_contour even
-  with `marching_squares` configured.
+**No library change required.** Document the trade-off in the next docs
+pass (workspace tutorials should mention how to override the config for
+cluster fits). Not gated on a sub-prompt; folded into the next
+documentation refresh.
 
-**Risk:** `jax.core.is_traced` is not a stable public API. If the
-detection helper needs to be hardened, the simpler fallback is "ask the
-caller to pass `xp` and route on `xp is not np`" — already the pattern
-elsewhere in the codebase. Pick whichever has fewer footguns at
-implementation time.
+If we later observe a real need for JIT-aware dispatch (e.g. a future
+analysis that calls `_critical_curves_from` directly from inside a JIT
+trace — none today), reopen this with the implementation pattern from
+the 2026-05-21 revised scope above.
 
-## Phase B — Migrate latent-variable call sites to `_via_zero_contour`
+## Phase B — Migrate latent-variable call sites (shipped 2026-05-21)
 
-**Scope:** swap `tracer.einstein_radius_from(grid=...)` (legacy, marching
-squares, not JAX-traceable) for
-`tracer.einstein_radius_via_zero_contour_from()` (JAX-traceable, fast under
-JIT after Phase A′ caching). Once done, drop the `self._use_jax = False`
-workaround pattern wherever it forces Euclid-style latents onto numpy for
-the Einstein radius.
+**Status:** SHIPPED via three coordinated PRs:
 
-**Prompt file:** `euclid_strong_lens_modeling_pipeline/einstein_radius_zero_contour_migration.md` (to author)
+- PyAutoFit #1288 — `Analysis.LATENT_BATCH_MODE` switch ("vmap" default,
+  "jit" opt-in). Required because the original premise (drop in
+  `_via_zero_contour_from()` inside `jax.vmap`) was invalid — upstream
+  `jax_zero_contour.ZeroSolver.zero_contour_finder` uses `lax.cond` /
+  `lax.while_loop` for early termination, documented as vmap-incompatible.
+- PyAutoGalaxy #435 — new `LensCalc.einstein_radius_jit_from(init_guess, ...)`
+  helper (jit-friendly, bypasses skimage seed search and `path_reduce`)
+  plus `AnalysisDataset.LATENT_BATCH_MODE = "jit"` override.
+- euclid_strong_lens_modeling_pipeline #15 — workspace dispatch on
+  `self._use_jax` → new helper (JAX) or legacy `einstein_radius_from(grid=...)`
+  (numpy).
 
-> `z_projects/euclid` is **live science work** (the DR1 catalogue paper) and
-> must not be edited as part of this roadmap. The canonical
-> library-development twin is `euclid_strong_lens_modeling_pipeline/`, which
-> is the workspace this prompt targets. After the pipeline workspace is
-> green, the science branch picks up the change on its own cadence.
+Final scope grew beyond the original drop-in swap because the upstream
+ZeroSolver vmap caveat is fundamental. Verified end-to-end on
+dataset 102018665_NEG570040238507752998: `latent.effective_einstein_radius
+= 2.1002 arcsec` on the prior-median MGE tracer.
 
-Known call sites to migrate (pipeline workspace):
-- `euclid_strong_lens_modeling_pipeline/util.py:491` — the
-  `effective_einstein_radius` latent is currently **commented out** here.
-  Re-enable it via `einstein_radius_via_zero_contour_from()` and add it
-  back to the returned tuple at line 506.
-- `autolens_workspace/scripts/guides/results/latent.py` — audit.
-
-Verification: `/smoke_test` against `euclid_strong_lens_modeling_pipeline`
-must run cleanly under `use_jax=True`, confirming both that the latent
-computes and that the JAX path stays on (no `_use_jax = False` flip
-required).
+Follow-up authored but not yet issued: `autogalaxy/einstein_radius_jit_native_seed_finder.md`
+— replace the required `init_guess` argument with a JAX-native seed finder
+(`jnp.argmin` on a coarse `|eigen_values|` grid) so callers don't need to
+know lens position upfront.
 
 ## Phase C — Live Jupyter cell rendering via `IPython.display.update_display`
 
