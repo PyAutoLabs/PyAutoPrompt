@@ -1,9 +1,10 @@
 ## fast-viz-zero-contour-perf
 - issue: https://github.com/PyAutoLabs/PyAutoGalaxy/issues/433
 - session: claude --resume "fast-viz-zero-contour-perf"
-- status: library-shipped, workspace-pending
+- status: prs-open-awaiting-library-merge
 - library-pr: https://github.com/PyAutoLabs/PyAutoGalaxy/pull/434
 - library-pr: https://github.com/PyAutoLabs/PyAutoLens/pull/527
+- workspace-pr: https://github.com/PyAutoLabs/autolens_workspace_test/pull/111
 - worktree: ~/Code/PyAutoLabs-wt/fast-viz-zero-contour-perf
 - repos:
   - PyAutoGalaxy: feature/fast-viz-zero-contour-perf
