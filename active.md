@@ -1,16 +1,3 @@
-## euclid-einstein-radius-zero-contour
-- issue: https://github.com/PyAutoLabs/euclid_strong_lens_modeling_pipeline/issues/14
-- session: claude --resume "euclid-einstein-radius-zero-contour"
-- status: prs-open-awaiting-library-merge
-- library-pr: https://github.com/PyAutoLabs/PyAutoFit/pull/1288
-- library-pr: https://github.com/PyAutoLabs/PyAutoGalaxy/pull/435
-- workspace-pr: https://github.com/PyAutoLabs/euclid_strong_lens_modeling_pipeline/pull/15
-- worktree: ~/Code/PyAutoLabs-wt/euclid-einstein-radius-zero-contour
-- repos:
-  - PyAutoFit: feature/euclid-einstein-radius-zero-contour
-  - PyAutoGalaxy: feature/euclid-einstein-radius-zero-contour
-  - euclid_strong_lens_modeling_pipeline: feature/euclid-einstein-radius-zero-contour
-
 ## smoke-test-optimization
 - issue: https://github.com/rhayes777/PyAutoFit/issues/1183
 - session: claude --resume "profile-smoke-test-runtime"
