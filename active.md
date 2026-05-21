@@ -76,3 +76,5 @@
 - status: workspace-dev
 - worktree: ~/Code/PyAutoLabs-wt/split-likelihood-profiling
 - repos:
+  - autolens_profiling: feature/split-likelihood-profiling
+  - autolens_workspace_developer: feature/split-likelihood-profiling
