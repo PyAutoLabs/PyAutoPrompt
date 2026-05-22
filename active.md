@@ -1,3 +1,10 @@
+## jax-interface-audit
+- issue: https://github.com/PyAutoLabs/PyAutoArray/issues/331
+- session: claude --resume "jax-interface-audit"
+- status: library-dev
+- worktree: ~/Code/PyAutoLabs-wt/jax-interface-audit
+- repos:
+
 ## latent-module-autogalaxy
 - issue: https://github.com/PyAutoLabs/PyAutoGalaxy/issues/439
 - session: claude --resume "latent-module-autogalaxy"
