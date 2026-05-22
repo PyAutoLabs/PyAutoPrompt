@@ -4,6 +4,7 @@
 - status: library-dev
 - worktree: ~/Code/PyAutoLabs-wt/test-mode-output-path
 - repos:
+  - PyAutoFit: feature/test-mode-output-path
 
 ## smoke-test-optimization
 - issue: https://github.com/rhayes777/PyAutoFit/issues/1183
