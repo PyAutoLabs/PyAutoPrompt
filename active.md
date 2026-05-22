@@ -1,3 +1,10 @@
+## test-mode-output-path
+- issue: https://github.com/PyAutoLabs/PyAutoFit/issues/1291
+- session: claude --resume "test-mode-output-path"
+- status: library-dev
+- worktree: ~/Code/PyAutoLabs-wt/test-mode-output-path
+- repos:
+
 ## smoke-test-optimization
 - issue: https://github.com/rhayes777/PyAutoFit/issues/1183
 - session: claude --resume "profile-smoke-test-runtime"
