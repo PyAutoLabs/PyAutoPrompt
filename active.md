@@ -1,11 +1,3 @@
-## geom-profiles-centre-jax-traceable
-- issue: https://github.com/PyAutoLabs/PyAutoGalaxy/issues/436
-- session: claude --resume "geom-profiles-centre-jax-traceable"
-- status: library-dev
-- worktree: ~/Code/PyAutoLabs-wt/geom-profiles-centre-jax-traceable
-- repos:
-  - PyAutoGalaxy: feature/geom-profiles-centre-jax-traceable
-
 ## smoke-test-optimization
 - issue: https://github.com/rhayes777/PyAutoFit/issues/1183
 - session: claude --resume "profile-smoke-test-runtime"
