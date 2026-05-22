@@ -2,7 +2,7 @@ The project @z_projects/ic50_workspace is our IC50  use case which we are now ai
 to the IC50 use case.
 
 Can we have this set up so I can do runs on the HPC, noting that all hpc interface information that forms
-the link is given in @autolens_base_project/hpc. Thus, this folder should be read carefully and it then
+the link is given in @autolens_assistant/hpc. Thus, this folder should be read carefully and it then
 worked out how it links to the HPC on whichw e do all runs.
 
 Note that the HPC folder there describes a PyAutoLens lensing project whereas the use case we will test here
