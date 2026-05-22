@@ -3858,3 +3858,11 @@
     Split likelihood/ into likelihood_breakdown/ + likelihood_runtime/.
     14 scripts (5 breakdown + 9 runtime) plus moved sweep+aggregate harness.
     Per-package READMEs document methodology + when-to-use.
+
+## test-mode-output-path
+- issue: https://github.com/PyAutoLabs/PyAutoFit/issues/1291
+- completed: 2026-05-22
+- library-pr: https://github.com/PyAutoLabs/PyAutoFit/pull/1292
+- workspace-pr: https://github.com/PyAutoLabs/autolens_workspace_test/pull/119
+- workspace-pr: https://github.com/PyAutoLabs/autogalaxy_workspace_test/pull/61
+- notes: Shipped PYAUTO_TEST_MODE output-path namespacing. Library change adds `_test_mode_segment()` helper in `autofit/non_linear/paths/abstract.py` and threads it through three composition sites (`AbstractPaths.output_path`, `DirectoryPaths._make_path`, `open_database` when filename is relative); `SubDirectoryPaths` inherits via parent. Cross-workspace smoke sweep was the validation cost: 63 pass / 7 fail / 2 skip across 6 workspaces + ic50 native-habitat check. All 7 failures were aggregator integration scripts in autolens_workspace_test and autogalaxy_workspace_test that hardcoded `PYAUTO_TEST_MODE=1` inline and reconstructed `result_path` by joining `conf.instance.output_path` with the database name — migrated to include `"test_mode"` as a segment (20 sites total). SQLite database files stay at the bare output_path root because `Aggregator.from_database(filename=...)` is called with an absolute path, bypassing the library's relative-filename injection in `open_database`. Memory `feedback_autofit_cache_resume_pyauto_test_mode` rewritten — the historical `rm -rf` workaround is obsolete. Worth a future cleanup pass on `z_projects/ic50_workspace/scripts/profile_ep_sim.py` which still does `rm -rf output/ep_sim/` defensively; harmless now (deletes an empty bare path) but no longer load-bearing.
