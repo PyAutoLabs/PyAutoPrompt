@@ -4,6 +4,7 @@
 - status: library-dev
 - worktree: ~/Code/PyAutoLabs-wt/latent-module-autogalaxy
 - repos:
+  - PyAutoGalaxy: feature/latent-module-autogalaxy
 
 ## live-visual-update
 - session: claude --resume "live-visual-update"
