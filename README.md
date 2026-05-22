@@ -270,7 +270,8 @@ The PyAuto workflow has three repos with distinct roles:
 | Repo | Purpose |
 |------|---------|
 | **PyAutoPrompt** (this repo) | Prompts, registry, prompt-coupled skills. The starting point. |
-| **admin_jammy** | Personal admin notes (`euclid.md`, `papers.md`, `grants.md`, …) and general PyAuto tooling (`software/worktree.sh`, `software/admin_sync.sh`, generic skills like `audit_docs`, `dep_audit`, `repo_cleanup`). |
+| **admin_jammy** | Personal admin notes (`euclid.md`, `grants.md`, …) and general PyAuto tooling (`software/worktree.sh`, `software/admin_sync.sh`, generic skills like `audit_docs`, `dep_audit`, `repo_cleanup`). |
+| **PyAutoPaper** | Personal paper-management repo: source PDFs (gitignored) plus topical LLM wikis (`lensing_wiki/`, `smbh_wiki/`, `cti_wiki/`, `methods_wiki/`, `galaxies_wiki/`) and a reading queue (`reading-queue.md`, moved from `admin_jammy/papers.md`). |
 | **`PyAuto*` libraries and `*_workspace*` repos** | Where the actual code work happens. Each task gets a feature branch + worktree under `~/Code/PyAutoLabs-wt/<task-name>/`. |
 
 Helper scripts that this repo's skills source:
