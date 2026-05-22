@@ -6,21 +6,6 @@
 - repos:
   - PyAutoGalaxy: feature/latent-module-autogalaxy
 
-## live-visual-update
-- session: claude --resume "live-visual-update"
-- status: in-progress
-- classification: library
-- worktree: ~/Code/PyAutoLabs-wt/live-visual-update
-- repos:
-  - PyAutoFit: feature/live-visual-update
-- summary: |
-    Adding live_visual_update flag (default False) to NonLinearSearch.
-    When True in scripts: spawns subprocess matplotlib viewer that polls
-    subplot_fit.png. When True in Jupyter: enables existing display_id
-    cell updates (currently implicit, becoming opt-in). fit.png on-disk
-    writes are unaffected. New module live_viewer.py + flag plumbing
-    through Fitness/Search + general.yaml config default.
-
 ## smoke-test-optimization
 - issue: https://github.com/rhayes777/PyAutoFit/issues/1183
 - session: claude --resume "profile-smoke-test-runtime"

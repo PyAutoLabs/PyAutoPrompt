@@ -1,4 +1,10 @@
 
+## live-visual-update
+- completed: 2026-05-22
+- library-pr: https://github.com/PyAutoLabs/PyAutoFit/pull/1293
+- repos: PyAutoFit
+- notes: New `live_visual_update` flag (default False) on NonLinearSearch / Fitness / BackgroundQuickUpdate, config default in general.updates. Refactored BackgroundQuickUpdate to compose a new `LiveDisplay` helper that owns kernel-vs-script dispatch. Script mode lazily spawns `python -m autofit.non_linear.live_viewer <png>` — a tiny standalone module that polls fit.png on mtime and redraws a matplotlib window; clean exit on headless backends. Jupyter cell auto-display, previously implicit on kernel detection, is now also gated on the flag — notebook users who relied on it must pass `live_visual_update=True`. Flag wired through Nautilus only (the other search backends don't yet expose quick_update). Two follow-up commits dropped stale `subplot_fit.png` and `subplot_tracer.png` candidates from the display lookup — `subplot_` prefix has been gone from every PNG output across PyAutoGalaxy/PyAutoLens for some time, every `subplot_fit` plotter writes `fit.png` via `_save_subplot(fig, output_path, "fit", …)`. The lens imaging plotter at `autolens/imaging/model/plotter.py:78-98` short-circuits with `if quick_update: return` immediately after `subplot_fit`, so `fit.png` is the only file ever written during a quick update. Smoke test 32/32 across autofit_workspace, autogalaxy_workspace, autolens_workspace, autolens_workspace_test (117s wall, 8 parallel). 1226 PyAutoFit unit tests pass. Manual matplotlib-window verification was deferred — flag is off by default so default tutorial behaviour is unchanged.
+
 ## alma-apply-sparse-operator-oom
 - completed: 2026-05-22
 - library-pr: https://github.com/PyAutoLabs/PyAutoArray/pull/329
