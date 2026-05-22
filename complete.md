@@ -1,4 +1,11 @@
 
+## viz-sanity-rollout-jax-scripts
+- issue: https://github.com/PyAutoLabs/autolens_workspace_test/issues/114
+- completed: 2026-05-21
+- workspace-pr: https://github.com/PyAutoLabs/autolens_workspace_test/pull/115
+- workspace-pr: https://github.com/PyAutoLabs/autogalaxy_workspace_test/pull/55
+- notes: Phase D.2.a of z_features/fast_visualization.md. Rolls __Visualization Sanity__ blocks across 6 existing visualization_jax*.py scripts (3 autolens_workspace_test, 3 autogalaxy_workspace_test). Companion to Phase D.1 (PRs #113/#54) which covered the modeling_visualization_jit*.py variants. visualization_jax*.py scripts have no Part-1/Part-2 split (single-shot JAX-backed visualization, no Nautilus) so Sanity blocks inserted at end-of-script after the existing PILOT SUCCEEDED print. All 6 validated end-to-end locally; failed CI rows on each repo are pre-existing — autolens point.py JAX vmap (seen 5 tasks now) and an autogalaxy imaging/visualization.py dataset.png assertion the Sonnet agent verified failed on canonical main too. Confirmed FitQuantity exposes .model_data (autogalaxy/quantity/fit_quantity.py:71-72) so the quantity Sanity block uses the same shape as imaging/interferometer. Phase D.2.b remains: author NEW scripts for missing dataset coverage — autolens weak-lensing (entire scripts/weak/ missing), autogalaxy ellipse modeling_visualization_jit (only viz_jax exists), autogalaxy quantity modeling_visualization_jit (same). Numbers from local validation: autolens imaging er=1.1938 warm 90.6ms, interferometer warm 98.6ms |mv|=11118, point_source warm 88.8ms; autogalaxy imaging |md|=1862 fom=-26675, interferometer |md|=121361 fom=-3321, quantity |md|=290 fom=1005.
+
 ## viz-sanity-rollout-jit-scripts
 - issue: https://github.com/PyAutoLabs/autolens_workspace_test/issues/112
 - completed: 2026-05-21
