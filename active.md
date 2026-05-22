@@ -4,6 +4,7 @@
 - status: workspace-dev
 - worktree: ~/Code/PyAutoLabs-wt/quantity-modeling-viz-jit
 - repos:
+  - autogalaxy_workspace_test: feature/quantity-modeling-viz-jit
 
 ## smoke-test-optimization
 - issue: https://github.com/rhayes777/PyAutoFit/issues/1183
