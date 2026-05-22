@@ -1,4 +1,10 @@
 
+## ellipse-modeling-viz-jit
+- issue: https://github.com/PyAutoLabs/autogalaxy_workspace_test/issues/59
+- completed: 2026-05-22
+- workspace-pr: https://github.com/PyAutoLabs/autogalaxy_workspace_test/pull/60
+- notes: Phase D.2.b.ii — authors the two missing ellipse-side JAX visualization scripts in autogalaxy_workspace_test. scripts/ellipse/visualization_jax.py (single-shot, no Nautilus) + scripts/ellipse/modeling_visualization_jit.py (Part 1 caching probe + Sanity + Part 2 live Nautilus). No library change required — AnalysisEllipse.__init__ already forwards **kwargs to super().__init__(), so use_jax_for_visualization=True flows through to PyAutoFit's fit_for_visualization dispatch without an AnalysisEllipse signature change. Sanity block is figure_of_merit-only — FitEllipseSummed doesn't expose a top-level model_data (per-ellipse on component FitEllipses); FoM-finite assertion is sufficient. One gotcha I hit and fixed: borrowed `conf.instance.push(output_path=images/)` from the non-JAX ellipse/visualization.py initially, which redirected Nautilus output to images/ instead of default output/, breaking the fit_ellipse.png assertion path. Dropped the push to match the imaging variant. Local validation: visualization_jax FoM = -87.05; modeling_visualization_jit speedup 33.9x, FoM = -25.36, 1 fit_ellipse.png produced. CI smoke 33/33 clean (no pre-existing imaging/visualization.py flake this run). Phase D.2.b done; weak lensing (D.2.b.iii) parked indefinitely — no AnalysisWeak class in autolens/weak/ to exercise. After this lands, z_features/fast_visualization.md is ready to archive.
+
 ## quantity-modeling-viz-jit
 - issue: https://github.com/PyAutoLabs/autogalaxy_workspace_test/issues/56
 - completed: 2026-05-22

@@ -1,5 +1,66 @@
 # Fast Visualization — Sequenced Roadmap
 
+## Status: COMPLETE (2026-05-22) — archived
+
+Phase D is shipped. The user-visible goal — `use_jax=True` searches
+render visualization fast enough to live-update in a Jupyter / Colab
+cell, with a regression net in every `_test` workspace — is achieved
+for every dataset type that has the necessary library infrastructure.
+
+### Shipped phases
+
+- **Phase A′** — `LensCalc._zero_contour_cache` closure caching +
+  `fit_imaging_plots.py:52` broad-except tightening + first
+  `__Visualization Sanity__` block (PRs: PyAutoGalaxy #434, PyAutoLens
+  #527, autolens_workspace_test #111).
+- **Phase B** — Euclid latent migration via new
+  `LensCalc.einstein_radius_jit_from(init_guess, ...)` + PyAutoFit
+  `LATENT_BATCH_MODE` class attribute (PRs: PyAutoGalaxy #435,
+  PyAutoFit #1288, euclid_strong_lens_modeling_pipeline #15).
+- **Phase C** — `BackgroundQuickUpdate` + IPython `update_display(...,
+  display_id=...)` live-cell wiring + autofit_workspace cookbook
+  section.
+- **Phase D.1** — `__Visualization Sanity__` rollout across
+  `modeling_visualization_jit*.py` (PRs: autolens_workspace_test #113,
+  autogalaxy_workspace_test #54).
+- **Phase D.2.a** — same rollout across existing `visualization_jax*.py`
+  (PRs: autolens_workspace_test #115, autogalaxy_workspace_test #55).
+- **Phase D.2.b.ii (ellipse)** — authored
+  `ellipse/visualization_jax.py` +
+  `ellipse/modeling_visualization_jit.py` (PR:
+  autogalaxy_workspace_test #60).
+
+### Dropped / parked / superseded
+
+- **Phase A** (config flip) — superseded by Phase A′'s context-aware
+  dispatch approach; the YAML default stays `marching_squares` and
+  callers self-route.
+- **Phase D.2.b.i (quantity)** — DROPPED. `quantity` package archived
+  in PyAutoGalaxy #437; the JAX-trace bug at `geometry_profiles.py:168`
+  (PyAutoGalaxy #436, closed won't-fix) no longer matters because the
+  only caller is gone.
+- **Phase D.2.b.iii (weak lensing)** — PARKED indefinitely.
+  `autolens/weak/` has only `dataset.py`, `fit.py`, `simulator.py`,
+  `plot/` — no `model/analysis.py`, no `AnalysisWeak`. The Phase D
+  pattern can't be applied until the weak modeling layer is built;
+  that's a separate epic.
+- **Phase E (`ModelInstance` pytree cascade)** — deferred indefinitely.
+  Long-term enabler for `jax.jit(fit_from)(instance)` end-to-end; not
+  blocking any current dataset type's visualization use case.
+- **Phase F (subprocess viz)** — obsolete. `BackgroundQuickUpdate` +
+  IPython live-cells solved the live-update problem in-process; no
+  subprocess complexity needed.
+
+### Standing follow-ups still useful
+
+- `autogalaxy/einstein_radius_jit_native_seed_finder.md` (in
+  PyAutoPrompt/autogalaxy/) — parked enhancement to replace the static
+  `init_guess` argument on `einstein_radius_jit_from` with a JAX-native
+  seed finder. Not blocking; pick up when cluster-scale geometry needs
+  it.
+
+---
+
 End goal: when a search runs with `use_jax=True`, visualization is fast enough
 that **a Jupyter / Colab cell can update in place during the fit**, with no
 subprocess complexity. Plus a regression net in every `_test` workspace so the
