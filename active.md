@@ -4,6 +4,7 @@
 - status: workspace-dev
 - worktree: ~/Code/PyAutoLabs-wt/latent-tutorial-autofit
 - repos:
+  - autofit_workspace: feature/latent-tutorial-autofit
 
 ## jax-interface-audit
 - issue: https://github.com/PyAutoLabs/PyAutoArray/issues/331
