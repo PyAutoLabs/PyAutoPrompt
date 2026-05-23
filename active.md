@@ -1,11 +1,3 @@
-## euclid-latent-migration
-- issue: https://github.com/PyAutoLabs/euclid_strong_lens_modeling_pipeline/issues/17
-- session: claude --resume "euclid-latent-migration"
-- status: workspace-dev
-- worktree: ~/Code/PyAutoLabs-wt/euclid-latent-migration
-- repos:
-  - euclid_strong_lens_modeling_pipeline: feature/euclid-latent-migration
-
 ## jax-interface-audit
 - issue: https://github.com/PyAutoLabs/PyAutoArray/issues/331
 - session: claude --resume "jax-interface-audit"
