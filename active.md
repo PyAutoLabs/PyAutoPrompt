@@ -4,6 +4,7 @@
 - status: workspace-dev
 - worktree: ~/Code/PyAutoLabs-wt/latent-tutorial-autogalaxy
 - repos:
+  - autogalaxy_workspace: feature/latent-tutorial-autogalaxy
 
 ## jax-interface-audit
 - issue: https://github.com/PyAutoLabs/PyAutoArray/issues/331
