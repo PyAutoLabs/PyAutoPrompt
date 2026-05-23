@@ -4,6 +4,7 @@
 - status: workspace-dev
 - worktree: ~/Code/PyAutoLabs-wt/latent-smoke-test
 - repos:
+  - autolens_workspace_test: feature/latent-smoke-test
 
 ## jax-interface-audit
 - issue: https://github.com/PyAutoLabs/PyAutoArray/issues/331
