@@ -1,3 +1,12 @@
+## latent-source-flux-linear-fix
+- issue: https://github.com/PyAutoLabs/PyAutoLens/issues/535
+- session: claude --resume "latent-source-flux-linear-fix"
+- status: library-dev
+- worktree: ~/Code/PyAutoLabs-wt/latent-source-flux-linear-fix
+- repos:
+  - PyAutoLens: feature/latent-source-flux-linear-fix
+- note: interrupts euclid-latent-migration (#17) for the linear-profile latent bug
+
 ## euclid-latent-migration
 - issue: https://github.com/PyAutoLabs/euclid_strong_lens_modeling_pipeline/issues/17
 - session: claude --resume "euclid-latent-migration"
