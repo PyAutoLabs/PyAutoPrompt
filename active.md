@@ -1,11 +1,3 @@
-## latent-profiling
-- issue: https://github.com/PyAutoLabs/autolens_profiling/issues/23
-- session: claude --resume "latent-profiling"
-- status: workspace-dev
-- worktree: ~/Code/PyAutoLabs-wt/latent-profiling
-- repos:
-  - autolens_profiling: feature/latent-profiling
-
 ## jax-interface-audit
 - issue: https://github.com/PyAutoLabs/PyAutoArray/issues/331
 - session: claude --resume "jax-interface-audit"
