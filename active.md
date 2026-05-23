@@ -1,11 +1,3 @@
-## latent-tutorial-autolens
-- issue: https://github.com/PyAutoLabs/autolens_workspace/issues/197
-- session: claude --resume "latent-tutorial-autolens"
-- status: workspace-dev
-- worktree: ~/Code/PyAutoLabs-wt/latent-tutorial-autolens
-- repos:
-  - autolens_workspace: feature/latent-tutorial-autolens
-
 ## jax-interface-audit
 - issue: https://github.com/PyAutoLabs/PyAutoArray/issues/331
 - session: claude --resume "jax-interface-audit"
