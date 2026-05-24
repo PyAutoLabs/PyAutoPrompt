@@ -1,14 +1,3 @@
-## simulator-imaging-use-jax
-- issue: https://github.com/PyAutoLabs/PyAutoArray/issues/334
-- session: claude --resume "simulator-imaging-use-jax"
-- status: library-dev
-- worktree: ~/Code/PyAutoLabs-wt/simulator-imaging-use-jax
-- repos:
-  - PyAutoArray: feature/simulator-imaging-use-jax
-  - PyAutoLens: feature/simulator-imaging-use-jax
-  - PyAutoGalaxy: feature/simulator-imaging-use-jax
-- notes: PR 2 of 4 from simulator_use_jax.md. Adds SimulatorImaging.use_jax=True to PyAutoArray, threaded through autolens/autogalaxy subclasses. Pytree registration is user-side via the autolens.jax.register_tracer_classes already shipped in PR 1.
-
 ## jax-start-here-intros
 - issue: https://github.com/PyAutoLabs/autolens_workspace/issues/200
 - session: claude --resume "jax-start-here-intros"
