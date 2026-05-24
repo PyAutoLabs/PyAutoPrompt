@@ -3993,3 +3993,9 @@
 - completed: 2026-05-24
 - workspace-pr: https://github.com/PyAutoLabs/autolens_workspace/pull/205
 - notes: Phase 5a + 5b + 5c + 5d bundled. 4 guides in autolens_workspace/scripts/guides/ now carry __JAX__ sections. lens_calc.py (5d) is the canonical home for the "JIT-it-yourself" pattern — @jax.jit + xp=jnp pairing rule, mismatch ValueError, decorator vs jax.jit(bound_method), cache identity footgun, closure vs traced argument, LensCalc if-xp-is-np return-type discipline. The other three (data_structures, galaxies, tracer) cover the prerequisite pieces (.array story, host transfer, pytree registration, multi-plane under JIT, performance framing) and cross-reference lens_calc.py for the advanced material. Phase 5e (autogalaxy guides mirror) remains deferred per scope anchor. Phase 5a-5d closes out the autolens side of jax_user_intro. Worktree removed; feature branch deleted local + origin.
+
+## jax-docs-autolens-deferred
+- issue: https://github.com/PyAutoLabs/autolens_workspace/issues/206 (CLOSED)
+- completed: 2026-05-24
+- workspace-pr: https://github.com/PyAutoLabs/autolens_workspace/pull/207
+- notes: Phase 3c + 3e + 3f bundled. 10 scripts in autolens_workspace/scripts/{multi,group,cluster}/. Substantive change: cluster/simulator.py migrated from ~60-line manual ceremony (af.Collection mirror + _register_model_pytrees + register_instance_pytree) to single autolens.jax.register_tracer_classes(tracer) + PointSolver(use_jax=True) + @jax.jit pattern. Migration validated end-to-end with PYAUTO_TEST_MODE=1 (CPU JIT compile ~5 min for 800x800 grid, then runs; GPU much faster). Closes autolens side of jax_user_intro series.
