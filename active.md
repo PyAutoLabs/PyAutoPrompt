@@ -1,3 +1,10 @@
+## jax-start-here-intros
+- issue: https://github.com/PyAutoLabs/autolens_workspace/issues/200
+- session: claude --resume "jax-start-here-intros"
+- status: workspace-dev
+- worktree: ~/Code/PyAutoLabs-wt/jax-start-here-intros
+- repos:
+
 ## simulator-use-jax
 - issue: https://github.com/PyAutoLabs/PyAutoArray/issues/334
 - session: claude --resume "simulator-use-jax"
