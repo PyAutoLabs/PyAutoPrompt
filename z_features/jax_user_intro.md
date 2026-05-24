@@ -20,7 +20,7 @@ __Outstanding__ (sequenced)
    (admin_jammy main commit `2f02bbf`). Issue PyAutoArray#331 closed. All later
    phases cite this doc as the source of truth.
 
-2. Phase 1 — top-level __JAX__ sections (one prompt: `workspaces/jax_start_here_intros.md`, TBA — unblocked)
+2. Phase 1 — top-level __JAX__ sections (one prompt: [`workspaces/jax_start_here_intros.md`](../workspaces/jax_start_here_intros.md), authored 2026-05-24 — ready to `/start_dev`)
    - `autolens_workspace/start_here.py` — **add new __JAX__ block** post-__Tracer__ per Phase 0
      (no existing block at line 33; tracker note was about per-dataset start_here, not top-level)
    - `autogalaxy_workspace/start_here.py` — add new __JAX__ block post-__Galaxies__
