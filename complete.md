@@ -3969,3 +3969,9 @@
 - completed: 2026-05-24
 - library-pr: https://github.com/PyAutoLabs/PyAutoArray/pull/337
 - notes: Final PR (4 of 4) of simulator_use_jax.md. AbstractMaker.__init__ now raises ValueError when xp=np is passed with a jnp-backed grid (grid.use_jax=True). Helps users discover the `@jax.jit + xp=jnp` pairing rule the first time they break it — pointer to lens_calc.py workspace guide in the error message. No breaking changes: existing PyAutoArray/Lens/Galaxy tests pass (837/317/918). Worktree removed, branch deleted. **Phase 2 of jax_user_intro DONE.** Library deliverables: PointSolver(use_jax) + autolens.jax.register_tracer_classes (PR 1), SimulatorImaging(use_jax) (PR 2), SimulatorInterferometer(use_jax) (PR 3), xp/grid mismatch ValueError (PR 4). Issue #334 closed.
+
+## jax-start-here-intros
+- issue: https://github.com/PyAutoLabs/autolens_workspace/issues/200 (CLOSED)
+- completed: 2026-05-24
+- workspace-prs: https://github.com/PyAutoLabs/autolens_workspace/pull/201, https://github.com/PyAutoLabs/autogalaxy_workspace/pull/99
+- notes: Phase 1 of z_features/jax_user_intro.md. Added top-level `__JAX__` section to autolens_workspace/start_here.py (between __Tracer__ and __Units__, ~85 lines) and autogalaxy_workspace/start_here.py (between __Galaxies__ and __Units__, ~75 lines). Code-light prose covering: JAX-by-default for Analysis modeling, when user writes @jax.jit themselves (custom simulators + likelihoods + direct library methods), return-type contract (jax.Array inside wrapper types, transparent host transfer for plot/.fits). Cross-references lens_calc.py (autolens) and data_structures.py (autogalaxy) for the advanced JIT-it-yourself path — both forward refs to Phase 5 guide additions. Illustrative simulator snippet uses the post-Phase-2 SimulatorImaging(use_jax=True) API which is now live on main. Worktree removed; feature branches deleted local + origin.
