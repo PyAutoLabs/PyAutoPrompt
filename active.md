@@ -1,3 +1,10 @@
+## simulator-use-jax
+- issue: https://github.com/PyAutoLabs/PyAutoArray/issues/334
+- session: claude --resume "simulator-use-jax"
+- status: library-dev
+- worktree: ~/Code/PyAutoLabs-wt/simulator-use-jax
+- repos:
+
 ## test-mode-skip-latents
 - issue: https://github.com/PyAutoLabs/PyAutoFit/issues/1294
 - session: claude --resume "test-mode-skip-latents"
