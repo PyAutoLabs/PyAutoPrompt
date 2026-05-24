@@ -5,16 +5,6 @@
 - worktree: ~/Code/PyAutoLabs-wt/jax-start-here-intros
 - repos:
 
-## simulator-use-jax
-- issue: https://github.com/PyAutoLabs/PyAutoArray/issues/334
-- session: claude --resume "simulator-use-jax"
-- status: library-dev
-- worktree: ~/Code/PyAutoLabs-wt/simulator-use-jax
-- repos:
-  - PyAutoArray: feature/simulator-use-jax
-  - PyAutoLens: feature/simulator-use-jax
-  - PyAutoGalaxy: feature/simulator-use-jax
-
 ## smoke-test-optimization
 - issue: https://github.com/rhayes777/PyAutoFit/issues/1183
 - session: claude --resume "profile-smoke-test-runtime"
