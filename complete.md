@@ -3999,3 +3999,9 @@
 - completed: 2026-05-24
 - workspace-pr: https://github.com/PyAutoLabs/autolens_workspace/pull/207
 - notes: Phase 3c + 3e + 3f bundled. 10 scripts in autolens_workspace/scripts/{multi,group,cluster}/. Substantive change: cluster/simulator.py migrated from ~60-line manual ceremony (af.Collection mirror + _register_model_pytrees + register_instance_pytree) to single autolens.jax.register_tracer_classes(tracer) + PointSolver(use_jax=True) + @jax.jit pattern. Migration validated end-to-end with PYAUTO_TEST_MODE=1 (CPU JIT compile ~5 min for 800x800 grid, then runs; GPU much faster). Closes autolens side of jax_user_intro series.
+
+## jax-docs-autogalaxy-deferred
+- issue: https://github.com/PyAutoLabs/autogalaxy_workspace/issues/102 (CLOSED)
+- completed: 2026-05-24
+- workspace-pr: https://github.com/PyAutoLabs/autogalaxy_workspace/pull/103
+- notes: Phase 4c + 5e bundled. 3 scripts: autogalaxy_workspace/scripts/multi/start_here.py (refresh), guides/data_structures.py (mirror of autolens 5a), guides/galaxies.py (mirror of autolens 5b). Both guide sections cross-reference autolens_workspace lens_calc.py for the canonical JIT-it-yourself deep-dive — autogalaxy has no lens_calc.py equivalent. Closes the autogalaxy side of jax_user_intro. **z_features/jax_user_intro.md series complete end-to-end** — 5 library PRs + 14 workspace PRs across all phases.
