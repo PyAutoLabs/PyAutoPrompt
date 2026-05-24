@@ -4,6 +4,8 @@
 - status: workspace-dev
 - worktree: ~/Code/PyAutoLabs-wt/jax-start-here-intros
 - repos:
+  - autolens_workspace: feature/jax-start-here-intros
+  - autogalaxy_workspace: feature/jax-start-here-intros
 
 ## smoke-test-optimization
 - issue: https://github.com/rhayes777/PyAutoFit/issues/1183
