@@ -4,56 +4,73 @@ scripts, understand the xp / jnp interface, the "use_jax=True in → JAX arrays 
 contract, and how to write their own `jax.jit` around library calls. Gradients are
 explicitly out of scope for this series (future pass).
 
+__Scope anchor (added 2026-05-24 from Phase 0)__
+
+User-facing design targets the **core API** — `imaging`, `interferometer`, `point_source`
+dataset types and the workspace guides (`data_structures`, `galaxies`, `tracer`,
+`lens_calc`). `cluster`, `group`, `multi`, and developer-test paths are
+advanced / in-development and inform the design but do not drive it. Phase 3
+priority order is **3a, 3b, 3d** (the core dataset types); the rest are
+deferred or optional.
+
 __Outstanding__ (sequenced)
 
 1. Phase 0 — research & design ([autoarray/jax_interface_audit_and_design.md](../autoarray/jax_interface_audit_and_design.md))
-   Deep audit of the xp interface and use_jax=True surface; judgement on whether it
-   makes sense as a user-facing contract; design decision on Simulator.use_jax shape;
-   output a reference design doc at `admin_jammy/notes/jax_interface.md` that all
-   later phases cite.
+   ✅ **SHIPPED 2026-05-24.** Design doc at `admin_jammy/notes/jax_interface.md`
+   (admin_jammy main commit `2f02bbf`). Issue PyAutoArray#331 closed. All later
+   phases cite this doc as the source of truth.
 
-2. Phase 1 — top-level __JAX__ sections (one prompt: `workspaces/jax_start_here_intros.md`, TBA)
-   - `autolens_workspace/start_here.py` — expand existing __JAX__ block (line 33+) per Phase 0
+2. Phase 1 — top-level __JAX__ sections (one prompt: `workspaces/jax_start_here_intros.md`, TBA — unblocked)
+   - `autolens_workspace/start_here.py` — **add new __JAX__ block** post-__Tracer__ per Phase 0
+     (no existing block at line 33; tracker note was about per-dataset start_here, not top-level)
    - `autogalaxy_workspace/start_here.py` — add new __JAX__ block post-__Galaxies__
 
-3. Phase 2 — library: Simulator.use_jax (one prompt: `autoarray/simulator_use_jax.md`, TBA)
+3. Phase 2 — library: Simulator.use_jax (one prompt: `autoarray/simulator_use_jax.md`, TBA — unblocked)
    - PyAutoArray `SimulatorImaging` / `SimulatorInterferometer` signature gains `use_jax=True`
-   - PyAutoLens / PyAutoGalaxy simulator subclasses thread it through
-   - PyAutoLens `point.SimulatorPoint` gains `use_jax=True` (replaces `cluster/simulator.py` manual jit)
+   - PyAutoLens / PyAutoGalaxy simulator subclasses thread it through; auto-register
+     Tracer/Imaging/Interferometer as pytrees on first call
+   - PyAutoLens `PointSolver` gains `use_jax=True`; defaults `remove_infinities=False` on the JAX path
+   - Validation: new `autolens_workspace/scripts/imaging/simulator.py` `__JAX Variant__`
+     (from Phase 3a) runs end-to-end. Cluster simulator migration is a secondary
+     worked example (its 8-step ceremony collapsing to 1-2 user lines).
 
 4. Phase 3 — per-dataset-type doc passes (autolens_workspace) — one prompt each
+   **Priority — core API (do these first):**
    - 3a `autolens_workspace/jax_docs_imaging.md` (TBA)
    - 3b `autolens_workspace/jax_docs_interferometer.md` (TBA)
-   - 3c `autolens_workspace/jax_docs_multi.md` (TBA)
    - 3d `autolens_workspace/jax_docs_point_source.md` (TBA)
-   - 3e `autolens_workspace/jax_docs_group.md` (TBA)
-   - 3f `autolens_workspace/jax_docs_cluster.md` (TBA — `cluster/simulator.py` already has detail)
+
+   **Deferred — advanced / in-dev (author only if 3a/3b/3d shipped clean):**
+   - 3c `autolens_workspace/jax_docs_multi.md` (TBA — multi/start_here.py already has __JAX__)
+   - 3e `autolens_workspace/jax_docs_group.md` (TBA — optional)
+   - 3f `autolens_workspace/jax_docs_cluster.md` (TBA — defer until cluster is out of in-dev;
+     when authored, mostly a migration showing cluster/simulator.py before/after Phase 2)
 
 5. Phase 4 — mirror to autogalaxy_workspace — one prompt each
-   - 4a `autogalaxy_workspace/jax_docs_imaging.md` (TBA)
+   - 4a `autogalaxy_workspace/jax_docs_imaging.md` (TBA — highest priority)
    - 4b `autogalaxy_workspace/jax_docs_interferometer.md` (TBA)
-   - 4c `autogalaxy_workspace/jax_docs_multi.md` (TBA)
+   - 4c `autogalaxy_workspace/jax_docs_multi.md` (TBA — defer behind 4a/4b)
 
 6. Phase 5 — guides
    - 5a `autolens_workspace/jax_docs_guide_data_structures.md` (TBA)
    - 5b `autolens_workspace/jax_docs_guide_galaxies.md` (TBA)
    - 5c `autolens_workspace/jax_docs_guide_tracer.md` (TBA)
-   - 5d `autolens_workspace/jax_docs_guide_lens_calc.md` (TBA)
+   - 5d `autolens_workspace/jax_docs_guide_lens_calc.md` (TBA — advanced xp story lives here)
    - 5e `autogalaxy_workspace/jax_docs_guides.md` (TBA — galaxies + data_structures mirror)
 
-Per [[feedback_no_bulk_issue_queues]], sub-prompts past Phase 0 are deliberately
+Per [[feedback_no_bulk_issue_queues]], sub-prompts past Phase 0 remain deliberately
 unauthored. Each gets authored and issued only when its predecessor is close to
-shipping, so the prompts don't age out against the design that emerges from Phase 0.
+shipping, so the prompts don't age out against the design that emerged from Phase 0.
 
 __Related__
 
 - [autofit/on_the_fly_docs.md](../autofit/on_the_fly_docs.md) — workspace doc updates
   around background quick-update; cite from Phase 3+ where `fit.py` scripts mention
   visualization.
-- (link rot) The original prompt referenced `PyAutoPrompt/autogalaxy/visualizer_fit_for_visualization_dispatch.md`
-  which does not exist in this tree. Before authoring sub-prompts that touch the
-  visualizer, grep `complete.md` for any visualization-dispatch prompt that may
-  already have shipped.
+- `PyAutoPrompt/issued/visualizer_fit_for_visualization_dispatch.md` — sibling prompt
+  on visualizer dispatch, already issued. (Earlier "link rot" note was incorrect —
+  the file lives in `issued/`, not the autogalaxy/ source tree it was originally
+  authored under.)
 
 __Original prompt__
 
