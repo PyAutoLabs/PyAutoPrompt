@@ -60,3 +60,8 @@
       8. End-to-end library integration test
       (workspace) extend convolution.py + new convolution_oversampled.py + simulator.py
 
+## mass-self-consistency-tests
+- issue: https://github.com/PyAutoLabs/autolens_workspace_test/issues/122
+- status: workspace-dev
+- worktree: ~/Code/PyAutoLabs-wt/mass-self-consistency-tests
+- repos:
