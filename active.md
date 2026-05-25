@@ -65,4 +65,4 @@
 - status: library-dev
 - worktree: ~/Code/PyAutoLabs-wt/array2d-native-jit-safety
 - repos:
-
+  - PyAutoArray: feature/array2d-native-jit-safety
