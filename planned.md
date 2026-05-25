@@ -1,3 +1,13 @@
+## mass-self-consistency-tests
+- issue: https://github.com/PyAutoLabs/autolens_workspace_test/issues/122
+- planned: 2026-05-25
+- classification: workspace
+- suggested-branch: feature/mass-self-consistency-tests
+- blocked-by: array2d-native-jit-safety (using autolens_workspace_test)
+- affected-repos:
+  - autolens_workspace_test
+  - PyAutoGalaxy (read-only)
+
 ## jax-point-source-point-smoke-sentinel
 - prompt: PyAutoPrompt/issued/jax_point_source_point_smoke_sentinel.md
 - status: planned
