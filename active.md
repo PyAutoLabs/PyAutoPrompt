@@ -62,7 +62,8 @@
 
 ## array2d-native-jit-safety
 - issue: https://github.com/PyAutoLabs/PyAutoArray/issues/338
-- status: library-dev
+- status: library-shipped, workspace-pending
+- library-pr: https://github.com/PyAutoLabs/PyAutoArray/pull/339
 - worktree: ~/Code/PyAutoLabs-wt/array2d-native-jit-safety
 - repos:
   - PyAutoArray: feature/array2d-native-jit-safety
