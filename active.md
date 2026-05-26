@@ -65,3 +65,4 @@
 - status: library-dev
 - worktree: ~/Code/PyAutoLabs-wt/mass-profiles-docs
 - repos:
+  - PyAutoGalaxy: feature/mass-profiles-docs
