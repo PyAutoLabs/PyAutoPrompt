@@ -59,10 +59,3 @@
       7. Inversion mapping audit + assertion (mapping.py / abstract.py)
       8. End-to-end library integration test
       (workspace) extend convolution.py + new convolution_oversampled.py + simulator.py
-
-## mge-cse-fallback
-- issue: https://github.com/PyAutoLabs/PyAutoGalaxy/issues/448
-- status: library-dev
-- worktree: ~/Code/PyAutoLabs-wt/mge-cse-fallback
-- repos:
-  - PyAutoGalaxy: feature/mge-cse-fallback

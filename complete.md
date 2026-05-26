@@ -4023,3 +4023,9 @@
 - completed: 2026-05-26
 - library-pr: https://github.com/PyAutoLabs/PyAutoGalaxy/pull/447
 - notes: Phase 2 of mass profiles refactor epic (PyAutoGalaxy#445). Threaded xp=np through all MassProfileCSE forward-path methods and replaced np.sqrt/np.vstack with xp equivalents. NFW callers now thread xp=xp. Decomposition solver stays NumPy-only (one-time setup, not JIT-traced). 406 unit tests pass. Next phase: MGE/CSE fallback mechanism (autogalaxy/mge_cse_fallback.md).
+
+## mge-cse-fallback
+- issue: https://github.com/PyAutoLabs/PyAutoGalaxy/issues/448
+- completed: 2026-05-26
+- library-pr: https://github.com/PyAutoLabs/PyAutoGalaxy/pull/449
+- notes: Phase 3 of mass profiles refactor epic (PyAutoGalaxy#445). Added potential_2d_via_mge_from to MGEDecomposer using E1 exponential integral (Shajib 2019, cross-validated against Jax-Lensing-Profiles). Replaced zero-returning methods across 10 profiles: PointMass/MassSheet got analytic potentials, cNFW got MGE convergence+potential, remaining 7 profiles got MGE potential. 12 files changed, 406 tests pass. Self-consistency 0.3% (laplacian=2kappa). Next phase: spring clean (autogalaxy/mass_profiles_spring_clean.md).
