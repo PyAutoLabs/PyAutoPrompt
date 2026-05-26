@@ -65,3 +65,4 @@
 - status: library-dev
 - worktree: ~/Code/PyAutoLabs-wt/cse-jax-port
 - repos:
+  - PyAutoGalaxy: feature/cse-jax-port
