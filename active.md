@@ -65,3 +65,4 @@
 - status: library-dev
 - worktree: ~/Code/PyAutoLabs-wt/mass-profiles-spring-clean
 - repos:
+  - PyAutoGalaxy: feature/mass-profiles-spring-clean
