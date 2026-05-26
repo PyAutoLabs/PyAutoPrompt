@@ -59,3 +59,9 @@
       7. Inversion mapping audit + assertion (mapping.py / abstract.py)
       8. End-to-end library integration test
       (workspace) extend convolution.py + new convolution_oversampled.py + simulator.py
+
+## cse-jax-port
+- issue: https://github.com/PyAutoLabs/PyAutoGalaxy/issues/446
+- status: library-dev
+- worktree: ~/Code/PyAutoLabs-wt/cse-jax-port
+- repos:
