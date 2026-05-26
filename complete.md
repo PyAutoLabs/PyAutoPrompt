@@ -4011,3 +4011,9 @@
 - completed: 2026-05-24
 - workspace-pr: https://github.com/PyAutoLabs/autogalaxy_workspace/pull/103
 - notes: Phase 4c + 5e bundled. 3 scripts: autogalaxy_workspace/scripts/multi/start_here.py (refresh), guides/data_structures.py (mirror of autolens 5a), guides/galaxies.py (mirror of autolens 5b). Both guide sections cross-reference autolens_workspace lens_calc.py for the canonical JIT-it-yourself deep-dive — autogalaxy has no lens_calc.py equivalent. Closes the autogalaxy side of jax_user_intro. **z_features/jax_user_intro.md series complete end-to-end** — 5 library PRs + 14 workspace PRs across all phases.
+
+## mass-self-consistency-tests
+- issue: https://github.com/PyAutoLabs/autolens_workspace_test/issues/122
+- completed: 2026-05-26
+- workspace-pr: https://github.com/PyAutoLabs/autolens_workspace_test/pull/124
+- notes: Phase 1 of mass profiles refactor epic (PyAutoGalaxy#445). Added scripts/mass/ with 7 files testing 42 mass profiles via numerical differentiation of lensing relations. 56 PASS / 1 FAIL (NFWSph grad(psi)=alpha at 11% — genuine finding) / 69 SKIP (zero-returning or not-implemented potentials). Key debugging: autoarray Grid2D.uniform has y decreasing along axis 0 — np.gradient needs negative spacing. Some profiles return raw ndarray instead of autoarray types. Next phase: CSE JAX port (autogalaxy/cse_jax_port.md).
