@@ -59,10 +59,3 @@
       7. Inversion mapping audit + assertion (mapping.py / abstract.py)
       8. End-to-end library integration test
       (workspace) extend convolution.py + new convolution_oversampled.py + simulator.py
-
-## mass-profiles-docs
-- issue: https://github.com/PyAutoLabs/PyAutoGalaxy/issues/452
-- status: library-dev
-- worktree: ~/Code/PyAutoLabs-wt/mass-profiles-docs
-- repos:
-  - PyAutoGalaxy: feature/mass-profiles-docs

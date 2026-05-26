@@ -4034,3 +4034,9 @@
 - issue: https://github.com/PyAutoLabs/PyAutoGalaxy/issues/450
 - completed: 2026-05-26
 - notes: Phase 4 of mass profiles refactor epic (PyAutoGalaxy#445). Audit-only — no code changes needed. xp threading already complete (Phases 2-3 covered it), decorators consistent, no dead code remaining. mass_to_light_ratio naming asymmetry documented but not fixed (breaking change). Closed without PR.
+
+## mass-profiles-docs
+- issue: https://github.com/PyAutoLabs/PyAutoGalaxy/issues/452
+- completed: 2026-05-26
+- library-pr: https://github.com/PyAutoLabs/PyAutoGalaxy/pull/453
+- notes: Phase 5 (final) of mass profiles refactor epic (PyAutoGalaxy#445). LaTeX docstrings added to all 26 mass profile files — mathematical definitions, paper references, parameter units. 1283 lines of documentation. No code logic changed, 406 tests pass.
