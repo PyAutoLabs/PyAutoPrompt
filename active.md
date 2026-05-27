@@ -61,12 +61,3 @@
       (workspace) extend convolution.py + new convolution_oversampled.py + simulator.py
 
 
-## cache-fit-properties
-- issue: https://github.com/PyAutoLabs/PyAutoArray/issues/340
-- session: claude --resume "cache-fit-properties"
-- status: library-dev
-- worktree: ~/Code/PyAutoLabs-wt/cache-fit-properties
-- repos:
-  - PyAutoArray: feature/cache-fit-properties
-  - PyAutoGalaxy: feature/cache-fit-properties
-  - PyAutoLens: feature/cache-fit-properties
