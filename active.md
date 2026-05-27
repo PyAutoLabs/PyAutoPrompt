@@ -59,3 +59,10 @@
       7. Inversion mapping audit + assertion (mapping.py / abstract.py)
       8. End-to-end library integration test
       (workspace) extend convolution.py + new convolution_oversampled.py + simulator.py
+
+## mass-test-modes
+- issue: https://github.com/PyAutoLabs/autolens_workspace_test/issues/131
+- status: workspace-dev
+- worktree: ~/Code/PyAutoLabs-wt/mass-test-modes
+- repos:
+  - autolens_workspace_test: feature/mass-test-modes
