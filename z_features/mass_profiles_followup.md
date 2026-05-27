@@ -37,6 +37,21 @@ Phase 3 MGE fallback landed. Three independent problems, each a separate task.
   inconsistent. This was found in Phase 1 and persists — it is independent of the
   MGE work and affects the existing analytic NFWSph potential.
 
+## Issue 4: Fast / Full Test Modes for Mass Profile Test Suite
+
+- [mass_test_fast_full_modes.md](../autolens_workspace_test/mass_test_fast_full_modes.md)
+- Repos: autolens_workspace_test
+- Refactor the scripts/mass/ test suite into two modes:
+  - **Fast** (default): quick sanity check — small grid, single representative
+    parameter set per profile, loose tolerances. Used for smoke tests and
+    "did my changes break something?" checks. Should complete in under 30s total.
+  - **Full**: stress-test — larger grid, many parameter combinations per profile
+    (pushing to extremes: high ellipticity, large/small radii, edge-case parameter
+    values), tighter tolerances. Used for pre-release validation and catching
+    subtle numerical issues.
+- Depends on: Issues 1–3 (fix the known failures first, then the full mode
+  can meaningfully test for regressions vs real bugs)
+
 ## Test Suite Status (after all fixes)
 
 ```
