@@ -67,3 +67,6 @@
 - status: library-dev
 - worktree: ~/Code/PyAutoLabs-wt/cache-fit-properties
 - repos:
+  - PyAutoArray: feature/cache-fit-properties
+  - PyAutoGalaxy: feature/cache-fit-properties
+  - PyAutoLens: feature/cache-fit-properties
