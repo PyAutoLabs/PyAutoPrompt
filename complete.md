@@ -4054,3 +4054,14 @@
 - completed: 2026-05-27
 - library-pr: https://github.com/PyAutoLabs/PyAutoGalaxy/pull/457
 - notes: Added xp=np to convergence_func in 5 locations (MassProfile base, ExternalShear, ExternalPotential, MassSheet, SersicGradient). Unblocks MGE potential for PowerLawBroken, dPIE, SersicGradient.
+
+## mge-potential-elliptical
+- issue: https://github.com/PyAutoLabs/PyAutoGalaxy/issues/459
+- completed: 2026-05-27
+- library-pr: https://github.com/PyAutoLabs/PyAutoGalaxy/pull/460
+- notes: Replaced circular E1 potential with Gauss-Legendre deflection line integral. Elliptical Sersic/Chameleon/DevVaucouleurs/cNFW all now PASS. Gaussian remains a known MGE decomposition limitation.
+
+## nfw-sph-potential-mismatch
+- issue: resolved without PR
+- completed: 2026-05-27
+- notes: Not a bug. The 11% error is finite-difference truncation error from np.gradient on the highly-curved NFW potential. Point-wise comparison confirmed ratio=1.0000 at every radius. Minor xp fix shipped in #458.
