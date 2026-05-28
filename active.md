@@ -9,3 +9,5 @@
 - status: library-dev
 - worktree: ~/Code/PyAutoLabs-wt/weak-dataset-from-json
 - repos:
+  - PyAutoArray: feature/weak-dataset-from-json
+  - PyAutoLens: feature/weak-dataset-from-json
