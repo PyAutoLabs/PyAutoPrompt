@@ -9,8 +9,11 @@
 
 ## weak-dataset-from-json
 - issue: https://github.com/PyAutoLabs/PyAutoLens/issues/554
-- status: library-dev
+- status: library-shipped, workspace-pending
 - worktree: ~/Code/PyAutoLabs-wt/weak-dataset-from-json
+- library-pr:
+  - PyAutoArray: https://github.com/PyAutoLabs/PyAutoArray/pull/342
+  - PyAutoLens: https://github.com/PyAutoLabs/PyAutoLens/pull/555
 - repos:
   - PyAutoArray: feature/weak-dataset-from-json
   - PyAutoLens: feature/weak-dataset-from-json
