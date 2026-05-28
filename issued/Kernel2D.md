@@ -21,3 +21,6 @@ Does autolens_assistant need any kind of rebuild or whatnot done when I update w
 Rich  [10:25 AM]
 There's a skill that should check the API but we might want to nail it down better
 [10:25 AM]It could possibly keep a hash of the AutoLens release and then diff so the agent can see API updates
+
+
+Note that Kernel2D was removed like 6 months ago so this is a very strange old API issue.
