@@ -1,8 +1,11 @@
 ## flux-latents-raw
 - issue: https://github.com/PyAutoLabs/PyAutoLens/issues/556
-- status: library-dev
+- status: library-shipped, workspace-pending
 - worktree: ~/Code/PyAutoLabs-wt/flux-latents-raw
 - overlap: shares PyAutoLens with weak-dataset-from-json — force-started per user direction
+- library-pr:
+  - PyAutoGalaxy: https://github.com/PyAutoLabs/PyAutoGalaxy/pull/463
+  - PyAutoLens: https://github.com/PyAutoLabs/PyAutoLens/pull/557
 - repos:
   - PyAutoGalaxy: feature/flux-latents-raw
   - PyAutoLens: feature/flux-latents-raw
