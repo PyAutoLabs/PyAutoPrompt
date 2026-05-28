@@ -1,4 +1,18 @@
 
+## flux-latents-raw
+- issue: https://github.com/PyAutoLabs/PyAutoLens/issues/556
+- completed: 2026-05-28
+- library-pr:
+  - https://github.com/PyAutoLabs/PyAutoGalaxy/pull/463
+  - https://github.com/PyAutoLabs/PyAutoLens/pull/557
+- workspace-pr:
+  - https://github.com/PyAutoLabs/autolens_workspace/pull/214
+  - https://github.com/PyAutoLabs/autogalaxy_workspace/pull/108
+  - https://github.com/PyAutoLabs/autolens_workspace_test/pull/133
+  - https://github.com/PyAutoLabs/euclid_strong_lens_modeling_pipeline/pull/19
+- repos: PyAutoGalaxy, PyAutoLens, autolens_workspace, autogalaxy_workspace, autolens_workspace_test, euclid_strong_lens_modeling_pipeline
+- notes: Surfaced by autolens_profiling HPC job 322548 — Nautilus converged in 11m40s then `search.fit()` crashed in `SearchUpdater._compute_latent_samples` with `ValueError: magzero must be passed...`. Replaced the hard raise in `_require_magzero` with `_maybe_magzero_warn` (returns NaN + one logger.warning per process per latent name) so misconfigured latent.yaml + missing magzero can no longer kill an otherwise-converged search. Plan pivoted mid-design (user direction) from "soft-fail in place" to "add raw-flux siblings alongside" — three new lensing latents (`total_lens_flux`, `total_lensed_source_flux`, `total_source_flux`) and one galaxy latent (`total_galaxy_0_flux`) all ship default-on and need no instrument inputs. Workspace guides (`scripts/guides/units/flux.py` + `scripts/guides/results/latent_variables.py` in both autolens and autogalaxy) updated to demo reading the new columns from `latent.csv` and converting to µJy via `ab_mag_via_flux_from` + `flux_mujy_via_ab_mag_from`. `latent_variables_smoke.py` migrated from 5-key to 8-key registry. Discovered during smoke that autoconf merges sibling-package `latent.yaml` files into one `conf.instance["latent"]` node — autogalaxy's new default-on key was triggering "unknown latent" warnings per fit in every autolens consumer; silenced workspace-side with explicit `total_galaxy_0_flux: false` overrides in `autolens_workspace`, `autolens_workspace_test`, and Euclid (per user direction expanding the original plan). Worth following up: autoconf could namespace `latent.yaml` per package to avoid that class of bleed. PyAutoLens worktree force-started alongside `weak-dataset-from-json` (#555) — the parallel-worktree pattern worked. `gh pr view --json labels` is broken in this env (projectCards GraphQL deprecation); used `gh api repos/.../pulls/N --jq '[.labels[].name]'` throughout.
+
 ## quick-update-docs-followup
 - issue: https://github.com/PyAutoLabs/autofit_workspace/issues/66 (CLOSED 2026-05-28)
 - completed: 2026-05-28
