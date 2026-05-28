@@ -19,8 +19,11 @@ For the full workflow narrative, conventions, and registry schemas, read
   `cluster/`, `weak/`, `workspaces/`, `autolens_workspace_developer/`,
   `autoprompt/`, `z_vault/`.
 - **Registry** — root-level markdown files: `active.md`, `complete.md`,
-  `planned.md`, `queue.md`, `priority.md`, `ideas.md`. Mutate these only via the
-  skills in `skills/` so commit messages stay consistent.
+  `planned.md`, `parked.md`, `queue.md`, `priority.md`, `ideas.md`. Mutate
+  these only via the skills in `skills/` so commit messages stay consistent.
+  `parked.md` holds tasks that were started or scoped but are not currently
+  in flight (e.g. work parked in a stash, orphan worktrees); move back to
+  `active.md` (or `planned.md` if re-scoping) when resuming.
 - **Skills** — `skills/<name>/` are Claude Code skills/commands tightly coupled
   to the registry. They source `scripts/prompt_sync.sh` for commit/push.
 - **Scripts** — `scripts/status.sh` (inventory), `scripts/prompt_sync.sh`

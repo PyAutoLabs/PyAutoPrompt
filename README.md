@@ -137,6 +137,7 @@ PyAutoPrompt/
 ├── active.md                ← tasks currently in progress (one ## section per task)
 ├── complete.md              ← finished tasks (most recent first)
 ├── ideas.md                 ← raw incubating ideas, no structure required
+├── parked.md                ← started/scoped but not in flight (stashes, orphan worktrees, deferred)
 ├── planned.md               ← issued tasks blocked from starting (created on demand)
 ├── priority.md              ← hand-curated priority hints
 ├── queue.md                 ← processing queue for /register_and_iterate

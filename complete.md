@@ -1,4 +1,10 @@
 
+## smoke-test-optimization
+- issue: https://github.com/rhayes777/PyAutoFit/issues/1183 (CLOSED 2026-04-10)
+- completed: 2026-05-28 (active.md cleanup; substantive work landed 2026-04-10)
+- repos: PyAutoArray, PyAutoFit, PyAutoConf, PyAutoGalaxy, PyAutoLens
+- notes: Profiled smoke-test scripts across workspaces and shipped a stack of env-var-gated fast paths. `PYAUTO_WORKSPACE_SMALL_DATASETS=1` caps grids/masks to 15x15 and forces over_sample_size=2 (PyAutoArray); `PYAUTO_DISABLE_JAX=1` short-circuits use_jax in Analysis.__init__ (PyAutoFit); `PYAUTO_FAST_PLOTS=1` skips tight_layout, savefig, and critical-curve/caustic overlays (PyAutoArray/Galaxy/Lens). Test-mode >= 2 also skips print_vram_use, model.info, result_info, and pre/post-fit I/O (PyAutoFit). The test_mode hook itself moved to autoconf so PyAutoArray CI no longer needs autofit. Headline: `imaging/simulator.py` 100s → 3.6s (96%), `interferometer/simulator.py` 100s → 4.4s, `imaging/modeling.py` 100s → 19.5s (80%). Cosmology-distance and repeated-ray-tracing follow-ups were subsumed by later prompts (cache-fit-properties #340 and the unify-jax-visualization warmup work). Issue closed on GitHub 2026-04-10; PyAutoPrompt active.md entry retired 2026-05-28.
+
 ## unify-jax-visualization
 - issue: https://github.com/PyAutoLabs/PyAutoFit/issues/1296
 - completed: 2026-05-27
