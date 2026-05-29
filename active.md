@@ -7,3 +7,4 @@
 - status: library-dev
 - worktree: ~/Code/PyAutoLabs-wt/nss-chunked-init
 - repos:
+  - PyAutoFit: feature/nss-chunked-init
