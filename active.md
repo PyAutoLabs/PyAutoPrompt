@@ -8,3 +8,4 @@
 - status: workspace-dev
 - worktree: ~/Code/PyAutoLabs-wt/sparse-vs-dense-profile
 - repos:
+  - autolens_profiling: feature/sparse-vs-dense-profile
