@@ -15,4 +15,6 @@
 - session: claude --resume <session-id>
 - status: library-dev
 - worktree: ~/Code/PyAutoLabs-wt/analysis-shared-state
+- epic: z_features/analysis_shared_state.md (sub-task A — autofit deliverable)
 - repos:
+  - PyAutoFit: feature/analysis-shared-state
