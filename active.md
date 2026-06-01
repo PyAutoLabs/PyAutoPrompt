@@ -13,8 +13,11 @@
 ## analysis-shared-state
 - issue: https://github.com/PyAutoLabs/PyAutoFit/issues/1307
 - session: claude --resume <session-id>
-- status: workspace-dev
+- status: shipped, pending-release
 - library-pr: https://github.com/PyAutoLabs/PyAutoFit/pull/1308
+- workspace-pr:
+  - https://github.com/PyAutoLabs/autofit_workspace/pull/69
+  - https://github.com/PyAutoLabs/autofit_workspace_test/pull/31
 - worktree: ~/Code/PyAutoLabs-wt/analysis-shared-state
 - epic: z_features/analysis_shared_state.md (sub-task A — autofit deliverable)
 - repos:
