@@ -8,7 +8,9 @@ Can you therefore look at the project with a high level holistic overview and do
 profiling times for imaging, interferometer and datacube. Can you give me likelihood_runtime values for all
 for all instrument types (e.g. for imaging do Ao, JWST, HST), whereas for likelihood_breakdown stick to HST for
 imaging, Alma_high for interferometer and datacube. dont worry about point_source for now. For imaging
-also do the whole sparse vs mapping and make sure this runs through packages like vram too.
+also do the whole sparse vs mapping and make sure this runs through packages like vram too. of course for
+the _runtime we should also get info on using vmap primarily, I guess it shuld be vmap only using the batch
+sizes that are computed via the vram package.
 
 Can you first do a scan of the repo and make sure that when these results come in, they are saved as .md or
 .json files and perhaps clearly displayed in eery GitHub .md file for browsing and viewing. This is really our
