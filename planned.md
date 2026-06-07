@@ -4,7 +4,7 @@
 - planned: 2026-06-01
 - classification: library (test-only)
 - suggested-branch: feature/nss-test-optional-dep-skip
-- blocked-by: analysis-shared-state (using PyAutoFit)
+- blocked-by: (cleared 2026-06-07 — analysis-shared-state shipped; PyAutoFit free, ready to /start_library)
 - affected-repos:
   - PyAutoFit
 
