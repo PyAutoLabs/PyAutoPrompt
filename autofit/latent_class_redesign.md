@@ -71,8 +71,9 @@ latent concerns and is declared on the analysis. New module
   - `variables(analysis, parameters, model) -> tuple | dict` — compute one sample's
     latents (replaces `compute_latent_variables`).
   - `BATCH_MODE = "vmap"` (replaces `LATENT_BATCH_MODE`).
-  - Follow the `Visualizer` convention (`@staticmethod` taking `analysis`) unless a
-    decision is made for instance methods (see open questions).
+  - **DECIDED: static methods, mirroring `Visualizer`** — `@staticmethod keys(analysis)`
+    and `@staticmethod variables(analysis, parameters, model)`. Per-fit state (e.g.
+    `magzero`) is reached via the passed `analysis.kwargs`. No instance lifecycle.
 - **Engine as a module function** in `latent.py`:
   `latent_samples_from(latent, analysis, samples, batch_size)` — the batching, vmap/jit
   dispatch, masking and salvage moved verbatim out of `Analysis.compute_latent_samples`.
@@ -88,10 +89,9 @@ latent concerns and is declared on the analysis. New module
   the yaml via `latent_keys_enabled()`, `variables()` builds the `{fit, magzero, xp}`
   context and dispatches `LATENT_FUNCTIONS`. `AnalysisImaging` declares `Latent = LensLatent`.
   The registry + yaml toggles stay (good config story) but move inside the class.
-- **Latent output config**: give the latent output flags a clear owner. Minimum: keep
-  `output.yaml` latent_* read by the updater. Stretch: a small `LatentConfig` (draw mode,
-  size, during/after, per-latent enable) consumed by the updater/`Latent`, so downstream
-  projects configure output in one place. Decide scope (open question).
+- **Latent output config — DECIDED: keep `output.yaml` latent_* flags as-is**, read by the
+  updater. No `LatentConfig` in this redesign (smallest blast radius); a richer per-latent
+  output config can be a separate follow-up once the class/engine split has landed.
 
 Net separation: **definition+selection** = `Latent` subclass; **engine** = `latent.py`
 function; **output+config** = `SearchUpdater` (+ optional `LatentConfig`); `Analysis`
@@ -120,18 +120,18 @@ workspace tutorials, the autofit cookbook. A big-bang multi-repo break is risky.
 Issue each phase as its own task when its predecessor is close to shipping (do not queue
 all upfront).
 
-## Open design decisions (resolve in Opus before coding)
+## Design decisions
 
-1. **Static vs instance `Latent`.** Static mirrors `Visualizer` exactly and is simplest
-   (state like `magzero` is reachable via the passed `analysis.kwargs`). Instance (like
-   `Result`) allows per-fit caching. Recommend static for consistency unless a concrete
-   need appears.
-2. **Name.** `Latent` (noun, mirrors `Visualizer`/`Result`) vs `LatentMaker`/`LatentComputer`.
-3. **Method names.** `keys()` / `variables()` vs keeping `compute_latent_variables` for
-   continuity (affects the back-compat shim).
-4. **How far to take output config.** Keep `output.yaml` flags only, or introduce a
-   `LatentConfig` for richer per-latent output control.
-5. **Shim+deprecate vs hard migrate.** Recommend shim (Phase 1) to de-risk.
+Resolved (locked):
+- **Static methods, mirroring `Visualizer`** (`@staticmethod` taking `analysis`).
+- **Keep `output.yaml` latent_* flags as-is** — no `LatentConfig` in this redesign.
+- **Phased migration with a Phase-1 back-compat shim** (de-risks the multi-repo break).
+
+Still open (decide in Opus when Phase 1 is picked up):
+- **Name** — `Latent` (recommended; mirrors `Visualizer`/`Result`) vs
+  `LatentMaker`/`LatentComputer`.
+- **Method names** — `keys()` / `variables()` vs keeping `compute_latent_variables` for
+  continuity (affects how thin the back-compat shim is).
 
 ## Documentation gap (close in Phase 3)
 
