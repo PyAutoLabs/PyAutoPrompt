@@ -1,4 +1,29 @@
 
+## lens-config-robustness
+- issue: (none — recovered by repo_cleanup sweep)
+- completed: 2026-06-07
+- workspace-pr:
+  - https://github.com/PyAutoLabs/autolens_workspace_developer/pull/84
+- repos: autolens_workspace_developer
+- notes: Stranded worktree surfaced by the repo_cleanup sweep — 9 untracked files (no committed work) on `feature/lens-config-robustness`, branch 0 ahead of main. Landed the 5 `source_science/` helper modules (`lens_configs`, `sim_helpers`, `fit_helpers`, `extract_mge_lens_truth`, `run_all_tests`) and four imaging "truth" config datasets (`config_0_{1..4}`: sérsic/MGE truth × sérsic-lens/no-lens). Per user decision, committed inputs only (`data`/`noise_map`/`psf.fits`, `source_science.json`, truth `tracer.json`); regenerable fit outputs (`fit_comparison.*`, `fits/`) excluded and cleaned on teardown. FF'd the stale branch onto main before committing.
+
+## pyauto-update-digest
+- issue: (none — recovered by repo_cleanup sweep)
+- completed: 2026-06-07
+- workspace-pr:
+  - https://github.com/PyAutoLabs/PyAutoPrompt/pull/20
+- repos: PyAutoPrompt
+- notes: Stranded worktree on `feature/pyauto-update-digest` — the feature body had already squash-merged via #19, leaving 4 follow-up `ci:` commits on a branch that had drifted ~231 commits behind main. A direct merge would have reverted ~13,965 lines across 151 prompt files. Extracted ONLY the forward `.github/workflows/morning_status.yml` delta (~40 lines) onto a fresh branch from main: add `id-token: write`, swap API key → Claude Max OAuth token, drop the temporary secret-probe step + repair the scheduled-run gate, simplify the Write-tool prompt. Verified no secret-probe remained in the committed file. Stale `feature/pyauto-update-digest` deleted local + remote. (Note: `gh pr create` chokes on PyAutoPrompt's SSH remote — used `gh api repos/.../pulls` instead.)
+
+## strip-non-jit-noise-add-alma-high-res
+- issue: (none — recovered by repo_cleanup sweep)
+- completed: 2026-06-07
+- workspace-pr:
+  - https://github.com/PyAutoLabs/autolens_profiling/pull/45
+  - https://github.com/PyAutoLabs/autolens_workspace_developer/pull/85
+- repos: autolens_profiling, autolens_workspace_developer
+- notes: Stranded worktree with uncommitted work in two repos. Landed the conflict-free half — the new `alma_high_res` interferometer dataset (profiling #45) + its `jax_profiling/dataset_setup/interferometer.py` wiring (developer #85). DROPPED the `strip-non-jit-noise` refactor of `likelihood/*.py`: it conflicted with main and was superseded by `898fe12` ("split into likelihood_breakdown + likelihood_runtime packages"), which realizes the same eager-vs-runtime separation more thoroughly. The refactor remains recoverable as a parked stash (`strip-noise wip`) in the autolens_profiling stash list — not landed.
+
 ## flux-latents-raw
 - issue: https://github.com/PyAutoLabs/PyAutoLens/issues/556
 - completed: 2026-05-28
