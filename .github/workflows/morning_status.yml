@@ -84,11 +84,6 @@ jobs:
         uses: anthropics/claude-code-action@v1
         with:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
-          # Headless prompt mode runs Claude with a restricted default tool
-          # set; the first run had `permission_denials_count: 2` and never
-          # wrote slack_payload.json. Allow Read (to load pushes_to_main.json)
-          # and Write (to emit slack_payload.json). No Bash, no network tools.
-          claude_args: "--allowedTools Read,Write"
           prompt: |
             Read `pushes_to_main.json` in this directory. It has shape:
 
@@ -148,16 +143,8 @@ jobs:
             release bump (if any) first, then merged PRs, then direct
             pushes.
 
-            **You MUST invoke the Write tool to create the file at the path
-            `slack_payload.json` (relative to the current working directory).**
-            Do not output the JSON in your text response. Do not describe
-            the file. Do not preview it. Just call Write with `file_path:
-            "slack_payload.json"` and `content:` set to the JSON below.
-            The next workflow step reads that file from disk and fails the
-            run if it is missing — printing the JSON without writing it
-            does NOT count.
-
-            The exact JSON shape to write:
+            Then write `slack_payload.json` in the repo root, with this
+            exact shape:
 
               {
                 "text": "PyAuto update — <uk_date>",
@@ -213,4 +200,3 @@ jobs:
                --data @slack_payload.json \
                --fail-with-body \
                "$SLACK_WEBHOOK_URL"
-
