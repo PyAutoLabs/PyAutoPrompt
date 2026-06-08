@@ -1,5 +1,17 @@
 # Active Tasks
 
+## kaplinghat-sidm-cored-nfw
+- issue: https://github.com/PyAutoLabs/PyAutoLens/issues/564
+- session: codex --resume <session-id>
+- status: library-dev
+- worktree: ~/Code/PyAutoLabs-wt/kaplinghat-sidm-cored-nfw
+- suggested-branch: feature/kaplinghat-sidm-cored-nfw
+- classification: library
+- affected-repos:
+  - PyAutoGalaxy
+- notes: Initial implementation phase scoped to PyAutoGalaxy because PyAutoLens is currently claimed by datacube-shared-state. PyAutoLens substructure batching/validation should follow after that claim clears if source changes are needed there.
+- repos:
+
 ## datacube-shared-state
 - issue: https://github.com/PyAutoLabs/PyAutoLens/issues/565
 - session: claude --resume <session-id>
@@ -13,4 +25,3 @@
 - repos:
   - PyAutoLens: feature/datacube-shared-state
   - PyAutoArray: feature/datacube-shared-state
-
