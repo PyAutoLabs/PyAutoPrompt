@@ -1,4 +1,18 @@
 
+## datacube-shared-state
+- issue: https://github.com/PyAutoLabs/PyAutoLens/issues/565
+- completed: 2026-06-08
+- epic: z_features/analysis_shared_state.md (sub-task B — lensing datacube consumer)
+- library-pr:
+  - https://github.com/PyAutoLabs/PyAutoArray/pull/344
+  - https://github.com/PyAutoLabs/PyAutoLens/pull/566
+- workspace-pr:
+  - https://github.com/PyAutoLabs/autolens_workspace/pull/218
+  - https://github.com/PyAutoLabs/autolens_workspace_test/pull/138
+  - https://github.com/PyAutoLabs/autolens_profiling/pull/47
+- repos: PyAutoArray, PyAutoLens, autolens_workspace, autolens_workspace_test, autolens_profiling
+- notes: Claude completed and merged the datacube shared-state library and workspace PRs, but hit a session limit before clearing the PyAutoPrompt active entry. Codex verified the relevant local checkouts are on merged main commits and retired the stale active claim so subsequent workspace-test work can proceed.
+
 ## analysis-shared-state
 - issue: https://github.com/PyAutoLabs/PyAutoFit/issues/1307
 - completed: 2026-06-07
