@@ -7,4 +7,6 @@
 - worktree: ~/Code/PyAutoLabs-wt/datacube-shared-state
 - epic: z_features/analysis_shared_state.md (sub-task B — lensing datacube consumer)
 - repos:
+  - PyAutoLens: feature/datacube-shared-state
+  - PyAutoArray: feature/datacube-shared-state
 
