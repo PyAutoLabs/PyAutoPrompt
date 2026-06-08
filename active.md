@@ -10,6 +10,7 @@
 - affected-repos:
   - PyAutoFit
 - repos:
+  - PyAutoFit: feature/test-mode-fake-sample-count
 
 ## kaplinghat-sidm-cored-nfw
 - issue: https://github.com/PyAutoLabs/PyAutoLens/issues/564
