@@ -1,15 +1,5 @@
 # Active Tasks
 
-## nss-test-optional-dep-skip
-- issue: https://github.com/PyAutoLabs/PyAutoFit/issues/1309
-- session: codex --resume <session-id>
-- status: library-pr-created
-- library-pr:
-  - https://github.com/PyAutoLabs/PyAutoFit/pull/1312
-- worktree: /home/jammy/Code/PyAutoLabs/.worktrees/nss-test-optional-dep-skip
-- repos:
-  - PyAutoFit: feature/nss-test-optional-dep-skip
-
 ## kaplinghat-sidm-cored-nfw
 - issue: https://github.com/PyAutoLabs/PyAutoLens/issues/564
 - session: codex --resume <session-id>
