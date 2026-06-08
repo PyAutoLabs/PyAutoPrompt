@@ -10,6 +10,7 @@
 - affected-repos:
   - autofit_workspace
 - repos:
+  - autofit_workspace: feature/nss-optional-dependency-workspace
 
 ## kaplinghat-sidm-cored-nfw
 - issue: https://github.com/PyAutoLabs/PyAutoLens/issues/564
