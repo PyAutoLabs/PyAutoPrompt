@@ -1,0 +1,4 @@
+interface:
+  display_name: "Start Workspace"
+  short_description: "Prepare PyAuto workspace worktrees"
+  default_prompt: "Use $start-workspace to prepare workspace repositories for the active PyAutoLabs task."

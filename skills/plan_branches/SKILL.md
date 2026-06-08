@@ -1,5 +1,5 @@
 ---
-name: plan_branches
+name: plan-branches
 description: After a plan is approved, survey all affected repositories for current branch state and suggest a unified working branch name to avoid overlap with other work or agents.
 ---
 

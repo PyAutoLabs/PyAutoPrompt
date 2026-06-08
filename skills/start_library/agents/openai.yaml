@@ -1,0 +1,4 @@
+interface:
+  display_name: "Start Library"
+  short_description: "Prepare PyAuto source-library worktrees"
+  default_prompt: "Use $start-library to prepare the source-library worktree for the active PyAutoLabs task."

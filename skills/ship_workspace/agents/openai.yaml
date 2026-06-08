@@ -1,0 +1,4 @@
+interface:
+  display_name: "Ship Workspace"
+  short_description: "Smoke-test and PR PyAuto workspace changes"
+  default_prompt: "Use $ship-workspace to ship the active PyAutoLabs workspace task."

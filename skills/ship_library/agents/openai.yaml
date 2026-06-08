@@ -1,0 +1,4 @@
+interface:
+  display_name: "Ship Library"
+  short_description: "Test and PR PyAuto source-library changes"
+  default_prompt: "Use $ship-library to ship the active PyAutoLabs source-library task."

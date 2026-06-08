@@ -1,0 +1,6 @@
+interface:
+  display_name: "Start Dev"
+  short_description: "Create and route PyAuto development tasks"
+  default_prompt: "Use $start-dev to start a PyAutoLabs task from a PyAutoPrompt markdown file."
+policy:
+  allow_implicit_invocation: true
