@@ -22,7 +22,7 @@
 ## datacube-shared-state
 - issue: https://github.com/PyAutoLabs/PyAutoLens/issues/565
 - session: claude --resume <session-id>
-- status: library-shipped (curvature + mapper, ~97%); workspace (Phase 5) pending
+- status: workspace-dev (Phase 5); library curvature+mapper on #344/#566 (pending-release)
 - library-pr:
   - https://github.com/PyAutoLabs/PyAutoArray/pull/344
   - https://github.com/PyAutoLabs/PyAutoLens/pull/566
@@ -32,3 +32,6 @@
 - repos:
   - PyAutoLens: feature/datacube-shared-state
   - PyAutoArray: feature/datacube-shared-state
+  - autolens_workspace: feature/datacube-shared-state
+  - autolens_workspace_test: feature/datacube-shared-state
+  - autolens_profiling: feature/datacube-shared-state
