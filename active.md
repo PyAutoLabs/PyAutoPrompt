@@ -1,5 +1,16 @@
 # Active Tasks
 
+## nss-optional-dependency-workspace
+- issue: https://github.com/PyAutoLabs/autofit_workspace/issues/70
+- session: codex --resume <session-id>
+- status: workspace-dev
+- worktree: ~/Code/PyAutoLabs-wt/nss-optional-dependency-workspace
+- suggested-branch: feature/nss-optional-dependency-workspace
+- classification: workspace
+- affected-repos:
+  - autofit_workspace
+- repos:
+
 ## kaplinghat-sidm-cored-nfw
 - issue: https://github.com/PyAutoLabs/PyAutoLens/issues/564
 - session: codex --resume <session-id>
