@@ -3,16 +3,20 @@
 ## kaplinghat-sidm-cored-nfw
 - issue: https://github.com/PyAutoLabs/PyAutoLens/issues/564
 - session: codex --resume <session-id>
-- status: pyautogalaxy-pr-created, pyautolens-pending
+- status: pyautogalaxy-pr-created, pyautolens-local-commit-pending-push
 - library-pr: https://github.com/PyAutoLabs/PyAutoGalaxy/pull/471
 - worktree: ~/Code/PyAutoLabs-wt/kaplinghat-sidm-cored-nfw
 - suggested-branch: feature/kaplinghat-sidm-cored-nfw
 - classification: library
 - affected-repos:
   - PyAutoGalaxy
-- notes: Initial implementation phase scoped to PyAutoGalaxy because PyAutoLens is currently claimed by datacube-shared-state. PyAutoLens substructure batching/validation should follow after that claim clears if source changes are needed there.
+  - PyAutoLens
+- notes: Initial implementation phase scoped to PyAutoGalaxy because PyAutoLens was claimed by datacube-shared-state. User confirmed this PyAutoLens follow-up does not clash with datacube work, so Codex continued on the canonical PyAutoLens branch.
 - repos:
   - PyAutoGalaxy: feature/kaplinghat-sidm-cored-nfw
+  - PyAutoLens: feature/kaplinghat-sidm-cored-nfw
+- local-commits:
+  - PyAutoLens: 3fd6dd6d7 feat: support Kaplinghat halos in substructure arrays
 
 ## datacube-shared-state
 - issue: https://github.com/PyAutoLabs/PyAutoLens/issues/565
