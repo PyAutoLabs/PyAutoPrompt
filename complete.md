@@ -4242,3 +4242,10 @@
 - completed: 2026-06-08
 - workspace-pr: https://github.com/PyAutoLabs/autofit_workspace/pull/71 (merged d1a3dd1)
 - notes: Guarded `scripts/searches/nest.py` so environments without `autofit[nss]` skip only the optional NSS block. Verified targeted script, PyAutoBuild `autofit scripts/searches` runner, local smoke subset, and GitHub smoke CI on 3.12/3.13.
+
+## test-mode-fake-sample-count
+- issue: https://github.com/PyAutoLabs/PyAutoFit/issues/1313
+- completed: 2026-06-08
+- library-pr: https://github.com/PyAutoLabs/PyAutoFit/pull/1314 (merged 2e41016)
+- repos: PyAutoFit
+- notes: Expanded `PYAUTO_TEST_MODE=2/3` bypass-mode fake results from two to four deterministic samples so downstream latent-variable and multi-batch sample checks can run while still skipping the real sampler. Verified targeted `test_abstract_search.py` coverage, full PyAutoFit suite (`1413 passed, 14 skipped`), three latent robustness release blockers, PR CI, and local smoke across configured workspaces (`46 passed, 0 failed, 2 skipped`).

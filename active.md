@@ -1,17 +1,5 @@
 # Active Tasks
 
-## test-mode-fake-sample-count
-- issue: https://github.com/PyAutoLabs/PyAutoFit/issues/1313
-- session: codex --resume <session-id>
-- status: library-dev
-- worktree: ~/Code/PyAutoLabs-wt/test-mode-fake-sample-count
-- suggested-branch: feature/test-mode-fake-sample-count
-- classification: library
-- affected-repos:
-  - PyAutoFit
-- repos:
-  - PyAutoFit: feature/test-mode-fake-sample-count
-
 ## kaplinghat-sidm-cored-nfw
 - issue: https://github.com/PyAutoLabs/PyAutoLens/issues/564
 - session: codex --resume <session-id>
