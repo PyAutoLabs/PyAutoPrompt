@@ -3,8 +3,10 @@
 ## kaplinghat-sidm-cored-nfw
 - issue: https://github.com/PyAutoLabs/PyAutoLens/issues/564
 - session: codex --resume <session-id>
-- status: pyautogalaxy-pr-created, pyautolens-local-commit-pending-push
-- library-pr: https://github.com/PyAutoLabs/PyAutoGalaxy/pull/471
+- status: library-prs-created, workspace-impact-pending
+- library-pr:
+  - https://github.com/PyAutoLabs/PyAutoGalaxy/pull/471
+  - https://github.com/PyAutoLabs/PyAutoLens/pull/567
 - worktree: ~/Code/PyAutoLabs-wt/kaplinghat-sidm-cored-nfw
 - suggested-branch: feature/kaplinghat-sidm-cored-nfw
 - classification: library
@@ -15,9 +17,6 @@
 - repos:
   - PyAutoGalaxy: feature/kaplinghat-sidm-cored-nfw
   - PyAutoLens: feature/kaplinghat-sidm-cored-nfw
-- local-commits:
-  - PyAutoGalaxy: 8aa03972 feat: support vmapped Kaplinghat deflections (local follow-up branch feature/kaplinghat-sidm-cored-nfw-vmapped; original PR worktree is read-only in this sandbox)
-  - PyAutoLens: 3fd6dd6d7 feat: support Kaplinghat halos in substructure arrays
 
 ## datacube-shared-state
 - issue: https://github.com/PyAutoLabs/PyAutoLens/issues/565
