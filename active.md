@@ -3,7 +3,10 @@
 ## howto-tutorial-release-fixes
 - issue: https://github.com/PyAutoLabs/HowToLens/issues/15
 - session: codex --resume <session-id>
-- status: workspace-dev
+- status: workspace-prs-created, ci-green, merge-pending
+- workspace-prs:
+  - https://github.com/PyAutoLabs/HowToGalaxy/pull/12
+  - https://github.com/PyAutoLabs/HowToLens/pull/16
 - worktree: ~/Code/PyAutoLabs-wt/howto-tutorial-release-fixes
 - suggested-branch: feature/howto-tutorial-release-fixes
 - classification: workspace
