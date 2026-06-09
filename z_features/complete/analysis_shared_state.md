@@ -1,5 +1,23 @@
 # Epic: cross-`Analysis` shared per-evaluation state for `FactorGraphModel`
 
+**FEATURE COMPLETE — sub-task A merged 2026-06-07, sub-task B merged 2026-06-08.**
+Both "Done when" conditions below are satisfied: the generic mechanism + toy
+tutorial + fast tests are live, and the lensing datacube consumer uses the shared
+path with the cube-level profiling win recorded.
+
+Merged work:
+- **A (autofit):** PyAutoFit#1307 / [PR#1308](https://github.com/PyAutoLabs/PyAutoFit/pull/1308),
+  [autofit_workspace#69](https://github.com/PyAutoLabs/autofit_workspace/pull/69),
+  [autofit_workspace_test#31](https://github.com/PyAutoLabs/autofit_workspace_test/pull/31).
+- **B (lensing):** PyAutoLens#565,
+  [PyAutoArray#344](https://github.com/PyAutoLabs/PyAutoArray/pull/344),
+  [PyAutoLens#566](https://github.com/PyAutoLabs/PyAutoLens/pull/566),
+  [autolens_workspace#218](https://github.com/PyAutoLabs/autolens_workspace/pull/218),
+  [autolens_workspace_test#138](https://github.com/PyAutoLabs/autolens_workspace_test/pull/138),
+  [autolens_profiling#47](https://github.com/PyAutoLabs/autolens_profiling/pull/47).
+
+---
+
 Umbrella tracker for a multi-repo feature: give `FactorGraphModel` a
 **domain-agnostic** way for its per-factor `Analysis` objects to compute a shared,
 model-dependent object **once per likelihood evaluation** and have every factor
@@ -40,9 +58,9 @@ analog of the lensing mapper + L + curvature `F`.
 
 ## Sub-tasks
 
-### A — autofit deliverable (mechanism + toy + tutorial + fast tests)
-- Prompt: [analysis_shared_state_cross_factor.md](issued/analysis_shared_state_cross_factor.md)
-- Issue: PyAutoFit#1307 — **issued, in flight** (task `analysis-shared-state`)
+### A — autofit deliverable (mechanism + toy + tutorial + fast tests) — ✅ merged 2026-06-07
+- Prompt: [analysis_shared_state_cross_factor.md](../../issued/analysis_shared_state_cross_factor.md)
+- Issue: PyAutoFit#1307 — merged via [PR#1308](https://github.com/PyAutoLabs/PyAutoFit/pull/1308) (task `analysis-shared-state`)
 - Repos: PyAutoFit, autofit_workspace, autofit_workspace_test
 - Phases:
   1. PyAutoFit mechanism (`shared_state_from` + `shared=` kwarg, lead-factor
@@ -52,11 +70,10 @@ analog of the lensing mapper + L + curvature `F`.
      exact shared-vs-unshared likelihood equality, no-provider graph unchanged,
      tiny end-to-end `DynestyStatic`, JAX pytree-threading variant.
 
-### B — lensing deliverable (datacube consumer + workspace + profiling)
-- Prompt: [datacube_shared_state_consumer.md](autolens/datacube_shared_state_consumer.md)
-- Issue: **not yet issued** — `/start_dev autolens/datacube_shared_state_consumer.md`
-  once sub-task A is close to shipping (do not bulk-issue ahead of time).
-- Repos: PyAutoLens, autolens_workspace, autolens_workspace_test, autolens_profiling
+### B — lensing deliverable (datacube consumer + workspace + profiling) — ✅ merged 2026-06-08
+- Prompt: [datacube_shared_state_consumer.md](../../issued/datacube_shared_state_consumer.md)
+- Issue: PyAutoLens#565 — merged via PyAutoArray#344 + [PyAutoLens#566](https://github.com/PyAutoLabs/PyAutoLens/pull/566) (task `datacube-shared-state`)
+- Repos: PyAutoArray, PyAutoLens, autolens_workspace, autolens_workspace_test, autolens_profiling
 - Phases:
   4. PyAutoLens lensing `shared_state_from` (ray-trace + mapper + L + F) +
      `shared`-aware `AnalysisInterferometer` + per-channel fallback.
@@ -65,8 +82,8 @@ analog of the lensing mapper + L + curvature `F`.
      inversion-setup block for a 34-channel cube, at ALMA scale on a quiet A100).
 
 ## Done when
-- A merged (mechanism live, toy tutorial published, fast tests green in CI).
-- B merged (datacube uses the shared path, profiling records the cube-level win).
+- [x] A merged (mechanism live, toy tutorial published, fast tests green in CI).
+- [x] B merged (datacube uses the shared path, profiling records the cube-level win).
 
 ## Cross-references
 - autolens_workspace#120 — Aris's shared-`Lᵀ W̃ L` optimisation, the origin
