@@ -11,6 +11,8 @@
   - HowToGalaxy
   - HowToLens
 - repos:
+  - HowToGalaxy: feature/howto-tutorial-release-fixes
+  - HowToLens: feature/howto-tutorial-release-fixes
 
 ## kaplinghat-sidm-cored-nfw
 - issue: https://github.com/PyAutoLabs/PyAutoLens/issues/564
