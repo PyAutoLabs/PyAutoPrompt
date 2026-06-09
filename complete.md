@@ -4287,3 +4287,10 @@
 - workspace-pr: https://github.com/PyAutoLabs/autolens_workspace_test/pull/141 (merged d660e64)
 - repos: autolens_workspace_test
 - notes: Fixed the Autolens JAX simulator release-report failures. Imaging simulator parity now honestly checks eager `use_jax=True` parity only because full imaging-simulator JIT still rebuilds `Array2D.native` via NumPy indexing on traced values. Interferometer simulator JIT roundtrip now uses `autolens.jax.register_tracer_classes`. Cluster simulator closes over the tracer in the jitted point-solver wrapper so only source-plane coordinates are dynamic JAX arguments. Verified the three targeted scripts locally and PR CI on Python 3.12/3.13 before merge.
+
+## datacube-delaunay-release-memory
+- issue: https://github.com/PyAutoLabs/autolens_workspace_test/issues/142
+- completed: 2026-06-09
+- workspace-pr: https://github.com/PyAutoLabs/autolens_workspace_test/pull/143 (merged f028dd1)
+- repos: autolens_workspace_test
+- notes: Fixed the heavy datacube Delaunay release failure by preserving 4-channel DFT cube vmap/JIT coverage while reducing only the high-memory TransformerNUFFT Delaunay cross-check to one identical channel. Verified the target script locally and PR CI on Python 3.12/3.13 before merge.
