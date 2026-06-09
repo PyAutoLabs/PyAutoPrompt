@@ -4260,3 +4260,14 @@
   - PyAutoGalaxy #472, PyAutoLens #568 (Phase 2 libs)
   - euclid_strong_lens_modeling_pipeline #20, autolens_workspace #219, autogalaxy_workspace #111
 - remaining (Phase 3, NOT done — separate follow-up): migrate z_projects/* (euclid, euclid_pre_f2f, cowls_diana) off the legacy compute_latent_variables override path; optionally remove the Phase-1 back-compat shim.
+
+## latent-jax-release-failures
+- issue: https://github.com/PyAutoLabs/PyAutoFit/issues/1316
+- completed: 2026-06-09
+- library-pr: https://github.com/PyAutoLabs/PyAutoFit/pull/1317 (merged 3ae0ccc)
+- workspace-prs:
+  - https://github.com/PyAutoLabs/autofit_workspace_test/pull/33 (merged 13e6f17)
+  - https://github.com/PyAutoLabs/autogalaxy_workspace/pull/112 (merged de9a355)
+  - https://github.com/PyAutoLabs/autogalaxy_workspace_test/pull/65 (merged 627a8fa)
+- repos: PyAutoFit, autofit_workspace_test, autogalaxy_workspace, autogalaxy_workspace_test
+- notes: Fixed the first grouped release failures after the latent refactor. PyAutoFit now skips latent sample computation when an analysis has no enabled latent keys; workspace scripts were updated to match the current `use_jax` / `supports_jax_visualization` contract; the Autogalaxy results guide reloads its saved combined FITS with unchecked noise-map validation; and Autogalaxy ellipse JAX release-build env overrides were added. Verified targeted release reruns, PyAutoFit full suite, PyAutoBuild section checks, and PR CI before merge. Kaplinghat branches were not touched.
