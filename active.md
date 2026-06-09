@@ -6,3 +6,4 @@
 - status: workspace-dev
 - worktree: ~/Code/PyAutoLabs-wt/autolens-results-aggregator-valid-dataset
 - repos:
+  - autolens_workspace: feature/autolens-results-aggregator-valid-dataset
