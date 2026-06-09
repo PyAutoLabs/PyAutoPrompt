@@ -6,3 +6,4 @@
 - status: workspace-dev
 - worktree: ~/Code/PyAutoLabs-wt/autogalaxy-results-start-here-noise-map
 - repos:
+  - autogalaxy_workspace: feature/autogalaxy-results-start-here-noise-map
