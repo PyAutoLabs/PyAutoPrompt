@@ -6,3 +6,4 @@
 - status: workspace-dev
 - worktree: ~/Code/PyAutoLabs-wt/autofit-scrape-test-mode-paths
 - repos:
+  - autofit_workspace_test: feature/autofit-scrape-test-mode-paths
