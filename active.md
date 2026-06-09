@@ -13,6 +13,7 @@
   - autogalaxy_workspace_test
 - notes: Start library-first at `autofit_workspace_test/scripts/jax_assertions/fitness_dispatch.py`; PyAutoFit canonical checkout currently has unrelated local latent cleanup work on `feature/latent-old-api-cleanup`, so use the task worktree.
 - repos:
+  - PyAutoFit: feature/latent-jax-release-failures
 
 ## kaplinghat-sidm-cored-nfw
 - issue: https://github.com/PyAutoLabs/PyAutoLens/issues/564
