@@ -1,5 +1,19 @@
 # Active Tasks
 
+## latent-jax-release-failures
+- issue: https://github.com/PyAutoLabs/PyAutoFit/issues/1316
+- session: codex --resume <session-id>
+- status: library-dev
+- worktree: ~/Code/PyAutoLabs-wt/latent-jax-release-failures
+- suggested-branch: feature/latent-jax-release-failures
+- classification: both
+- affected-repos:
+  - PyAutoFit
+  - autogalaxy_workspace
+  - autogalaxy_workspace_test
+- notes: Start library-first at `autofit_workspace_test/scripts/jax_assertions/fitness_dispatch.py`; PyAutoFit canonical checkout currently has unrelated local latent cleanup work on `feature/latent-old-api-cleanup`, so use the task worktree.
+- repos:
+
 ## kaplinghat-sidm-cored-nfw
 - issue: https://github.com/PyAutoLabs/PyAutoLens/issues/564
 - session: codex --resume <session-id>
