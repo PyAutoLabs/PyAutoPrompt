@@ -6,3 +6,4 @@
 - status: workspace-dev
 - worktree: ~/Code/PyAutoLabs-wt/datacube-delaunay-release-memory
 - repos:
+  - autolens_workspace_test: feature/datacube-delaunay-release-memory
