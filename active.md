@@ -6,3 +6,4 @@
 - status: workspace-dev
 - worktree: ~/Code/PyAutoLabs-wt/bib-duplicate-keys
 - repos:
+  - euclid_assistant: feature/bib-duplicate-keys
