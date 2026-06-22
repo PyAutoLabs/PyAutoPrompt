@@ -4350,3 +4350,10 @@
 - project-docs-pr: https://github.com/PyAutoLabs/PyAutoPaper/pull/6 (merged ba90e30 into PR #2 branch)
 - repos: PyAutoPaper
 - notes: Migrated the Jiménez-Vicente & Mediavilla lens-galaxy IMF entry. No ambiguous keys or aliases; citation validation and 5 tests passed.
+
+## specific-lenses-citations
+- issue: https://github.com/PyAutoLabs/PyAutoPaper/issues/7
+- completed: 2026-06-22
+- project-docs-pr: https://github.com/PyAutoLabs/PyAutoPaper/pull/8 (merged 02a4185 into PR #2 branch)
+- repos: PyAutoPaper
+- notes: Migrated three plasma-lensing, resolved-kinematics, and cross-code modelling entries. No ambiguous keys or aliases; citation validation and 5 tests passed.
