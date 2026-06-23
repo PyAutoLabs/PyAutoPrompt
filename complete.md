@@ -4,6 +4,7 @@
 - completed: 2026-06-23
 - project-docs-pr: https://github.com/PyAutoLabs/PyAutoPaper/pull/12
 - merged-into: PyAutoPaper `feature/literature-citation-layer` at `8c262074ca78b413d6652784d06757cf10ce1e6a`
+- parent-pr: https://github.com/PyAutoLabs/PyAutoPaper/pull/2 merged to `main` at `324c23c4fe4e5a4136286e2945087132029886f2`
 - validation:
   - `make validate-literature-citations`
   - `pytest -q` (`5 passed`)
