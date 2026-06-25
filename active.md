@@ -6,4 +6,4 @@
 - status: workspace-dev
 - worktree: ~/Code/PyAutoLabs-wt/euclid-assistant-style-guide-sweep
 - repos:
-  - euclid_assistant
+  - euclid_assistant: feature/euclid-assistant-style-guide-sweep
