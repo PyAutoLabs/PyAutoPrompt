@@ -244,6 +244,12 @@ The `skills/` here hold **only the skills that read or write `active.md` / promp
 files**. General PyAuto tooling (release prep, dependency audits, smoke tests,
 lint sweeps) lives in `admin_jammy/skills/`.
 
+> **Canonical ownership audit:** [`skills/OWNERSHIP.md`](skills/OWNERSHIP.md)
+> records where each workflow skill physically lives today (all here, tracked,
+> no symlinks) and the recommended organism owner (Mind/Brain/Build/Heart) for
+> each. Physical relocation is deferred to the `skill_redesign.md` task; see
+> that file for why.
+
 `scripts/prompt_sync.sh` is sourced by skills that mutate registry files
 (`active.md`, `complete.md`, etc.) to commit and push back to origin. It
 replaces the previous `admin_jammy/software/admin_sync.sh` which operated on
