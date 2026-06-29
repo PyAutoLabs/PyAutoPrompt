@@ -45,9 +45,15 @@ trends toward installer + tooling only:
 - **→ PyAutoHeart** (read-only validation/readiness checks): `dep_audit`,
   `verify_install`, `review_release`, `audit_docs`, `cli_noise_clean`.
 - **→ PyAutoBrain** (dev-workflow): `update_issue`, `repo_cleanup`.
-- **Still in admin_jammy:** `start-new-project` (general science-workspace
-  bootstrap) and `pre_build` (release-prep trigger — a Build-owned home is still
-  under discussion; PyAutoBuild has no skills root yet by design).
+- **→ PyAutoBuild** (release execution): `pre_build`. PyAutoBuild now has a
+  `skills/` root for its **release-execution** skills only — it still owns no
+  dev-workflow skills (`ship_*` live in Brain and only *call* its release step).
+- **Removed:** `start-new-project` was a duplicate of the canonical science-project
+  skill already owned by `autolens_assistant` (`skills/start-new-project.md`),
+  so the admin_jammy fork was deleted rather than moved.
+
+After this, `admin_jammy/skills/` hosts **no skills** — only the installer
+(`install.sh`) and the line-count guard (`check_skill_line_counts.sh`).
 
 (`*/agents/openai.yaml` and the `SKILL.md` ↔ `<name>.md` pairs are bundled Codex
 agent configs / dispatcher+body pairs, not separate skills. Long-form detail was
@@ -66,7 +72,9 @@ lines.)
 - `PyAutoHeart/skills/` — status / readiness
 - `autolens_profiling/skills/` — science profiling
 
-**PyAutoBuild gets no skills root** — it owns no workflow skills. Registry
+**PyAutoBuild's `skills/` root holds release-execution skills only** (`pre_build`)
+— it owns no *dev-workflow* skills; `ship_*` live in Brain and only call its
+release step. Registry
 references stay workspace-root-anchored (`PyAutoMind/active.md`,
 `PyAutoMind/complete.md`, `source PyAutoMind/scripts/prompt_sync.sh`), which
 resolve from any sibling repo, so the moved skills keep working unchanged.
