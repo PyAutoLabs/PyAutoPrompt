@@ -30,6 +30,7 @@ in `skill_redesign.md`:
 | `ship_library` | `PyAutoBrain/skills/` | **PyAutoBrain** dev-workflow → Heart gate (Build only at release) | **moved → Brain** |
 | `ship_workspace` | `PyAutoBrain/skills/` | **PyAutoBrain** dev-workflow → Heart gate (Build only at release) | **moved → Brain** |
 | `register_and_iterate` | `PyAutoBrain/skills/` | **PyAutoBrain** (dev-workflow orchestration loop) | **moved → Brain** |
+| `repo_cleanup` | `PyAutoBrain/skills/` | **PyAutoBrain** (between-tasks git hygiene; Heart observes, Brain decides + executes — natural home is a future Cleanup Agent) | **moved → Brain** (from admin_jammy) |
 | `pyauto-status` | `PyAutoHeart/skills/` | **PyAutoHeart** (status/readiness view) | **moved → Heart** |
 | `pyauto-status-full` | `PyAutoHeart/skills/` | **PyAutoHeart** (release-readiness dashboard) | **moved → Heart** |
 | `worktree_status` | `PyAutoHeart/skills/` | **PyAutoHeart** (diagnostic) | **moved → Heart** |
