@@ -35,7 +35,7 @@
 #                             Suppressed when no JSONs exist.
 #
 # Note: this shell function shares its name with the /pyauto-status slash
-# command (PyAutoMind/skills/pyauto-status/) but lives in a different
+# command (PyAutoHeart/skills/pyauto-status/) but lives in a different
 # namespace. The slash command shows workflow registry status (planned /
 # active / complete tasks); this function shows git sync state.
 

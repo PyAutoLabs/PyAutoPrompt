@@ -170,10 +170,13 @@ fine — write naturally, the AI fills in the rest.
   done
 ```
 
-Two slash commands operate over the prompt registry without starting work:
+The slash commands above are skills hosted across the organism (Brain, Heart) but
+all read/write Mind's registry via workspace-root-anchored paths. One operates
+over the registry without starting work:
 
 - `/pyauto-status` — dashboard of `active.md`, `planned.md`, `complete.md`
-- `/handoff` — park a task on this machine and resume on another (mobile, laptop, server)
+  (a PyAutoHeart status view). Continuity across execution environments needs no
+  special step — any environment reads `active.md` and resumes an in-flight task.
 
 ---
 
@@ -226,23 +229,20 @@ PyAutoMind/
 │   ├── status.sh            ← prompt inventory helper
 │   └── prompt_sync.sh       ← commit/push helpers sourced by skills
 │
-└── skills/                  ← Claude Code skills tightly coupled to the prompt registry
-    ├── start_dev/
-    ├── start_library/
-    ├── start_workspace/
-    ├── ship_library/
-    ├── ship_workspace/
-    ├── pyauto-status/
-    ├── register_and_iterate/
-    ├── handoff/
-    ├── worktree_status/
-    ├── create_issue/
-    └── plan_branches/
+└── skills/                  ← Mind-owned skills + the ownership audit
+    ├── OWNERSHIP.md          ← where every workflow skill lives, and why
+    └── create_issue/         ← convert a prompt into a tracked GitHub issue
 ```
 
-The `skills/` here hold **only the skills that read or write `active.md` / prompt
-files**. General PyAuto tooling (release prep, dependency audits, smoke tests,
-lint sweeps) lives in `admin_jammy/skills/`.
+`PyAutoMind/skills/` now holds **only** the Mind-owned `create_issue` skill (plus
+`OWNERSHIP.md`). The development-workflow skills were re-homed to the organs that
+own them — **PyAutoBrain** (`start_dev`, `start_dev_for_user`, `plan_branches`,
+`start_library`, `start_workspace`, `ship_library`, `ship_workspace`,
+`register_and_iterate`), **PyAutoHeart** (`pyauto-status`, `pyauto-status-full`,
+`worktree_status`), and **autolens_profiling** (`profile_likelihood`). The
+`handoff` skill was retired (PyAutoBrain runs uniformly across execution
+environments — see `OWNERSHIP.md`). General PyAuto tooling (release prep,
+dependency audits, smoke tests, lint sweeps) lives in `admin_jammy/skills/`.
 
 `scripts/prompt_sync.sh` is sourced by skills that mutate registry files
 (`active.md`, `complete.md`, etc.) to commit and push back to origin. It
@@ -439,10 +439,9 @@ flags anything in `z_vault/` that's been sitting for a while.
 
 ### From inside Claude Code
 
-- `/pyauto-status` — dashboard of registry state (active, planned, recent complete)
-- `/start_dev <category>/<name>.md` — read a prompt and route it
-- `/handoff park` / `/handoff resume` — cross-machine task transitions
-- `/worktree_status` — cross-references registry with task worktrees
+- `/pyauto-status` — dashboard of registry state (active, planned, recent complete; PyAutoHeart)
+- `/start_dev <work-type>/<target>/<name>.md` — read a prompt and route it (PyAutoBrain)
+- `/worktree_status` — cross-references registry with task worktrees (PyAutoHeart)
 
 ---
 
@@ -472,28 +471,20 @@ absolute path.
 
 ```bash
 cd ~/Code/PyAutoLabs
-# Until the GitHub-side rename (PyAutoPrompt -> PyAutoMind) lands, clone the old
-# URL into a PyAutoMind/ directory: the old URL works now and redirects after the
-# rename, and the documented commands all assume a `PyAutoMind/` checkout. Once
-# the rename lands, `git clone git@github.com:PyAutoLabs/PyAutoMind.git` works too.
-git clone git@github.com:PyAutoLabs/PyAutoPrompt.git PyAutoMind
-git clone git@github.com:Jammy2211/admin_jammy.git    # if not already present
+git clone git@github.com:PyAutoLabs/PyAutoMind.git    # the Mind (this repo)
+git clone git@github.com:PyAutoLabs/PyAutoBrain.git   # dev-workflow skills
+git clone git@github.com:PyAutoLabs/PyAutoHeart.git   # status / readiness skills
+git clone git@github.com:Jammy2211/admin_jammy.git    # installer + general tooling
 bash admin_jammy/skills/install.sh                     # symlinks skills + commands
 ```
 
-> **Note on the rename.** This repository is being renamed from **PyAutoPrompt**
-> to **PyAutoMind**. The GitHub-side rename is a separate admin action; once it
-> lands, GitHub redirects the old `PyAutoLabs/PyAutoPrompt` URL to the new one, so
-> existing clones keep working — update your remote with
-> `git remote set-url origin git@github.com:PyAutoLabs/PyAutoMind.git`.
->
-> **The local checkout directory must be named `PyAutoMind`** (or symlinked with
-> `ln -s PyAutoPrompt PyAutoMind`). The skill and script docs reference
-> `PyAutoMind/...` paths directly — e.g. `source PyAutoMind/scripts/prompt_sync.sh`
-> and `git -C PyAutoMind …` — so a directory still named `PyAutoPrompt` will break
-> those commands. (The `prompt_sync.sh` fallback only covers automatic
-> `PROMPT_REPO` resolution, not these literal documented paths.)
+> **The local checkout directory must be named `PyAutoMind`.** The skills and
+> scripts reference `PyAutoMind/...` paths directly — e.g.
+> `source PyAutoMind/scripts/prompt_sync.sh` and `git -C PyAutoMind …` — so a
+> differently-named directory breaks those commands.
 
-`install.sh` auto-discovers skills from both `admin_jammy/skills/` and
-`PyAutoMind/skills/` and creates symlinks under `~/.claude/skills/` and
-`~/.claude/commands/`. Re-run any time after pulling new skills from either repo.
+`install.sh` auto-discovers skills from every present discovery root
+(`admin_jammy/skills/`, `PyAutoMind/skills/`, `PyAutoBrain/skills/`,
+`PyAutoHeart/skills/`, `autolens_profiling/skills/`) and creates symlinks under
+`~/.claude/skills/` and `~/.claude/commands/`. Roots that aren't checked out are
+skipped. Re-run any time after pulling new skills from any of those repos.
