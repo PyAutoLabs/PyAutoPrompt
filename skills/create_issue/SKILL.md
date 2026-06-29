@@ -1,17 +1,26 @@
 ---
 name: create-issue
-description: Convert a prompt file from PyAutoMind/ into a GitHub issue with overview, plan, and starting AI prompt.
+description: Convert a prompt file from PyAutoMind/ into a GitHub issue with overview, plan, and starting AI prompt, then register and move it. The Mind issue+registry primitive that start_dev delegates to.
 user-invocable: true
 ---
 
-Convert a prompt file into a tracked GitHub issue with a human-readable plan and detailed implementation spec.
+Turn a `PyAutoMind/` prompt into a tracked GitHub issue and register it.
 
-A **PyAutoMind** skill — Mind owns the prompt registry and turns *intent* into a
-tracked issue. (`/start_dev` is the fuller Brain-routed entry point that also
-classifies, registers in `active.md`, and hands off to `/start_library` /
-`/start_workspace`; use `/create-issue` when you only want the issue.) Reasoning
-depth, the organ boundary and the execution-environment model are described in
-PyAutoBrain `skills/WORKFLOW.md`.
+A **PyAutoMind** primitive — it owns the mechanical **issue + registry write**:
+assemble the issue body, create the issue, register the task in `active.md`, move
+the prompt to `issued/`, and push Mind state. The *reasoning* (classify repos,
+explore code, generate the plan) belongs to **PyAutoBrain**:
+
+- **Called by Brain.** `/start_dev` (Brain) does the triage/planning via the
+  Feature Agent and then **delegates the issue write to this skill**, passing the
+  primary repo, title, plan and suggested branch. Brain does not re-implement
+  issue creation.
+- **Runnable standalone.** You can run `/create-issue` by itself when you just
+  want an issue from a prompt without full triage or worktree routing — it does a
+  *light* pass to fill any inputs the caller didn't supply. For deep
+  classification + dev-environment setup, use `/start_dev` instead.
+
+Organ boundary and the execution-environment model: PyAutoBrain `skills/WORKFLOW.md`.
 
 ## Usage
 
@@ -19,107 +28,63 @@ PyAutoBrain `skills/WORKFLOW.md`.
 /create-issue <prompt-file-path>
 ```
 
-The path is relative to `PyAutoMind/`. Prompts live under `<work-type>/<target>/`
-(see README "Prompt taxonomy"); pre-migration `<target>/<name>.md` paths still
-resolve. Examples:
-- `/create-issue bug/autofit/factor_graph_3_14_instance_iteration.md`
-- `/create-issue feature/autoarray/oversampling.md`
-- `/create-issue bug/priors/01_log_gaussian_with_limits_crash.md`
+Path relative to `PyAutoMind/`. Prompts live under `<work-type>/<target>/` (see
+README "Prompt taxonomy"); pre-migration `<target>/<name>.md` paths still resolve.
+Examples: `bug/autofit/factor_graph_instance_iteration.md`,
+`feature/autoarray/oversampling.md`.
+
+## Inputs
+
+These come from the **caller** (Brain/`start_dev`) when delegated, or from a
+**light standalone pass** here when run directly:
+
+| Input | From caller | Standalone fallback |
+|-------|-------------|---------------------|
+| primary repo | Feature Agent classification | most-referenced `@RepoName` in the prompt; ask if ambiguous |
+| title | caller | concise title (<70 chars), conventional prefix (`feat:`/`fix:`/`refactor:`/`docs:`/`perf:`) |
+| plan (high + detailed) | caller | brief plan from a quick read of the prompt + referenced files |
+| suggested branch | caller (`plan_branches`) | `feature/<short-desc>` kebab-case, <50 chars |
+
+Repo → owner mapping: PyAutoConf/PyAutoFit → `rhayes777/`; everything else →
+`Jammy2211/` (full table in `WORKFLOW.md`).
 
 ## Steps
 
-### 0. Sync new prompt ideas
-
-Before reading the requested prompt, sweep up any other ideas the user has dropped into `PyAutoMind/` since the last task — these accumulate locally and would otherwise be lost in the next merge.
+### 0. Sync new prompt ideas (Mind)
 
 ```bash
 source PyAutoMind/scripts/prompt_sync.sh
-prompt_sync_new_prompts
+prompt_sync_new_prompts          # no-op if nothing untracked; else commits + pushes new ideas
 ```
 
-`prompt_sync_new_prompts` is a no-op when nothing is untracked. When it finds new files it commits them as a single `prompt: sync new task ideas` commit (each new file listed in the body) and pushes to `origin main`.
+### 1. Read the prompt
 
-### 1. Read the prompt file
+Read `PyAutoMind/<argument>`. If missing, report and list prompts in that folder.
 
-Read the file at `PyAutoMind/<argument>`. If the file doesn't exist, report the error and list available prompt files in that subdirectory.
+### 2. Resolve the inputs
 
-### 2. Identify target repositories
+If the caller supplied repo/title/plan/branch, use them **verbatim**. Otherwise
+do the light standalone pass from the Inputs table (don't run a full Brain
+triage — that's `/start_dev`).
 
-Scan the prompt content for repository references. The user's prompts use the `@RepoName` convention (e.g., `@PyAutoFit`, `@PyAutoArray/autoarray/operators/convolver.py`) and sometimes bare path references.
+### 3. Assemble + create the issue
 
-Count references per repo to determine the primary (most-referenced) repository. If it's ambiguous (equal counts or no references), ask the user which repo should own the issue.
-
-**Local directory → GitHub owner mapping:** PyAutoConf/PyAutoFit → `rhayes777/`;
-PyAutoArray/PyAutoGalaxy/PyAutoLens and all `*_workspace*`/HowTo repos →
-`Jammy2211/`. (Full table in PyAutoBrain `skills/WORKFLOW.md`.)
-
-### 3. Explore the referenced code
-
-Read the key files and classes mentioned in the prompt to build context. Focus on:
-- Classes and functions referenced directly
-- The surrounding architecture (imports, inheritance, callers)
-- Existing tests related to the change
-
-Do not spend more than a few minutes on this — enough to produce an informed plan, not an exhaustive audit.
-
-### 4. Generate the plan
-
-Produce **two levels of plan**:
-
-**High-level plan** (3-8 bullet points):
-- Written for a human reader (no code, no file paths)
-- Describes what will change and why, in plain English
-- Covers the logical sequence of work
-
-**Detailed plan** (step-by-step):
-- File paths and function/class names
-- Specific changes to make at each step
-- Key decisions and trade-offs
-- Testing approach
-
-### 5. Run plan_branches analysis
-
-For each affected repository, run:
-
-```bash
-git -C <repo_path> branch --show-current
-git -C <repo_path> status --short
-git -C <repo_path> branch --sort=-committerdate | head -5
-```
-
-Display a summary table and suggest a branch name in the format `feature/<short-description>` (lowercase, kebab-case, under 50 chars).
-
-### 6. Generate the issue title
-
-Create a concise issue title (under 70 characters) that describes the task. Use conventional prefixes where appropriate:
-- `feat:` for new features
-- `fix:` for bug fixes
-- `refactor:` for refactoring
-- `docs:` for documentation
-- `perf:` for performance improvements
-
-### 7. Create the GitHub issue
-
-Create the issue on the primary repo using `gh issue create`. The issue body must follow this structure:
+Build the body in this structure, then create it (present for review first):
 
 ```markdown
 ## Overview
-
 <2-4 sentence summary of what this task is and why it matters>
 
 ## Plan
-
-<High-level bullet-point plan — human readable, no code>
+<high-level bullet plan — human readable, no code>
 
 <details>
 <summary>Detailed implementation plan</summary>
 
 ### Affected Repositories
 - repo1 (primary)
-- repo2
 
 ### Branch Survey
-
 | Repository | Current Branch | Dirty? |
 |-----------|---------------|--------|
 | ./RepoName | main | clean |
@@ -127,26 +92,19 @@ Create the issue on the primary repo using `gh issue create`. The issue body mus
 **Suggested branch:** `feature/<name>`
 
 ### Implementation Steps
-
-1. Detailed step with file paths and specifics...
-2. ...
+1. <step with file paths>
 
 ### Key Files
-- `path/to/file.py` — description of changes
-
+- `path/to/file.py` — description
 </details>
 
 ## Original Prompt
-
 <details>
 <summary>Click to expand starting prompt</summary>
 
 <original prompt content copied verbatim>
-
 </details>
 ```
-
-Use a HEREDOC to pass the body to `gh issue create`:
 
 ```bash
 gh issue create --repo <owner/repo> --title "<title>" --body "$(cat <<'ISSUE_EOF'
@@ -155,45 +113,32 @@ ISSUE_EOF
 )"
 ```
 
-### 8. Show the user the result
+### 4. Register the task in active.md (Mind)
 
-Display:
-- The issue URL
-- The primary repo it was created on
-- The suggested branch name
-- A reminder to run `/update-issue <url>` during CLI work to post progress
+Add the task entry to `PyAutoMind/active.md` with the issue URL (schema in
+README). **If the caller is handling registration itself** — e.g. `/start_dev`
+routing a conflicted task to `planned.md` — skip this step and let it register.
 
-### 9. Update active.md
-
-Add a line to `PyAutoMind/active.md` with the issue URL and the original prompt file:
-
-```
-<task-name>: <issue-url> | claude --resume <session-id>
-```
-
-### 10. Move the prompt file
-
-Move the original prompt file to `PyAutoMind/issued/`:
+### 5. Move the prompt to issued/
 
 ```bash
 mv PyAutoMind/<path> PyAutoMind/issued/<filename>
 ```
 
-If a file with the same name already exists in `issued/`, append a timestamp suffix.
+Timestamp-suffix the filename if one already exists in `issued/`.
 
-### 11. Push PyAutoMind
-
-After active.md is updated and the prompt file has been moved into `issued/`, push the PyAutoMind state so the new entry is visible from any other machine:
+### 6. Push Mind
 
 ```bash
 source PyAutoMind/scripts/prompt_sync.sh
 prompt_sync_push "prompt: file issue for <task-name> (#<issue>)"
 ```
 
-Substitute the actual task name and issue number. If the Step 0 sync already pushed earlier in this run, this push only carries the active.md and `issued/<file>` changes added by steps 9–10.
+If step 0 already pushed, this carries only the active.md + `issued/` changes.
 
 ## Notes
 
-- Always present the issue body to the user for review before creating it. Ask for confirmation.
-- If `gh auth status` fails, tell the user to run `! gh auth login` to authenticate.
-- The detailed plan should be thorough enough that a new Claude CLI session could pick it up and start working from the issue alone.
+- Always present the issue body for review before creating it.
+- If `gh auth status` fails, tell the user to run `! gh auth login`.
+- The detailed plan should be thorough enough that a fresh session could start
+  from the issue alone.
