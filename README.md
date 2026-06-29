@@ -19,7 +19,7 @@ No template to fill in, no special syntax. **If you can describe the change
 in a GitHub issue, you can drive the workflow.**
 
 The Mind decides *what* the organism wants to become; the Brain
-([PyAutoBrain, currently the PyAutoAgent repo](https://github.com/PyAutoLabs/PyAutoAgent))
+([PyAutoBrain](https://github.com/PyAutoLabs/PyAutoBrain))
 decides *how* to achieve it. See [The PyAuto organism](#the-pyauto-organism) below.
 
 ## The PyAuto organism
@@ -40,14 +40,14 @@ repository playing the role of an organ:
 | Organ | Repository | Role |
 |-------|------------|------|
 | **Mind** | **PyAutoMind** (this repo) | What the organism *wants to become*: ideas, intent, goals, priorities, future work. |
-| **Brain** | [PyAutoBrain](https://github.com/PyAutoLabs/PyAutoAgent) *(repo currently named PyAutoAgent)* | *How* to achieve those goals: reasoning, planning, routing work. |
+| **Brain** | [PyAutoBrain](https://github.com/PyAutoLabs/PyAutoBrain) | *How* to achieve those goals: reasoning, planning, routing work. |
 | **Hands** | [PyAutoBuild](https://github.com/PyAutoLabs/PyAutoBuild) *(the "Hands")* | Execution and delivery: building, testing, releasing. |
 | **Heart** | [PyAutoHeart](https://github.com/PyAutoLabs/PyAutoHeart) | Health and release-readiness: monitoring, checks, the "is it safe to ship?" gate. |
-| **Memory** | [PyAutoMemory](https://github.com/PyAutoLabs/PyAutoPaper) *(repo currently named PyAutoPaper)* | Accumulated knowledge: papers, wikis, reference material. |
+| **Memory** | [PyAutoMemory](https://github.com/PyAutoLabs/PyAutoMemory) | Accumulated knowledge: literature summaries, wikis, scientific and project knowledge. |
 
-> The organism names (PyAutoBrain, PyAutoMemory) are the target identities; some
-> repos are mid-rename, so the links point at the current repository names noted
-> in italics. PyAutoBuild ("Hands") and PyAutoHeart keep their repository names.
+> All organ repositories now carry their organism names. PyAutoAgent was renamed
+> to PyAutoBrain and PyAutoPaper to PyAutoMemory; GitHub redirects the old URLs.
+> PyAutoBuild ("Hands") and PyAutoHeart keep their repository names.
 
 **Why this repository is the Mind.** Work in PyAuto begins as *intent* — an
 idea, a goal, a priority — long before it becomes code. This repository is where

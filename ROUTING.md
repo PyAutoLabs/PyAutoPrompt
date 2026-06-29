@@ -44,7 +44,7 @@ for human + agent legibility and PyAutoBrain routing.
 
 This repository **only defines the taxonomy and the metadata/documentation** that
 PyAutoBrain consumes. The agents themselves are **not** implemented here — they
-live in PyAutoBrain (currently the PyAutoAgent repo). Prompts that *implement*
+live in PyAutoBrain. Prompts that *implement*
 those agents are ordinary `feature/pyautobrain/*.md` prompts.
 
 ## Not routed by work type
