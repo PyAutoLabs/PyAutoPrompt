@@ -37,6 +37,18 @@ in `skill_redesign.md`:
 | `profile_likelihood` | `autolens_profiling/skills/` | **`autolens_profiling`** (science profiling) | **moved → autolens_profiling** |
 | `handoff` | — (removed) | — | **deleted** — the phone↔laptop park/resume dance is obsolete now PyAutoBrain runs uniformly across execution environments; `active.md` is the shared task state, so any environment resumes a task directly |
 
+### Second wave — general admin_jammy skills
+
+A follow-up pass re-homed the remaining admin_jammy skills so `admin_jammy/`
+trends toward installer + tooling only:
+
+- **→ PyAutoHeart** (read-only validation/readiness checks): `dep_audit`,
+  `verify_install`, `review_release`, `audit_docs`, `cli_noise_clean`.
+- **→ PyAutoBrain** (dev-workflow): `update_issue`, `repo_cleanup`.
+- **Still in admin_jammy:** `start-new-project` (general science-workspace
+  bootstrap) and `pre_build` (release-prep trigger — a Build-owned home is still
+  under discussion; PyAutoBuild has no skills root yet by design).
+
 (`*/agents/openai.yaml` and the `SKILL.md` ↔ `<name>.md` pairs are bundled Codex
 agent configs / dispatcher+body pairs, not separate skills. Long-form detail was
 factored into per-skill `reference.md` files and the shared
