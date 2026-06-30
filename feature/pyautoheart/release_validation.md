@@ -72,6 +72,41 @@ Read before designing — these are real, verified gaps:
    Both gaps are implemented in **M3** (wheel-based integration at release
    fidelity); capture them here as acceptance criteria so they are not lost.
 
+3. **Test configuration spans THREE layers — the `release` profile must cover
+   all of them, not just `env_vars.yaml`.** Verified across the `_test`
+   workspaces:
+   - `config/build/env_vars.yaml` — the build/CI env-var profile run_python.py
+     injects (the 4 fidelity vars + per-script overrides).
+   - `config/general.yaml` — PyAutoConf config (NOT env vars): a `test:` block
+     (`check_likelihood_function` — recomputes a sample's likelihood on resume,
+     a real correctness gate; `lh_timeout_seconds`;
+     `disable_positions_lh_inversion_check`) and a `version:` block
+     (`workspace_version`, and **`workspace_version_check`** — often `False` on
+     `main` but should be `True` for a release validation, since it asserts the
+     workspace pin matches the library), plus `profiling:` / `parallel:` / `hpc:`.
+   - Per-script `os.environ` switches absent from any yaml default:
+     `PYAUTO_MASS_MODE` / `PYAUTO_MASS_FAST`, `PYAUTO_SKIP_LATENTS`,
+     `PYAUTO_LATENT_NAN_INJECT`, `PYAUTO_SKIP_WORKSPACE_VERSION_CHECK`, and JAX
+     device selectors (`JAX_PILOT`, `JAX_PLATFORM_NAME`, `JAX_PLATFORMS`).
+
+   The full library env-var surface is 13 `PYAUTO_*` vars (canonical entry:
+   `PyAutoConf/autoconf/test_mode.py`), not the 4 in the smoke defaults:
+   `PYAUTO_TEST_MODE, PYAUTO_SMALL_DATASETS, PYAUTO_FAST_PLOTS, PYAUTO_OUTPUT_MODE,
+   PYAUTO_DISABLE_JAX, PYAUTO_SKIP_FIT_OUTPUT, PYAUTO_SKIP_VISUALIZATION,
+   PYAUTO_SKIP_CHECKS, PYAUTO_SKIP_LATENTS, PYAUTO_SKIP_WORKSPACE_VERSION_CHECK,
+   PYAUTO_LATENT_NAN_INJECT, PYAUTO_DISABLE_IPYTHON_DISPLAY, PYAUTO_LIVE_VIEWER_LOG`.
+   The `release` profile must set `version.workspace_version_check = True` and the
+   `test:` correctness toggles, not merely flip env vars.
+
+4. **Wheel-based config-resolution footgun.** autoconf resolves the *workspace's*
+   `config/` only when scripts run from inside the workspace checkout; a bare
+   wheel falls back to the library's *packaged* defaults (`autolens/config/`).
+   So the rehearsal must `pip install` the PyAuto wheels (Gap A) but still
+   execute scripts **from within the workspace checkout** (for `config/` +
+   `dataset/`), with NO source on `PYTHONPATH`. Otherwise the `test:` / `version:`
+   / fidelity settings silently revert to library defaults and the validation
+   exercises something other than the intended infrastructure.
+
 ## Design
 
 ### 1. `pyauto-heart validate` — the deep validation pipeline
