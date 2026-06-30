@@ -1,3 +1,23 @@
+## heart-ci-linkage
+- prompt: PyAutoMind/feature/pyautoheart/ci_linkage.md
+- status: planned
+- filed: 2026-06-30
+- classification: organism (PyAutoHeart CI signal + registry)
+- suggested-branch: feature/heart-ci-linkage
+- milestone: M0 (foundational — release-validation gate builds on a trustworthy CI signal)
+- summary: |
+    Final-review finding: Heart's CI signal is too coarse/narrow to gate a
+    release. ci_status reads `gh run list --limit 1` (newest run, any workflow,
+    any branch) but workspaces gate on 3 workflows × 2 Pythons; readiness gates
+    only the 5 libraries' CI (workspace CI observed but never gated); and the
+    signal should come from the Actions server (mobile-reachable via MCP) with
+    report.json as enrichment, not a hard dependency. Plus repos.yaml is stale
+    (PyAutoPrompt→Mind, PyAutoPaper→Memory; organism repos unpolled). Rework
+    ci_status to per-required-workflow-on-main, gate workspace CI, make the run
+    conclusion the primary test_run signal, refresh the registry.
+- affected-repos:
+  - PyAutoHeart
+
 ## heart-release-validation
 - prompt: PyAutoMind/feature/pyautoheart/release_validation.md
 - status: planned

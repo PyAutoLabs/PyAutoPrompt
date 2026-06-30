@@ -72,40 +72,35 @@ Read before designing — these are real, verified gaps:
    Both gaps are implemented in **M3** (wheel-based integration at release
    fidelity); capture them here as acceptance criteria so they are not lost.
 
-3. **Test configuration spans THREE layers — the `release` profile must cover
-   all of them, not just `env_vars.yaml`.** Verified across the `_test`
-   workspaces:
-   - `config/build/env_vars.yaml` — the build/CI env-var profile run_python.py
-     injects (the 4 fidelity vars + per-script overrides).
-   - `config/general.yaml` — PyAutoConf config (NOT env vars): a `test:` block
-     (`check_likelihood_function` — recomputes a sample's likelihood on resume,
-     a real correctness gate; `lh_timeout_seconds`;
-     `disable_positions_lh_inversion_check`) and a `version:` block
-     (`workspace_version`, and **`workspace_version_check`** — often `False` on
-     `main` but should be `True` for a release validation, since it asserts the
-     workspace pin matches the library), plus `profiling:` / `parallel:` / `hpc:`.
-   - Per-script `os.environ` switches absent from any yaml default:
-     `PYAUTO_MASS_MODE` / `PYAUTO_MASS_FAST`, `PYAUTO_SKIP_LATENTS`,
-     `PYAUTO_LATENT_NAN_INJECT`, `PYAUTO_SKIP_WORKSPACE_VERSION_CHECK`, and JAX
-     device selectors (`JAX_PILOT`, `JAX_PLATFORM_NAME`, `JAX_PLATFORMS`).
-
-   The full library env-var surface is 13 `PYAUTO_*` vars (canonical entry:
+3. **The `release` env profile is broader than the 4 smoke vars — but it is an
+   env-var profile, NOT a Heart-owned config-mutation.** The full library
+   env-var surface is 13 `PYAUTO_*` vars (canonical entry:
    `PyAutoConf/autoconf/test_mode.py`), not the 4 in the smoke defaults:
    `PYAUTO_TEST_MODE, PYAUTO_SMALL_DATASETS, PYAUTO_FAST_PLOTS, PYAUTO_OUTPUT_MODE,
    PYAUTO_DISABLE_JAX, PYAUTO_SKIP_FIT_OUTPUT, PYAUTO_SKIP_VISUALIZATION,
    PYAUTO_SKIP_CHECKS, PYAUTO_SKIP_LATENTS, PYAUTO_SKIP_WORKSPACE_VERSION_CHECK,
    PYAUTO_LATENT_NAN_INJECT, PYAUTO_DISABLE_IPYTHON_DISPLAY, PYAUTO_LIVE_VIEWER_LOG`.
-   The `release` profile must set `version.workspace_version_check = True` and the
-   `test:` correctness toggles, not merely flip env vars.
+   Plus a few per-script switches outside any yaml default (`PYAUTO_MASS_MODE` /
+   `PYAUTO_MASS_FAST`, `JAX_PILOT` / `JAX_PLATFORM_NAME` / `JAX_PLATFORMS`).
 
-4. **Wheel-based config-resolution footgun.** autoconf resolves the *workspace's*
-   `config/` only when scripts run from inside the workspace checkout; a bare
-   wheel falls back to the library's *packaged* defaults (`autolens/config/`).
-   So the rehearsal must `pip install` the PyAuto wheels (Gap A) but still
-   execute scripts **from within the workspace checkout** (for `config/` +
-   `dataset/`), with NO source on `PYTHONPATH`. Otherwise the `test:` / `version:`
-   / fidelity settings silently revert to library defaults and the validation
-   exercises something other than the intended infrastructure.
+   **Explicitly NOT in scope for Heart:** `config/general.yaml`'s `test:` block
+   (`check_likelihood_function`, `lh_timeout_seconds`,
+   `disable_positions_lh_inversion_check`) and `version:` toggles
+   (`python_version_check`, …) are **workspace-run/user settings, not Heart
+   checks** — the release validation runs the scripts *as the workspace ships
+   them* and does not mutate these. Heart's only version signal is the existing
+   `version_skew` check. Do not have Heart set or assert the `test:`/`version:`
+   config toggles.
+
+4. **Wheel-based config-resolution footgun (this one IS validation-relevant).**
+   autoconf resolves the *workspace's* `config/` only when scripts run from
+   inside the workspace checkout; a bare wheel falls back to the library's
+   *packaged* defaults (`autolens/config/`). So the rehearsal must `pip install`
+   the PyAuto wheels (Gap A) but still execute scripts **from within the
+   workspace checkout** (for `config/` + `dataset/`), with NO source on
+   `PYTHONPATH`. Otherwise the workspace's own settings silently revert to
+   library defaults and the validation exercises something other than the shipped
+   configuration.
 
 ## Design
 
@@ -150,16 +145,39 @@ GREEN-for-release now requires a fresh, passing `validation_report` whose
 Absent/stale/source-not-matching → YELLOW ("no release rehearsal for current
 source"); failing → RED. The existing soft signals are unchanged.
 
-### 4. Brain health agent drives it (mobile, no `gh`)
+### 4. The Brain agents drive it (mobile, no `gh`) — orchestration vs. judgement
 
-Cloud/mobile sessions have NO `gh` CLI. So the GitHub dispatch + poll is done by
-**Brain's health agent via its MCP GitHub tools**; Heart stays credential-free
-(defines the spec, ingests the downloaded report artifacts, computes the
-verdict). `agents/health/health.sh` (or a sibling `validate` entry point) gains
-a mode that: dispatches the workflows, polls for completion, downloads the
-report artifacts, hands them to `pyauto-heart validate --ingest`, and prints the
-RED/YELLOW/GREEN verdict with per-stage reasons. This makes "run the full
-release validation from my phone via Brain" the native path.
+Cloud/mobile sessions have NO `gh` CLI, so GitHub dispatch + poll runs through
+Brain's MCP GitHub tools. **But mind the agent boundary** (verified against
+`PyAutoBrain/agents/health/AGENTS.md`): the Health Agent is a strict
+*read-and-reason* role — *"Never write into any repo, run a build, or trigger a
+release."* So dispatching workflows is **NOT** the Health Agent's job.
+
+Split it across the two existing Brain agents:
+
+- **Release Agent** (`agents/release/`) **orchestrates**: dispatches the Build
+  TestPyPI rehearsal (M1) and the validation workflow, polls for completion,
+  downloads the report artifacts, hands them to `pyauto-heart validate --ingest`,
+  then **consults the Health Agent** for the gate via the existing
+  `consult_health_agent_verdict` pattern in `agents/_common.sh`.
+- **Health Agent** stays read-only: reasons over Heart's verdict, returns
+  GREEN/YELLOW/RED. Unchanged.
+- **Hands/Build** promotes to PyPI only on GREEN (an explicit human/Release-Agent
+  action — never auto-promoted).
+
+So the chain is: `Mind → Release Agent (orchestrate) → Heart (measure) ↘ Health
+Agent (judge) → Hands/Build (promote on GREEN)`. From a phone you run the Release
+Agent to kick the rehearsal+validation; it consults the Health Agent for the
+verdict. Heart stays credential-free (spec + ingest + verdict only).
+
+### 5. Register the new capability in Heart's manifest
+
+The Brain agents are manifest-driven — they read Heart's
+`health_agent/capabilities.yaml` (NOT hardcoded check names). So the new
+`validate` capability and the `validation_report` signal MUST be added to that
+manifest, or the agents won't surface them. Heart's
+`HEART_CAPABILITIES.md` cross-reference and the Health Agent's reasoning then
+pick them up with no Brain edits.
 
 ## Scope of THIS prompt (M2 foundation)
 
