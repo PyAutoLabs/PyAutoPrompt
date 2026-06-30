@@ -1,3 +1,40 @@
+## heart-release-validation
+- prompt: PyAutoMind/feature/pyautoheart/release_validation.md
+- status: planned
+- filed: 2026-06-30
+- classification: organism (PyAutoHeart deep validation + report + readiness gate)
+- suggested-branch: feature/heart-release-validation
+- milestone: M2 (depends on M1 = build-testpypi-rehearsal-mode)
+- summary: |
+    New third Heart tier: a release-grade `pyauto-heart validate` that composes
+    a TestPyPI build rehearsal + unit tests + the full workspace/workspace_test
+    integration surface, ingests the run reports into a tracked
+    `validation_report.json`, and hard-gates `readiness` GREEN on a fresh pass
+    for the current source SHAs. Driven from mobile via the Brain health agent
+    (GitHub dispatch/poll via MCP; Heart stays credential-free). Bakes in two
+    verified gaps the current `workspace-validation.yml` has: it tests source
+    not wheels (PYTHONPATH-shadow), and it runs the smoke profile
+    (PYAUTO_TEST_MODE=2 + PYAUTO_SMALL_DATASETS=1) not a release-fidelity profile.
+- affected-repos:
+  - PyAutoHeart
+  - PyAutoBrain
+  - PyAutoBuild
+
+## build-testpypi-rehearsal-mode
+- prompt: PyAutoMind/feature/pyautobuild/release_yml_testpypi_rehearsal_mode.md
+- status: planned
+- filed: 2026-06-30
+- classification: organism (PyAutoBuild executor capability)
+- suggested-branch: feature/build-testpypi-rehearsal-mode
+- milestone: M1 (prerequisite for M2 = heart-release-validation)
+- summary: |
+    Add a TestPyPI-only "rehearsal" dispatch mode to release.yml: build current
+    source, publish to TestPyPI, emit the version string, and STOP before
+    PyPI/tag/notebook steps — so Heart can install and validate the actual wheels
+    before any release. Small, isolated, highest-value first piece.
+- affected-repos:
+  - PyAutoBuild
+
 ## jax-point-source-point-smoke-sentinel
 - prompt: PyAutoMind/issued/jax_point_source_point_smoke_sentinel.md
 - status: planned
