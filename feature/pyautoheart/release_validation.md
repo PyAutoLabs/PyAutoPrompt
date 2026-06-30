@@ -1,7 +1,7 @@
 # Heart-owned deep release-validation ("full test mode") + tracked report + readiness gate
 
 Type: feature
-Target: PyAutoHeart (+ PyAutoBrain health agent, PyAutoBuild dispatch target)
+Target: PyAutoHeart (+ PyAutoBrain Release Agent orchestrates / Health Agent judges, PyAutoBuild dispatch target)
 Repos:
 - PyAutoHeart
 - PyAutoBrain
@@ -23,17 +23,34 @@ That is the gap this fills. The organism should be able to answer "is it safe to
 release?" with: *"the current source was built, published to TestPyPI, installed
 from the wheel, and passed unit tests + the full workspace and workspace-test
 integration surface at release fidelity — here is the report."* And that whole
-thing should be drivable from a phone via the Brain health agent.
+thing should be drivable from a phone via Brain (the Release Agent orchestrates
+the run; the Health Agent reports the verdict).
 
 This is a new **third Heart tier**: not the cheap `<30s` monitoring `tick`, and
 not the existing on-demand deep checks (`verify_install`, `url_sweep`) — a
-**release-grade validation** that *composes* the existing executors (Build's
-`release.yml`, the Heart-owned `workspace-validation.yml`, each library's CI) and
-**owns the resulting report and the gate**. Heart owns the spec, the report, and
-the verdict; Build still executes the build/publish (Heart dispatches it). This
-is consistent with the intended `Brain → Heart → Build` call chain — the
-"observer never triggers Build" rule applies to the passive monitoring daemon,
-not to a deliberate `pyauto-heart validate` invocation.
+**release-grade validation** whose spec, ingested report, and verdict are
+**owned by Heart**, while the actual building (Build's `release.yml`) and the
+heavy integration run (`workspace-validation.yml`) execute on CI and are
+**dispatched by the Brain Release Agent**, not by Heart.
+
+## Boundary: Heart never mutates a repo and never triggers a build
+
+This is non-negotiable and matches Heart's existing rule ("the daemon must be a
+pure observer; mutations belong in `pyauto-heart fix`, which only EMITS context
+for a fresh session"). Applied to this feature:
+
+- **Heart MAY** run/read tests (it already executes throwaway `verify_install`
+  venvs) and READ CI conclusions (via `gh`/API). It writes ONLY to
+  `~/.pyauto-heart/`.
+- **Heart MUST NOT** edit/commit/push any repo, and **MUST NOT** dispatch
+  `release.yml`, `workspace-validation.yml`, or any other build/CI workflow.
+- **All dispatching** (rehearsal build, validation run, await, artifact
+  collection) is the **Brain Release Agent's** job.
+- **All mutation** (code/config fixes, the eventual PyPI promotion) is a **dev
+  agent** or **Hands/Build**, never Heart.
+- Heart and Build therefore **never call each other** — the Release Agent sits
+  between them. `pyauto-heart validate` is **ingest-and-judge only**: it consumes
+  already-collected artifacts/conclusions and emits the verdict.
 
 ## Assessment findings this must address (grounded in current code)
 
@@ -104,24 +121,32 @@ Read before designing — these are real, verified gaps:
 
 ## Design
 
-### 1. `pyauto-heart validate` — the deep validation pipeline
+### 1. The validation pipeline — four stages (Release Agent orchestrates, Heart judges)
 
-A new on-demand subcommand, NEVER in the `tick`, with four stages:
+The pipeline has four stages. **The Brain Release Agent dispatches and awaits
+each stage; Heart defines the stage spec and ingests each result.** Heart's
+`pyauto-heart validate --ingest` consumes the collected artifacts/conclusions and
+emits the verdict — it never dispatches (see Boundary above).
 
-- **Stage 0 — preflight.** Reuse `repo_state` + `version_skew`: all 5 libraries
-  clean, on `main`, not behind; workspace version pins consistent. Abort early
-  (RED) if not — no point building a dirty tree.
-- **Stage 1 — unit.** Each library's `pytest` green. Observe the latest library
-  CI conclusion; optionally dispatch + await a fresh run.
-- **Stage 2 — rehearse (build on TestPyPI).** Dispatch Build's `release.yml` in
-  the new **TestPyPI-only / rehearsal mode** (M1): build current source →
-  publish to TestPyPI → STOP (no PyPI, no tag, no notebook commits). Capture the
-  resolved TestPyPI version.
-- **Stage 3 — integrate on wheels at release fidelity.** Dispatch the evolved
-  `workspace-validation.yml`: `pip install` the Stage-2 TestPyPI wheels (NO
-  source on PYTHONPATH — Gap A), run all `workspace` + `workspace_test`
-  integration scripts under the **`release` profile** (Gap B) + `verify_install`
-  A–E against the same wheels.
+- **Stage 0 — preflight.** Heart's existing `repo_state` + `version_skew` signals:
+  all 5 libraries clean, on `main`, not behind; workspace version pins
+  consistent. The Release Agent reads these and aborts early (RED) if not — no
+  point building a dirty tree.
+- **Stage 1 — unit.** Each library's `pytest` green. Read the library CI
+  conclusion (Stage-0 signal); the Release Agent may dispatch + await a fresh run
+  if stale.
+- **Stage 2 — rehearse (build on TestPyPI).** The Release Agent dispatches Build's
+  `release.yml` in the new **TestPyPI-only / rehearsal mode** (M1): build current
+  source → publish to TestPyPI → STOP (no PyPI, no tag, no notebook commits). The
+  resolved TestPyPI version is captured and passed to Stage 3.
+- **Stage 3 — integrate on wheels at release fidelity.** The Release Agent
+  dispatches the evolved `workspace-validation.yml`: `pip install` the Stage-2
+  TestPyPI wheels (NO source on PYTHONPATH — Gap A), run all `workspace` +
+  `workspace_test` integration scripts under the **`release` profile** (Gap B) +
+  `verify_install` A–E against the same wheels.
+
+After the stages complete, the Release Agent hands every artifact/conclusion to
+`pyauto-heart validate --ingest`, which writes the report and computes the gate.
 
 ### 2. `validation_report.json` — the tracked artifact (the new bit)
 
@@ -183,7 +208,8 @@ pick them up with no Brain edits.
 
 - `validation_report.json` schema + `pyauto-heart validate --ingest <artifacts>`.
 - readiness hard-gate consuming it (stale-by-SHA detection).
-- The Brain health-agent dispatch/poll/ingest driver (MCP-based).
+- The Brain **Release Agent** dispatch/poll/ingest driver (MCP-based); the
+  Health Agent (read-only) reports the resulting verdict.
 - Define (don't yet fully wire) the `release` env profile and the wheel-install
   requirement as acceptance criteria for M3.
 

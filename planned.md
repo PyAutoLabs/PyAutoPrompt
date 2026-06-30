@@ -25,6 +25,31 @@
 - classification: organism (PyAutoHeart deep validation + report + readiness gate)
 - suggested-branch: feature/heart-release-validation
 - milestone: M2 (depends on M1 = build-testpypi-rehearsal-mode)
+- boundary: |
+    Heart never mutates a repo and never triggers a build. The Brain Release
+    Agent dispatches the rehearsal + validation workflows and awaits them; Heart's
+    `validate` is ingest-and-judge only; the Health Agent (read-only) reports the
+    verdict. Heart and Build never call each other.
+
+## heart-release-profile-wheel-integration
+- prompt: PyAutoMind/feature/pyautoheart/release_profile_and_wheel_integration.md
+- status: planned
+- filed: 2026-06-30
+- classification: organism (validation fidelity — wheels + release env profile)
+- suggested-branch: feature/heart-release-profile-wheel-integration
+- milestone: M3 (depends on M1 + M2; closes Gaps A & B)
+- summary: |
+    Make the validation run install the TestPyPI wheels (no source on PYTHONPATH,
+    scripts run from inside the workspace checkout so autoconf resolves workspace
+    config/) and run at release fidelity via a named `release` env profile
+    (user workspaces TEST_MODE=1+small+fast; *_test TEST_MODE=0, full-res),
+    mirroring release.yml's tier split. Env-var profile only — does not touch
+    config/general.yaml test:/version: toggles.
+- affected-repos:
+  - PyAutoHeart
+  - PyAutoBuild
+  - autolens_workspace_test / autogalaxy_workspace_test / autofit_workspace_test
+  - autolens_workspace / autogalaxy_workspace / autofit_workspace
 - summary: |
     New third Heart tier: a release-grade `pyauto-heart validate` that composes
     a TestPyPI build rehearsal + unit tests + the full workspace/workspace_test
